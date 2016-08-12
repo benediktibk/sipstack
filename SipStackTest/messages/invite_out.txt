@@ -1,0 +1,116 @@
+﻿INVITE sip:+435288633008057@1086.hcs.a1.net SIP/2.0
+From: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>;tag=gcd8W5f4X-2uJT.-37589-4062-7-68
+To: <sip:+436646671086435288633008057@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
+Call-ID: DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
+CSeq: 1 INVITE
+Contact: <sip:10.122.40.21:5060>
+Max-Forwards: 68
+Supported: 100rel,
+.precondition,
+.timer
+Allow: INVITE,PRACK,ACK,UPDATE,CANCEL,BYE,OPTIONS,INFO,SUBSCRIBE,REFER,NOTIFY
+Privacy: none
+P-Asserted-Identity: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
+Min-SE: 90
+P-Early-Media: supported
+Accept: application/sdp,
+.application/isup,
+.multipart/mixed,
+.application/dtmf,
+.application/dtmf-relay
+Content-Type: application/sdp
+Content-Disposition: session
+Content-Length:  674
+Via: SIP/2.0/UDP 10.122.38.6:5062;branch=z9hG4bK*1-6-16648-3697-12-908*hc5ebZri6bbigdjdei.1,
+.SIP/2.0/UDP 10.122.36.5:5061;received=10.122.36.5;branch=z9hG4bK*1-5-16648-4360-12-908*dfROrNG-VkdUyp55ddffjeae.1,
+.SIP/2.0/UDP 10.122.40.21:5060;received=10.122.40.21;branch=z9hG4bK9c5kp4Vyez
+X-ZTE-Cookie: 7zs4rm2;id=DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
+Record-Route: <sip:10.122.38.6:5062;lr;zte-did=1-6-16648-3697-12-908>,
+.<sip:10.122.36.5:5061;lr;zte-did=1-5-16648-4360-12-908>
+P-Charging-Function-Addresses: ccf=rf.default.lxmemapn02.at.inside
+P-Charging-Vector: icid-value=C31F3C720F48600AE01054D5602VIEICSCF
+Session-Expires: 3600
+Route: <sip:lnz-isbc-103.ims.mnc001.mcc232.3gppnetwork.org:5060;lr>
+
+v=0
+o=- 524062255 524062255 IN IP4 10.122.69.145
+s=-
+c=IN IP4 10.122.69.145
+t=0 0
+m=audio 41736 RTP/AVP 8 97 98 99 18 96 100
+c=IN IP4 10.122.69.145
+a=rtpmap:8 PCMA/8000/1
+a=rtpmap:97 AMR-WB/16000/1
+a=fmtp:97 mode-set=0,1,2;mode-change-period=2;mode-change-neighbor=1
+a=rtpmap:98 AMR/8000/1
+a=fmtp:98 mode-set=0,2,4,7;mode-change-period=2;mode-change-neighbor=1
+a=rtpmap:99 G726-32/8000/1
+a=rtpmap:18 G729/8000/1
+a=rtpmap:96 telephone-event/8000/1
+a=fmtp:96 0-15
+a=rtpmap:100 telephone-event/16000/1
+a=fmtp:100 0-15
+a=sendrecv
+a=3gOoBTC
+a=curr:qos local none
+a=curr:qos remote none
+a=des:qos optional local sendrecv
+a=des:qos optional remote sendrecv
+INVITE sip:+435288633008057@1086.hcs.a1.net SIP/2.0
+From: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>;tag=gcd8W5f4X-2uJT.-37589-4062-7-68
+To: <sip:+436646671086435288633008057@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
+Call-ID: DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
+CSeq: 1 INVITE
+Contact: <sip:10.122.40.21:5060>
+Max-Forwards: 68
+Supported: 100rel,
+.precondition,
+.timer
+Allow: INVITE,PRACK,ACK,UPDATE,CANCEL,BYE,OPTIONS,INFO,SUBSCRIBE,REFER,NOTIFY
+Privacy: none
+P-Asserted-Identity: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
+Min-SE: 90
+P-Early-Media: supported
+Accept: application/sdp,
+.application/isup,
+.multipart/mixed,
+.application/dtmf,
+.application/dtmf-relay
+Content-Type: application/sdp
+Content-Disposition: session
+Content-Length:  674
+Via: SIP/2.0/UDP 10.122.38.6:5062;branch=z9hG4bK*1-6-16648-3697-12-908*hc5ebZri6bbigdjdei.1,
+.SIP/2.0/UDP 10.122.36.5:5061;received=10.122.36.5;branch=z9hG4bK*1-5-16648-4360-12-908*dfROrNG-VkdUyp55ddffjeae.1,
+.SIP/2.0/UDP 10.122.40.21:5060;received=10.122.40.21;branch=z9hG4bK9c5kp4Vyez
+X-ZTE-Cookie: 7zs4rm2;id=DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
+Record-Route: <sip:10.122.38.6:5062;lr;zte-did=1-6-16648-3697-12-908>,
+.<sip:10.122.36.5:5061;lr;zte-did=1-5-16648-4360-12-908>
+P-Charging-Function-Addresses: ccf=rf.default.lxmemapn02.at.inside
+P-Charging-Vector: icid-value=C31F3C720F48600AE01054D5602VIEICSCF
+Session-Expires: 3600
+Route: <sip:lnz-isbc-103.ims.mnc001.mcc232.3gppnetwork.org:5060;lr>
+
+v=0
+o=- 524062255 524062255 IN IP4 10.122.69.145
+s=-
+c=IN IP4 10.122.69.145
+t=0 0
+m=audio 41736 RTP/AVP 8 97 98 99 18 96 100
+c=IN IP4 10.122.69.145
+a=rtpmap:8 PCMA/8000/1
+a=rtpmap:97 AMR-WB/16000/1
+a=fmtp:97 mode-set=0,1,2;mode-change-period=2;mode-change-neighbor=1
+a=rtpmap:98 AMR/8000/1
+a=fmtp:98 mode-set=0,2,4,7;mode-change-period=2;mode-change-neighbor=1
+a=rtpmap:99 G726-32/8000/1
+a=rtpmap:18 G729/8000/1
+a=rtpmap:96 telephone-event/8000/1
+a=fmtp:96 0-15
+a=rtpmap:100 telephone-event/16000/1
+a=fmtp:100 0-15
+a=sendrecv
+a=3gOoBTC
+a=curr:qos local none
+a=curr:qos remote none
+a=des:qos optional local sendrecv
+a=des:qos optional remote sendrecv
