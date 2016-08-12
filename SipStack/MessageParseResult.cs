@@ -40,8 +40,26 @@ namespace SipStack
             }
         }
 
-        public MessageParseError Error => _error;
+        public MessageParseError Error
+        {
+            get
+            {
+                if (IsSuccess)
+                    throw new InvalidOperationException("message was parsed successfully");
 
-        public string ErrorMessage => _errorMessage;
+                return _error;
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get
+            {
+                if (IsSuccess)
+                    throw new InvalidOperationException("message was parsed successfully");
+
+                return _errorMessage;
+            }
+        }
     }
 }

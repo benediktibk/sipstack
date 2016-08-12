@@ -19,6 +19,16 @@ namespace SipStackTest
         }
 
         [TestMethod]
+        public void Constructor_InvalidRequest_ParseError()
+        {
+            var messageParser = new MessageParser("BLUBBERREQUEST asdf SIP/2.0");
+
+            var parseResult = messageParser.Parse();
+
+            parseResult.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
         public void Parse_ComplexInvite_SameInviteContentwise()
         {
             var messageParser = CreateParserFromFile("001_invite_in");

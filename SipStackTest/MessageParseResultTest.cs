@@ -15,7 +15,7 @@ namespace SipStackTest
         [TestInitialize]
         public void SetUp()
         {
-            _errorResult = new MessageParseResult(MessageParseError.InvalidRequestLine, "");
+            _errorResult = new MessageParseResult(MessageParseError.InvalidRequestLine, "asdfg");
             var message = new Mock<Message>(null, null);
             _successResult = new MessageParseResult(message.Object);
         }
@@ -53,7 +53,6 @@ namespace SipStackTest
         }
 
         [TestMethod]
-
         public void Message_Error_ExceptionThrown()
         {
             Action action = () => { var message = _errorResult.Message; };
@@ -62,12 +61,39 @@ namespace SipStackTest
         }
 
         [TestMethod]
-
         public void Message_NoError_ExceptionNotThrown()
         {
             Action action = () => { var message = _successResult.Message; };
 
             action.ShouldNotThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void Error_InvalidRequestLine_InvalidRequestLine()
+        {
+            _errorResult.Error.Should().Be(MessageParseError.InvalidRequestLine);
+        }
+
+        [TestMethod]
+        public void Error_NoError_ExceptionThrown()
+        {
+            Action action = () => { var error = _successResult.Error; };
+
+            action.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void ErrorMessage_InvalidRequestLine_asdfg()
+        {
+            _errorResult.ErrorMessage.Should().Be("asdfg");
+        }
+
+        [TestMethod]
+        public void ErrorMessage_NoError_ExceptionThrown()
+        {
+            Action action = () => { var errorMessage = _successResult.ErrorMessage; };
+
+            action.ShouldThrow<InvalidOperationException>();
         }
     }
 }

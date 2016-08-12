@@ -31,16 +31,9 @@ namespace SipStack
 
         private static IDictionary<RequestMethod, string> RequestMethodToString = StringToRequestMethod.ToDictionary(x => x.Value, x => x.Key);
 
-        public static RequestMethod Parse(string value)
+        public static bool TryParse(string value, out RequestMethod requestMethod)
         {
-            try
-            {
-                return StringToRequestMethod[value];
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new ArgumentException("value", "invalid SIP request method");
-            }
+            return StringToRequestMethod.TryGetValue(value, out requestMethod);
         }
 
         public static string ToString(RequestMethod value)

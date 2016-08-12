@@ -52,9 +52,22 @@ namespace SipStack
                 return;
             }
 
-            var request = new Request(RequestMethodUtils.Parse(content[0]), content[1]);
             if (content[2] != "SIP/2.0")
-                throw new Exception();
+            {
+                _parseError = MessageParseError.InvalidRequestLine;
+                _parseErrorMessage = $"sip version {content[2]} is not supported";
+                return;
+            }
+
+            RequestMethod requestMethod;
+            if (!RequestMethodUtils.TryParse(content[0], out requestMethod))
+            {
+                _parseError = MessageParseError.InvalidRequestLine;
+                _parseErrorMessage = $"invalid request {content[0]}";
+                return;
+            }
+
+            var request = new Request(requestMethod, content[1]);
 
             _header.Method = request;
         }
