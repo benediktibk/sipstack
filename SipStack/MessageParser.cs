@@ -31,6 +31,9 @@ namespace SipStack
         {
             var content = _lines[0].Split(' ');
             var request = new Request(RequestMethodUtils.Parse(content[0]), content[1]);
+            if (content[2] != "SIP/2.0")
+                throw new Exception();
+
             _header.Method = request;
         }
     }
