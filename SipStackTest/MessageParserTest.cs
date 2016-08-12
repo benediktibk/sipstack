@@ -9,13 +9,23 @@ namespace SipStackTest
     public class MessageParserTest
     {
         [TestMethod]
+        public void Parse_EmptyMessage_ParseError()
+        {
+            var messageParser = new MessageParser("");
+
+            var parseResult = messageParser.Parse();
+
+            parseResult.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
         public void Parse_ComplexInvite_SameInviteContentwise()
         {
             var messageParser = CreateParserFromFile("001_invite_in");
 
-            var message = messageParser.Parse();
+            var parseResult = messageParser.Parse();
 
-            var result = message.ToString();
+            var result = parseResult.Message.ToString();
             var expectedResult = ReadFromFile("001_invite_out");
             result.Should().Be(expectedResult);
         }
@@ -25,9 +35,9 @@ namespace SipStackTest
         {
             var messageParser = CreateParserFromFile("002_invite_in");
 
-            var message = messageParser.Parse();
+            var parseResult = messageParser.Parse();
 
-            var result = message.ToString();
+            var result = parseResult.Message.ToString();
             var expectedResult = ReadFromFile("002_invite_out");
             result.Should().Be(expectedResult);
         }

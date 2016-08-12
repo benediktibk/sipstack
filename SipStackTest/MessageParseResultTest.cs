@@ -21,6 +21,14 @@ namespace SipStackTest
         }
 
         [TestMethod]
+        public void Constructor_ParseErrorNone_ThrowsException()
+        {
+            Action action = () => { var result = new MessageParseResult(MessageParseError.None, ""); };
+
+            action.ShouldThrow<ArgumentException>();
+        }
+
+        [TestMethod]
         public void IsSuccess_Error_false()
         {
             _errorResult.IsSuccess.Should().BeFalse();

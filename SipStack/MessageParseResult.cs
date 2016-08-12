@@ -17,6 +17,9 @@ namespace SipStack
 
         public MessageParseResult(MessageParseError error, string errorMessage)
         {
+            if (error == MessageParseError.None)
+                throw new ArgumentException("error", "this constructor can only be used for errors");
+
             _error = error;
             _errorMessage = errorMessage;
             _message = null;
