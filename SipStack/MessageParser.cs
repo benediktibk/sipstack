@@ -27,9 +27,22 @@ namespace SipStack
             _body = null;
 
             ParseRequestLine();
-
             if (ErrorOccurred)
                 return CreateErrorResult();
+
+            for (var i = 1; i < _lines.Count; ++i)
+            {
+                var currentLine = _lines[i];
+
+                if (string.IsNullOrEmpty(currentLine) && _lines.Count > i + 1)
+                {
+                    ParseBody(i + 1, _lines.Count - 1);
+                    if (ErrorOccurred)
+                        return CreateErrorResult();
+                }
+
+                ParseHeaderField(currentLine);
+            }
 
             return new MessageParseResult(new Message(_header, _body));
         }
@@ -70,6 +83,28 @@ namespace SipStack
             var request = new Request(requestMethod, content[1]);
 
             _header.Method = request;
+        }
+
+        private void ParseHeaderField(string line)
+        {
+            var indexOfDelimiter = line.IndexOf(':');
+
+            if (indexOfDelimiter <= 0)
+            {
+                _parseError = MessageParseError.InvalidHeaderField;
+                _parseErrorMessage = $"invalid header field: {line}";
+                return;
+            }
+
+            var fieldName = line.Substring(0, indexOfDelimiter - 1);
+            var fieldValue = line.Substring(indexOfDelimiter + 1);
+            
+            //TODO: implement different fields
+        }
+
+        private void ParseBody(int startLine, int endLine)
+        {
+            _body = new NoBody();
         }
 
         private MessageParseResult CreateErrorResult()
