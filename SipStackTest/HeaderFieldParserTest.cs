@@ -38,5 +38,53 @@ namespace SipStackTest
 
             result.Result.Value.Should().Be("heinz");
         }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionOneWithNameSubject_NameIsSubject()
+        {
+            var result = _headerFieldParser.Parse("Subject:            lunch");
+
+            result.Result.Name.Should().Be("Subject");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionOneWithValueLunch_ValueIsLunch()
+        {
+            var result = _headerFieldParser.Parse("Subject:            lunch");
+
+            result.Result.Value.Should().Be("lunch");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionTwoWithNameSubject_NameIsSubject()
+        {
+            var result = _headerFieldParser.Parse("Subject      :      lunch");
+
+            result.Result.Name.Should().Be("Subject");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionTwoWithValueLunch_ValueIsLunch()
+        {
+            var result = _headerFieldParser.Parse("Subject      :      lunch");
+
+            result.Result.Value.Should().Be("lunch");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionThreeWithNameSubject_NameIsSubject()
+        {
+            var result = _headerFieldParser.Parse("Subject            :lunch");
+
+            result.Result.Name.Should().Be("Subject");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionThreeWithValueLunch_ValueIsLunch()
+        {
+            var result = _headerFieldParser.Parse("Subject            :lunch");
+
+            result.Result.Value.Should().Be("lunch");
+        }
     }
 }
