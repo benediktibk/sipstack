@@ -24,6 +24,7 @@ namespace SipStack
             var valueStart = 0;
             var valueEnd = 0;
 
+            // no whitespaces at all (Subject:lunch)
             if (indexOfWhitespace < 0)
             {
                 nameStart = 0;
@@ -31,6 +32,7 @@ namespace SipStack
                 valueStart = indexOfDelimiter + 1;
                 valueEnd = startLine.Length - 1;
             }
+            // whitespace after colon (Subject: lunch)
             else if (indexOfWhitespace > indexOfDelimiter)
             {
                 nameStart = 0;
@@ -43,6 +45,7 @@ namespace SipStack
                 valueStart = indexOfNoneWhitespace;
                 valueEnd = startLine.Length - 1;
             }
+            // whitespace before colon (Subject    :  lunch)
             else
             {
                 nameStart = 0;
