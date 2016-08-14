@@ -7,23 +7,23 @@ using System;
 namespace SipStackTest
 {
     [TestClass]
-    public class MessageParseResultTest
+    public class ParseResultTest
     {
-        private MessageParseResult _errorResult;
-        private MessageParseResult _successResult;
+        private ParseResult<Message> _errorResult;
+        private ParseResult<Message> _successResult;
 
         [TestInitialize]
         public void SetUp()
         {
-            _errorResult = new MessageParseResult(MessageParseError.InvalidRequestLine, "asdfg");
+            _errorResult = new ParseResult<Message>(ParseError.InvalidRequestLine, "asdfg");
             var message = new Mock<Message>(null, null);
-            _successResult = new MessageParseResult(message.Object);
+            _successResult = new ParseResult<Message>(message.Object);
         }
 
         [TestMethod]
         public void Constructor_ParseErrorNone_ThrowsException()
         {
-            Action action = () => { var result = new MessageParseResult(MessageParseError.None, ""); };
+            Action action = () => { var result = new ParseResult<Message>(ParseError.None, ""); };
 
             action.ShouldThrow<ArgumentException>();
         }
@@ -71,7 +71,7 @@ namespace SipStackTest
         [TestMethod]
         public void Error_InvalidRequestLine_InvalidRequestLine()
         {
-            _errorResult.Error.Should().Be(MessageParseError.InvalidRequestLine);
+            _errorResult.Error.Should().Be(ParseError.InvalidRequestLine);
         }
 
         [TestMethod]

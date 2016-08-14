@@ -9,19 +9,19 @@ namespace SipStack
         private Header _header;
         private IBody _body;
         private IList<string> _lines;
-        private MessageParseError _parseError;
+        private ParseError _parseError;
         private string _parseErrorMessage;
 
         public MessageParser(string message)
         {
-            _parseError = MessageParseError.None;
+            _parseError = ParseError.None;
             _parseErrorMessage = "";
             _lines = message.Split('\n');
         }
 
-        public bool ErrorOccurred => _parseError != MessageParseError.None;
+        public bool ErrorOccurred => _parseError != ParseError.None;
 
-        public MessageParseResult Parse()
+        public ParseResult<Message> Parse()
         {
             _header = new Header();
             _body = null;
@@ -44,14 +44,14 @@ namespace SipStack
                 ParseHeaderField(currentLine);
             }
 
-            return new MessageParseResult(new Message(_header, _body));
+            return new ParseResult<Message>(new Message(_header, _body));
         }
 
         private void ParseRequestLine()
         {
             if (_lines.Count == 0)
             {
-                _parseError = MessageParseError.InvalidRequestLine;
+                _parseError = ParseError.InvalidRequestLine;
                 _parseErrorMessage = "request line is missing";
                 return;
             }
@@ -60,14 +60,14 @@ namespace SipStack
         
             if (content.Count() != 3)
             {
-                _parseError = MessageParseError.InvalidRequestLine;
+                _parseError = ParseError.InvalidRequestLine;
                 _parseErrorMessage = "request line has invalid format";
                 return;
             }
 
             if (content[2] != "SIP/2.0")
             {
-                _parseError = MessageParseError.InvalidRequestLine;
+                _parseError = ParseError.InvalidRequestLine;
                 _parseErrorMessage = $"sip version {content[2]} is not supported";
                 return;
             }
@@ -75,7 +75,7 @@ namespace SipStack
             RequestMethod requestMethod;
             if (!RequestMethodUtils.TryParse(content[0], out requestMethod))
             {
-                _parseError = MessageParseError.InvalidRequestLine;
+                _parseError = ParseError.InvalidRequestLine;
                 _parseErrorMessage = $"invalid request {content[0]}";
                 return;
             }
@@ -91,7 +91,7 @@ namespace SipStack
 
             if (indexOfDelimiter <= 0)
             {
-                _parseError = MessageParseError.InvalidHeaderField;
+                _parseError = ParseError.InvalidHeaderField;
                 _parseErrorMessage = $"invalid header field: {line}";
                 return;
             }
@@ -107,9 +107,9 @@ namespace SipStack
             _body = new NoBody();
         }
 
-        private MessageParseResult CreateErrorResult()
+        private ParseResult<Message> CreateErrorResult()
         {
-            return new MessageParseResult(_parseError, _parseErrorMessage);
+            return new ParseResult<Message>(_parseError, _parseErrorMessage);
         }
     }
 }

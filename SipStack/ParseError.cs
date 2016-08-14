@@ -1,6 +1,6 @@
 ﻿namespace SipStack
 {
-    public enum MessageParseError
+    public enum ParseError
     {
         None,
         InvalidRequestLine,
