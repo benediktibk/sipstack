@@ -74,6 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ParseResultTest.cs" />
     <Compile Include="RequestLineParserTest.cs" />
+    <Compile Include="HeaderFieldParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="messages\001_invite_out.txt">
