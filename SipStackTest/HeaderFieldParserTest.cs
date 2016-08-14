@@ -104,6 +104,22 @@ namespace SipStackTest
         }
 
         [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionFourWithNameSubject_NameIsSubject()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject:lunch" }, 0);
+
+            result.Result.Name.Should().Be("Subject");
+        }
+
+        [TestMethod]
+        public void Parse_StrangeUsageOfWhiteSpacesVersionFourWithValueLunch_ValueIsLunch()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject:lunch" }, 0);
+
+            result.Result.Value.Should().Be("lunch");
+        }
+
+        [TestMethod]
         public void Parse_ValueInMultipleLinesAndNameSubject_NameIsSubject()
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
@@ -117,6 +133,30 @@ namespace SipStackTest
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
 
             result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+        }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndTabs_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         \tpick up the phone", "\t         and talk to me!" }, 0);
+
+            result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+        }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndEmptyFirstLine_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject:", "         \tpick up the phone", "\t         and talk to me!" }, 0);
+
+            result.Result.Value.Should().Be(" pick up the phone and talk to me!");
+        }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndOnlyWhitespaceInFirstLine_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: ", "  \t   \t    pick up the phone", "\t         and talk to me!" }, 0);
+
+            result.Result.Value.Should().Be(" pick up the phone and talk to me!");
         }
     }
 }
