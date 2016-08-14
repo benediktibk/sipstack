@@ -42,7 +42,7 @@ namespace SipStack
                     break;
                 }
 
-                var headerFieldResult = _headerFieldParser.Parse(currentLine);
+                var headerFieldResult = _headerFieldParser.Parse(lines, i);
 
                 if (headerFieldResult.IsError)
                     return headerFieldResult.ToParseResult<Message>();

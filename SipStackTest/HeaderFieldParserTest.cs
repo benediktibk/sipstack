@@ -18,7 +18,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_EmptyLine_InvalidHeaderField()
         {
-            var result = _headerFieldParser.Parse("");
+            var result = _headerFieldParser.Parse(new[] { "" }, 0);
 
             result.Error.Should().Be(ParseError.InvalidHeaderField);
         }
@@ -26,7 +26,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_RecommendedUsageOfWhiteSpacesWithNameBlub_NameIsBlub()
         {
-            var result = _headerFieldParser.Parse("blub: heinz");
+            var result = _headerFieldParser.Parse(new[] { "blub: heinz" }, 0);
 
             result.Result.Name.Should().Be("blub");
         }
@@ -34,7 +34,23 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_RecommendedUsageOfWhiteSpacesWithValueHeinz_ValueIsHeinz()
         {
-            var result = _headerFieldParser.Parse("blub: heinz");
+            var result = _headerFieldParser.Parse(new[] { "blub: heinz" }, 0);
+
+            result.Result.Value.Should().Be("heinz");
+        }
+
+        [TestMethod]
+        public void Parse_RecommendedUsageOfWhiteSpacesWithNameBlubInLine2_NameIsBlub()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: lunch", "blub: heinz" }, 1);
+
+            result.Result.Name.Should().Be("blub");
+        }
+
+        [TestMethod]
+        public void Parse_RecommendedUsageOfWhiteSpacesWithValueHeinzInLine2_ValueIsHeinz()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: lunch", "blub: heinz" }, 1);
 
             result.Result.Value.Should().Be("heinz");
         }
@@ -42,7 +58,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionOneWithNameSubject_NameIsSubject()
         {
-            var result = _headerFieldParser.Parse("Subject:            lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject:            lunch" }, 0);
 
             result.Result.Name.Should().Be("Subject");
         }
@@ -50,7 +66,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionOneWithValueLunch_ValueIsLunch()
         {
-            var result = _headerFieldParser.Parse("Subject:            lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject:            lunch" }, 0);
 
             result.Result.Value.Should().Be("lunch");
         }
@@ -58,7 +74,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionTwoWithNameSubject_NameIsSubject()
         {
-            var result = _headerFieldParser.Parse("Subject      :      lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject      :      lunch" }, 0);
 
             result.Result.Name.Should().Be("Subject");
         }
@@ -66,7 +82,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionTwoWithValueLunch_ValueIsLunch()
         {
-            var result = _headerFieldParser.Parse("Subject      :      lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject      :      lunch" }, 0);
 
             result.Result.Value.Should().Be("lunch");
         }
@@ -74,7 +90,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionThreeWithNameSubject_NameIsSubject()
         {
-            var result = _headerFieldParser.Parse("Subject            :lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject            :lunch" }, 0);
 
             result.Result.Name.Should().Be("Subject");
         }
@@ -82,7 +98,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_StrangeUsageOfWhiteSpacesVersionThreeWithValueLunch_ValueIsLunch()
         {
-            var result = _headerFieldParser.Parse("Subject            :lunch");
+            var result = _headerFieldParser.Parse(new[] { "Subject            :lunch" }, 0);
 
             result.Result.Value.Should().Be("lunch");
         }
