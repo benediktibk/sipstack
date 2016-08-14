@@ -60,5 +60,10 @@ namespace SipStack
                 return _errorMessage;
             }
         }
+
+        public ParseResult<TargetResultType> ToParseResult<TargetResultType>()
+        {
+            return new ParseResult<TargetResultType>(_error, _errorMessage);
+        }
     }
 }

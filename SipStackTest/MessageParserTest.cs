@@ -2,18 +2,33 @@
 using SipStack;
 using System.IO;
 using FluentAssertions;
+using Moq;
 
 namespace SipStackTest
 {
     [TestClass]
     public class MessageParserTest
     {
+        private MessageParser _messageParser;
+        private MessageParser _messageParserWithMocks;
+        private Mock<RequestLineParser> _requestLineParser;
+        private Mock<HeaderFieldParser> _headerFieldParser;
+        private Mock<BodyParser> _bodyParser;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            _messageParser = new MessageParser(new RequestLineParser(), new HeaderFieldParser(), new BodyParser());
+            _headerFieldParser = new Mock<HeaderFieldParser>();
+            _requestLineParser = new Mock<RequestLineParser>();
+            _bodyParser = new Mock<BodyParser>();
+            _messageParserWithMocks = new MessageParser(_requestLineParser.Object, _headerFieldParser.Object, _bodyParser.Object);
+        }
+
         [TestMethod]
         public void Parse_EmptyMessage_ParseError()
         {
-            var messageParser = new MessageParser("");
-
-            var parseResult = messageParser.Parse();
+            var parseResult = _messageParser.Parse("");
 
             parseResult.IsError.Should().BeTrue();
         }
@@ -21,9 +36,7 @@ namespace SipStackTest
         [TestMethod]
         public void Constructor_InvalidRequest_ParseError()
         {
-            var messageParser = new MessageParser("BLUBBERREQUEST asdf SIP/2.0");
-
-            var parseResult = messageParser.Parse();
+            var parseResult = _messageParser.Parse("BLUBBERREQUEST asdf SIP/2.0");
 
             parseResult.IsError.Should().BeTrue();
         }
@@ -31,9 +44,9 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_ComplexInvite_SameInviteContentwise()
         {
-            var messageParser = CreateParserFromFile("001_invite_in");
+            var message = ReadFromFile("001_invite_in");
 
-            var parseResult = messageParser.Parse();
+            var parseResult = _messageParser.Parse(message);
 
             var result = parseResult.Message.ToString();
             var expectedResult = ReadFromFile("001_invite_out");
@@ -43,19 +56,13 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_SimpleInvite_SameInviteContentwise()
         {
-            var messageParser = CreateParserFromFile("002_invite_in");
+            var message = ReadFromFile("002_invite_in");
 
-            var parseResult = messageParser.Parse();
+            var parseResult = _messageParser.Parse(message);
 
             var result = parseResult.Message.ToString();
             var expectedResult = ReadFromFile("002_invite_out");
             result.Should().Be(expectedResult);
-        }
-
-        private static MessageParser CreateParserFromFile(string file)
-        {
-            var fileContent = ReadFromFile(file);
-            return new MessageParser(fileContent);
         }
 
         private static string ReadFromFile(string file)

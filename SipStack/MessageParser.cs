@@ -5,110 +5,52 @@ namespace SipStack
 {
     public class MessageParser
     {
-        private Header _header;
-        private IBody _body;
-        private IList<string> _lines;
-        private ParseError _parseError;
-        private string _parseErrorMessage;
+        private RequestLineParser _requestLineParser;
+        private HeaderFieldParser _headerFieldParser;
+        private BodyParser _bodyParser;
 
-        public MessageParser(string message)
+        public MessageParser(RequestLineParser requestLineParser, HeaderFieldParser headerFieldParser, BodyParser bodyParser) 
         {
-            _parseError = ParseError.None;
-            _parseErrorMessage = "";
-            _lines = message.Split('\n');
+            _requestLineParser = requestLineParser;
+            _headerFieldParser = headerFieldParser;
+            _bodyParser = bodyParser;
         }
 
-        public bool ErrorOccurred => _parseError != ParseError.None;
-
-        public ParseResult<Message> Parse()
+        public ParseResult<Message> Parse(string message)
         {
-            _header = new Header();
-            _body = null;
+            var lines = message.Split('\n');
+            var header = new Header();
+            IBody body = null;
 
-            ParseRequestLine();
-            if (ErrorOccurred)
-                return CreateErrorResult();
+            var requestLineResult = _requestLineParser.Parse(lines[0]);
+            if (requestLineResult.IsError)
+                return requestLineResult.ToParseResult<Message>();
 
-            for (var i = 1; i < _lines.Count; ++i)
+            for (var i = 1; i < lines.Count(); ++i)
             {
-                var currentLine = _lines[i];
+                var currentLine = lines[i];
 
-                if (string.IsNullOrEmpty(currentLine) && _lines.Count > i + 1)
+                if (string.IsNullOrEmpty(currentLine) && lines.Count() > i + 1)
                 {
-                    ParseBody(i + 1, _lines.Count - 1);
-                    if (ErrorOccurred)
-                        return CreateErrorResult();
+                    var startLine = i + 1;
+                    var endLine = lines.Count() - 1;
+                    var bodyResult = _bodyParser.Parse(lines, startLine, endLine);
+                    if (bodyResult.IsError)
+                        return bodyResult.ToParseResult<Message>();
+
+                    body = bodyResult.Message;
+                    break;
                 }
 
-                ParseHeaderField(currentLine);
+                var headerFieldResult = _headerFieldParser.Parse(currentLine);
+
+                if (headerFieldResult.IsError)
+                    return headerFieldResult.ToParseResult<Message>();
+
+                // TODO: set the field in the header
             }
 
-            return new ParseResult<Message>(new Message(_header, _body));
-        }
-
-        private void ParseRequestLine()
-        {
-            if (_lines.Count == 0)
-            {
-                _parseError = ParseError.InvalidRequestLine;
-                _parseErrorMessage = "request line is missing";
-                return;
-            }
-
-            var content = _lines[0].Split(' ');
-        
-            if (content.Count() != 3)
-            {
-                _parseError = ParseError.InvalidRequestLine;
-                _parseErrorMessage = "request line has invalid format";
-                return;
-            }
-
-            if (content[2] != "SIP/2.0")
-            {
-                _parseError = ParseError.InvalidRequestLine;
-                _parseErrorMessage = $"sip version {content[2]} is not supported";
-                return;
-            }
-
-            RequestMethod requestMethod;
-            if (!RequestMethodUtils.TryParse(content[0], out requestMethod))
-            {
-                _parseError = ParseError.InvalidRequestLine;
-                _parseErrorMessage = $"invalid request {content[0]}";
-                return;
-            }
-
-            var request = new RequestLine(requestMethod, content[1]);
-
-            _header.Method = request;
-        }
-
-        private void ParseHeaderField(string line)
-        {
-            var indexOfDelimiter = line.IndexOf(':');
-
-            if (indexOfDelimiter <= 0)
-            {
-                _parseError = ParseError.InvalidHeaderField;
-                _parseErrorMessage = $"invalid header field: {line}";
-                return;
-            }
-
-            var fieldName = line.Substring(0, indexOfDelimiter - 1);
-            var fieldValue = line.Substring(indexOfDelimiter + 1);
-            
-            //TODO: implement different fields
-        }
-
-        private void ParseBody(int startLine, int endLine)
-        {
-            _body = new NoBody();
-        }
-
-        private ParseResult<Message> CreateErrorResult()
-        {
-            return new ParseResult<Message>(_parseError, _parseErrorMessage);
+            return new ParseResult<Message>(new Message(header, body));
         }
     }
 }
