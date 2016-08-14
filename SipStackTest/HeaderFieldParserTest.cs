@@ -36,7 +36,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "blub: heinz" }, 0);
 
-            result.Result.Value.Should().Be("heinz");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("heinz");
         }
 
         [TestMethod]
@@ -52,7 +53,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: lunch", "blub: heinz" }, 1);
 
-            result.Result.Value.Should().Be("heinz");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("heinz");
         }
 
         [TestMethod]
@@ -68,7 +70,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject:            lunch" }, 0);
 
-            result.Result.Value.Should().Be("lunch");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("lunch");
         }
 
         [TestMethod]
@@ -84,7 +87,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject      :      lunch" }, 0);
 
-            result.Result.Value.Should().Be("lunch");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("lunch");
         }
 
         [TestMethod]
@@ -100,7 +104,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject            :lunch" }, 0);
 
-            result.Result.Value.Should().Be("lunch");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("lunch");
         }
 
         [TestMethod]
@@ -116,7 +121,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject:lunch" }, 0);
 
-            result.Result.Value.Should().Be("lunch");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("lunch");
         }
 
         [TestMethod]
@@ -132,7 +138,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
 
-            result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
         }
 
         [TestMethod]
@@ -140,7 +147,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         \tpick up the phone", "\t         and talk to me!" }, 0);
 
-            result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
         }
 
         [TestMethod]
@@ -148,7 +156,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject:", "         \tpick up the phone", "\t         and talk to me!" }, 0);
 
-            result.Result.Value.Should().Be(" pick up the phone and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be(" pick up the phone and talk to me!");
         }
 
         [TestMethod]
@@ -156,7 +165,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: ", "  \t   \t    pick up the phone", "\t         and talk to me!" }, 0);
 
-            result.Result.Value.Should().Be(" pick up the phone and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be(" pick up the phone and talk to me!");
         }
 
         [TestMethod]
@@ -164,7 +174,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: pick up the phone", "  \t   \t    ", "\t         and talk to me!" }, 0);
 
-            result.Result.Value.Should().Be("pick up the phone  and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("pick up the phone  and talk to me!");
         }
 
         [TestMethod]
@@ -172,7 +183,8 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!", "AnotherField: 123" }, 0);
 
-            result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values.Count.Should().Be(1);
+            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
         }
     }
 }

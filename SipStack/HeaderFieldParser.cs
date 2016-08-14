@@ -71,9 +71,19 @@ namespace SipStack
             }            
 
             var fieldName = startLine.Substring(nameStart, nameEnd - nameStart + 1);
-            var fieldValue = stringBuilder.ToString();
+            var fieldValues = stringBuilder.ToString();
+            var fieldValuesAsList = SeparateFieldValues(fieldValues);
 
-            return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Value = fieldValue });
+            return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Values = fieldValuesAsList });
+        }
+
+        private static List<string> SeparateFieldValues(string fieldValues)
+        {
+            var result = new List<string>();
+
+            result.Add(fieldValues);
+
+            return result;
         }
 
         private static int CountNextLinesWithWhitespaceInFront(IList<string> lines, int start)
