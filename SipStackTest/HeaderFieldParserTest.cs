@@ -158,5 +158,21 @@ namespace SipStackTest
 
             result.Result.Value.Should().Be(" pick up the phone and talk to me!");
         }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndOnlyWhitespaceInSecondLine_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: pick up the phone", "  \t   \t    ", "\t         and talk to me!" }, 0);
+
+            result.Result.Value.Should().Be("pick up the phone  and talk to me!");
+        }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndAnotherField_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!", "AnotherField: 123" }, 0);
+
+            result.Result.Value.Should().Be("I know you're there, pick up the phone and talk to me!");
+        }
     }
 }

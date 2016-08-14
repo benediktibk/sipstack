@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SipStack
 {
@@ -55,10 +56,34 @@ namespace SipStack
                 valueEnd = startLine.Length - 1;
             }
 
+            var additionalLines = CountNextLinesWithWhitespaceInFront(lines, start + 1);
+            var stringBuilder = new StringBuilder(startLine.Substring(valueStart, valueEnd - valueStart + 1));
+
+            for (var i = 0; i < additionalLines; ++i)
+            {
+                var currentLine = lines[start + 1 + i];
+                var indexOfNoneWhitespace = IndexOfNoneWhitespace(currentLine, 1);
+                var additionalLine = indexOfNoneWhitespace >= 0 ? currentLine.Substring(indexOfNoneWhitespace) : "";
+                stringBuilder.AppendFormat(" {0}", additionalLine);
+            }            
+
             var fieldName = startLine.Substring(nameStart, nameEnd - nameStart + 1);
-            var fieldValue = startLine.Substring(valueStart, valueEnd - valueStart + 1);
+            var fieldValue = stringBuilder.ToString();
 
             return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Value = fieldValue });
+        }
+
+        private static int CountNextLinesWithWhitespaceInFront(IList<string> lines, int start)
+        {
+            for(var i = start; i < lines.Count; ++i)
+            {
+                var firstCharacter = lines[i][0];
+
+                if (firstCharacter != ' ' && firstCharacter != '\t')
+                    return i - start;
+            }
+
+            return lines.Count - start;
         }
 
         private static int IndexOfNoneWhitespace(string line, int start)
