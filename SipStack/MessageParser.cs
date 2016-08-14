@@ -18,7 +18,7 @@ namespace SipStack
 
         public ParseResult<Message> Parse(string message)
         {
-            var lines = message.Split('\n');
+            var lines = SplitLines(message);
             var header = new Header();
             IBody body = null;
 
@@ -51,6 +51,26 @@ namespace SipStack
             }
 
             return new ParseResult<Message>(new Message(header, body));
+        }
+
+        private static IList<string> SplitLines(string message)
+        {
+            var lines = message.Split('\n'); ;
+
+            for(var i = 0; i < lines.Count(); ++i)
+            {
+                var line = lines[i];
+
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
+                if (line[line.Length - 1] != '\r')
+                    continue;
+
+                lines[i] = line.Substring(0, line.Length - 1);
+            }
+
+            return lines;
         }
     }
 }
