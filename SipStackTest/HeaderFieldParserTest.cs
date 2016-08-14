@@ -197,5 +197,38 @@ namespace SipStackTest
             result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
             result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
         }
+
+        [TestMethod]
+        public void Parse_MultipleValuesForRouteInTwoLinesWithoutWhitespaces_ValuesAreCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com>,<sip:bob@biloxi.com>,", "       <sip:carol@chicago.com>" }, 0);
+
+            result.Result.Values.Count.Should().Be(3);
+            result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");
+            result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
+            result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
+        }
+
+        [TestMethod]
+        public void Parse_MultipleValuesForRouteInTwoLinesWithWhitespacesBeforeComma_ValuesAreCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com> ,<sip:bob@biloxi.com>,", "       <sip:carol@chicago.com>" }, 0);
+
+            result.Result.Values.Count.Should().Be(3);
+            result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");
+            result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
+            result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
+        }
+
+        [TestMethod]
+        public void Parse_MultipleValuesForRouteInTwoLinesWithWhitespacesBeforeAndAfterComma_ValuesAreCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com> , <sip:bob@biloxi.com> , ", "       <sip:carol@chicago.com>" }, 0);
+
+            result.Result.Values.Count.Should().Be(3);
+            result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");
+            result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
+            result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
+        }
     }
 }

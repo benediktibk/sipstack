@@ -93,11 +93,17 @@ namespace SipStack
             {
                 var value = values[i];
                 var indexOfNoneWhitespaceFromFront = IndexOfNoneWhitespace(value, 0);
+                var indexOfNoneWhitespaceFromEnd = IndexOfNoneWhitespaceBackwards(value, value.Length - 1);
+                var start = 0;
+                var end = value.Length - 1;
+                
+                if (indexOfNoneWhitespaceFromFront >= 0)
+                    start = indexOfNoneWhitespaceFromFront;
 
-                if (indexOfNoneWhitespaceFromFront <= 0)
-                    continue;
+                if (indexOfNoneWhitespaceFromEnd >= 0)
+                    end = indexOfNoneWhitespaceFromEnd;
 
-                values[i] = value.Substring(indexOfNoneWhitespaceFromFront);
+                values[i] = value.Substring(start, end - start + 1);
             }
             
             return values;
@@ -119,6 +125,19 @@ namespace SipStack
         private static int IndexOfNoneWhitespace(string line, int start)
         {
             for (var i = start; i < line.Length; ++i)
+            {
+                var current = line[i];
+
+                if (current != ' ' && current != '\t')
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private static int IndexOfNoneWhitespaceBackwards(string line, int start)
+        {
+            for (var i = start; i >= 0; --i)
             {
                 var current = line[i];
 
