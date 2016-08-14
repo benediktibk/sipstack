@@ -186,5 +186,16 @@ namespace SipStackTest
             result.Result.Values.Count.Should().Be(1);
             result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
         }
+
+        [TestMethod]
+        public void Parse_MultipleValuesForRouteInTwoLines_ValuesAreCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com>, <sip:bob@biloxi.com>", "       <sip:carol@chicago.com>" }, 0);
+
+            result.Result.Values.Count.Should().Be(3);
+            result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");
+            result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
+            result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
+        }
     }
 }
