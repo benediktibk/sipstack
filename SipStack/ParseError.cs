@@ -4,6 +4,8 @@
     {
         None,
         InvalidRequestLine,
+        InvalidSipVersion,
+        InvalidRequestMethod,
         WrongSipVersion,
         InvalidHeaderField
     }

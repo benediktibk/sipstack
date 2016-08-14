@@ -50,7 +50,8 @@
     <Compile Include="ParseResult.cs" />
     <Compile Include="NoBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
+    <Compile Include="RequestLine.cs" />
+    <Compile Include="RequestLineParser.cs" />
     <Compile Include="RequestMethod.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

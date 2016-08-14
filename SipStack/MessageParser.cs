@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SipStack
@@ -80,7 +79,7 @@ namespace SipStack
                 return;
             }
 
-            var request = new Request(requestMethod, content[1]);
+            var request = new RequestLine(requestMethod, content[1]);
 
             _header.Method = request;
         }

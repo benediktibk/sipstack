@@ -1,8 +1,8 @@
 ﻿namespace SipStack
 {
-    public class Request : IMethod
+    public class RequestLine : IMethod
     {
-        public Request(RequestMethod type, string uri)
+        public RequestLine(RequestMethod type, string uri)
         {
             Type = type;
             Uri = uri;

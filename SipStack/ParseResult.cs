@@ -2,13 +2,13 @@
 
 namespace SipStack
 {
-    public class ParseResult<T>
+    public class ParseResult<ResultType>
     {
         private ParseError _error;
         private string _errorMessage;
-        private T _message;
+        private ResultType _message;
 
-        public ParseResult(T message)
+        public ParseResult(ResultType message)
         {
             _error = ParseError.None;
             _errorMessage = "";
@@ -28,7 +28,7 @@ namespace SipStack
 
         public bool IsError => _error != ParseError.None;
 
-        public T Message
+        public ResultType Message
         {
             get
             {
