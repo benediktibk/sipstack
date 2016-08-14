@@ -83,6 +83,9 @@
     <Content Include="messages\001_invite_in.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="messages\003_invitewithcarriagereturn_in.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="messages\002_invite_out.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

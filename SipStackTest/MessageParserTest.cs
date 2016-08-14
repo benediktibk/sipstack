@@ -65,6 +65,16 @@ namespace SipStackTest
             result.Should().Be(expectedResult);
         }
 
+        [TestMethod]
+        public void Parse_SimpleInviteWithCarriageReturn_Success()
+        {
+            var message = ReadFromFile("003_invitewithcarriagereturn_in");
+
+            var parseResult = _messageParser.Parse(message);
+
+            parseResult.IsSuccess.Should().BeTrue();
+        }
+
         private static string ReadFromFile(string file)
         {
             return File.ReadAllText($"messages/{file}.txt");
