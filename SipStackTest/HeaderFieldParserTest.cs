@@ -190,7 +190,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_MultipleValuesForRouteInTwoLines_ValuesAreCorrect()
         {
-            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com>, <sip:bob@biloxi.com>", "       <sip:carol@chicago.com>" }, 0);
+            var result = _headerFieldParser.Parse(new[] { "Route: <sip:alice@atlanta.com>, <sip:bob@biloxi.com>,", "       <sip:carol@chicago.com>" }, 0);
 
             result.Result.Values.Count.Should().Be(3);
             result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");

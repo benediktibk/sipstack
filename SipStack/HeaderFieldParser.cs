@@ -77,7 +77,7 @@ namespace SipStack
             return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Values = fieldValuesAsList });
         }
 
-        private static List<string> SeparateFieldValues(HeaderFieldName fieldName, string fieldValues)
+        private static IList<string> SeparateFieldValues(HeaderFieldName fieldName, string fieldValues)
         {
             var result = new List<string>();
 
@@ -87,7 +87,20 @@ namespace SipStack
                 return result;
             }
 
-            return result;
+            var values = fieldValues.Split(',');
+
+            for (var i = 0; i < values.Length; ++i)
+            {
+                var value = values[i];
+                var indexOfNoneWhitespaceFromFront = IndexOfNoneWhitespace(value, 0);
+
+                if (indexOfNoneWhitespaceFromFront <= 0)
+                    continue;
+
+                values[i] = value.Substring(indexOfNoneWhitespaceFromFront);
+            }
+            
+            return values;
         }
 
         private static int CountNextLinesWithWhitespaceInFront(IList<string> lines, int start)
