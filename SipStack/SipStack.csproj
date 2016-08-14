@@ -43,7 +43,9 @@
     <Compile Include="BodyParser.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="HeaderField.cs" />
+    <Compile Include="HeaderFieldName.cs" />
     <Compile Include="HeaderFieldParser.cs" />
+    <Compile Include="HeaderFieldType.cs" />
     <Compile Include="IBody.cs" />
     <Compile Include="IReadOnlyHeader.cs" />
     <Compile Include="Message.cs" />

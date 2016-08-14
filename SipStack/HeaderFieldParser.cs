@@ -70,18 +70,22 @@ namespace SipStack
                 stringBuilder.AppendFormat(" {0}", additionalLine);
             }            
 
-            var fieldName = startLine.Substring(nameStart, nameEnd - nameStart + 1);
+            var fieldName = new HeaderFieldName(startLine.Substring(nameStart, nameEnd - nameStart + 1));
             var fieldValues = stringBuilder.ToString();
-            var fieldValuesAsList = SeparateFieldValues(fieldValues);
+            var fieldValuesAsList = SeparateFieldValues(fieldName, fieldValues);
 
             return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Values = fieldValuesAsList });
         }
 
-        private static List<string> SeparateFieldValues(string fieldValues)
+        private static List<string> SeparateFieldValues(HeaderFieldName fieldName, string fieldValues)
         {
             var result = new List<string>();
 
-            result.Add(fieldValues);
+            if (!fieldName.CanHaveMultipleValues())
+            {
+                result.Add(fieldValues);
+                return result;
+            }
 
             return result;
         }

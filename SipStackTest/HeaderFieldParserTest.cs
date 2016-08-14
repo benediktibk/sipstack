@@ -28,7 +28,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "blub: heinz" }, 0);
 
-            result.Result.Name.Should().Be("blub");
+            result.Result.Name.ToString().Should().Be("blub");
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: lunch", "blub: heinz" }, 1);
 
-            result.Result.Name.Should().Be("blub");
+            result.Result.Name.ToString().Should().Be("blub");
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject:            lunch" }, 0);
 
-            result.Result.Name.Should().Be("Subject");
+            result.Result.Name.ToString().Should().Be("Subject");
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject      :      lunch" }, 0);
 
-            result.Result.Name.Should().Be("Subject");
+            result.Result.Name.ToString().Should().Be("Subject");
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject            :lunch" }, 0);
 
-            result.Result.Name.Should().Be("Subject");
+            result.Result.Name.ToString().Should().Be("Subject");
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject:lunch" }, 0);
 
-            result.Result.Name.Should().Be("Subject");
+            result.Result.Name.ToString().Should().Be("Subject");
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace SipStackTest
         {
             var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
 
-            result.Result.Name.Should().Be("Subject");
+            result.Result.Name.ToString().Should().Be("Subject");
         }
 
         [TestMethod]

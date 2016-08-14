@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SipStack
@@ -36,7 +35,7 @@ namespace SipStack
             return StringToRequestMethod.TryGetValue(value, out requestMethod);
         }
 
-        public static string ToString(RequestMethod value)
+        public static string ToString(this RequestMethod value)
         {
             return RequestMethodToString[value];
         }

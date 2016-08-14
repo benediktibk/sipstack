@@ -6,11 +6,10 @@ namespace SipStack
     {
         public HeaderField()
         {
-            Name = "";
             Values = new List<string>();
         }
 
-        public string Name { get; set; }
+        public HeaderFieldName Name { get; set; }
         public List<string> Values { get; set; }
     }
 }
