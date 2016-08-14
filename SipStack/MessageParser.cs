@@ -19,12 +19,14 @@ namespace SipStack
         public ParseResult<Message> Parse(string message)
         {
             var lines = SplitLines(message);
-            var header = new Header();
             IBody body = null;
 
             var requestLineResult = _requestLineParser.Parse(lines[0]);
             if (requestLineResult.IsError)
                 return requestLineResult.ToParseResult<Message>();
+
+            var header = new Header(requestLineResult.Result);
+            var bodyStartLine = -1;
 
             for (var i = 1; i < lines.Count(); ++i)
             {

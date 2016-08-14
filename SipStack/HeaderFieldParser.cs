@@ -74,7 +74,7 @@ namespace SipStack
             var fieldValues = stringBuilder.ToString();
             var fieldValuesAsList = SeparateFieldValues(fieldName, fieldValues);
 
-            return new ParseResult<HeaderField>(new HeaderField { Name = fieldName, Values = fieldValuesAsList });
+            return new ParseResult<HeaderField>(new HeaderField(fieldName, fieldValuesAsList));
         }
 
         private static IList<string> SeparateFieldValues(HeaderFieldName fieldName, string fieldValues)

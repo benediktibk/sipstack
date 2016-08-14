@@ -1,4 +1,6 @@
-﻿namespace SipStack
+﻿using System;
+
+namespace SipStack
 {
     public class HeaderFieldName
     {
@@ -16,6 +18,19 @@
         {
             _isCustomField = false;
             _type = type;
+        }
+
+        public bool IsCustomField => _isCustomField;
+
+        public HeaderFieldType Type
+        {
+            get
+            {
+                if (!IsCustomField)
+                    throw new InvalidOperationException("a custom field does not have a specified type");
+
+                return _type;
+            }
         }
 
         public override string ToString()

@@ -4,12 +4,15 @@ namespace SipStack
 {
     public class HeaderField
     {
-        public HeaderField()
+        private List<string> _values;
+
+        public HeaderField(HeaderFieldName name, IList<string> values)
         {
-            Values = new List<string>();
+            Name = name;
+            _values = new List<string>(values);
         }
 
-        public HeaderFieldName Name { get; set; }
-        public IList<string> Values { get; set; }
+        public HeaderFieldName Name { get; private set; }
+        public IReadOnlyList<string> Values => _values;
     }
 }
