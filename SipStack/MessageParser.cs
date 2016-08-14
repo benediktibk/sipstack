@@ -38,7 +38,7 @@ namespace SipStack
                     if (bodyResult.IsError)
                         return bodyResult.ToParseResult<Message>();
 
-                    body = bodyResult.Message;
+                    body = bodyResult.Result;
                     break;
                 }
 

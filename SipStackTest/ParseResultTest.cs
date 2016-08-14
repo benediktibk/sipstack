@@ -55,7 +55,7 @@ namespace SipStackTest
         [TestMethod]
         public void Message_Error_ExceptionThrown()
         {
-            Action action = () => { var message = _errorResult.Message; };
+            Action action = () => { var message = _errorResult.Result; };
 
             action.ShouldThrow<InvalidOperationException>();
         }
@@ -63,7 +63,7 @@ namespace SipStackTest
         [TestMethod]
         public void Message_NoError_ExceptionNotThrown()
         {
-            Action action = () => { var message = _successResult.Message; };
+            Action action = () => { var message = _successResult.Result; };
 
             action.ShouldNotThrow<InvalidOperationException>();
         }

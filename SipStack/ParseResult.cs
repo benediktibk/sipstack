@@ -6,13 +6,13 @@ namespace SipStack
     {
         private ParseError _error;
         private string _errorMessage;
-        private ResultType _message;
+        private ResultType _result;
 
-        public ParseResult(ResultType message)
+        public ParseResult(ResultType result)
         {
             _error = ParseError.None;
             _errorMessage = "";
-            _message = message;
+            _result = result;
         }
 
         public ParseResult(ParseError error, string errorMessage)
@@ -28,14 +28,14 @@ namespace SipStack
 
         public bool IsError => _error != ParseError.None;
 
-        public ResultType Message
+        public ResultType Result
         {
             get
             {
                 if (IsError)
                     throw new InvalidOperationException("message couldn't be parsed, result is an error");
 
-                return _message;
+                return _result;
             }
         }
 

@@ -48,7 +48,7 @@ namespace SipStackTest
 
             var parseResult = _messageParser.Parse(message);
 
-            var result = parseResult.Message.ToString();
+            var result = parseResult.Result.ToString();
             var expectedResult = ReadFromFile("001_invite_out");
             result.Should().Be(expectedResult);
         }
@@ -60,7 +60,7 @@ namespace SipStackTest
 
             var parseResult = _messageParser.Parse(message);
 
-            var result = parseResult.Message.ToString();
+            var result = parseResult.Result.ToString();
             var expectedResult = ReadFromFile("002_invite_out");
             result.Should().Be(expectedResult);
         }
