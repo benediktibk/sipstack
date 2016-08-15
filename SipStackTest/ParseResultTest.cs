@@ -16,7 +16,9 @@ namespace SipStackTest
         public void SetUp()
         {
             _errorResult = new ParseResult<Message>(ParseError.InvalidRequestLine, "asdfg");
-            var message = new Mock<Message>(null, null);
+            var header = new Mock<IHeader>();
+            var body = new Mock<IBody>();
+            var message = new Mock<Message>(header.Object, body.Object);
             _successResult = new ParseResult<Message>(message.Object);
         }
 

@@ -74,12 +74,7 @@ namespace SipStack
                     contentLengthLine = i;
             }
 
-            var header = Header.CreateFrom(requestLineResult.Result, headerFields);
-
-            if (header == null)
-                return new ParseResult<Header>(ParseError.HeaderFieldWithForbiddenMultipleValues, "a header field has multiple values, although it is not allowed");
-
-            return new ParseResult<Header>(header);
+            return Header.CreateFrom(requestLineResult.Result, headerFields);
         }
 
         private static IList<string> SplitLines(string message)

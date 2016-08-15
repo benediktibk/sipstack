@@ -47,6 +47,7 @@
     <Compile Include="HeaderFieldParser.cs" />
     <Compile Include="HeaderFieldType.cs" />
     <Compile Include="IBody.cs" />
+    <Compile Include="IHeader.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="ParseError.cs" />

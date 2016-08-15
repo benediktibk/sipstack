@@ -17,7 +17,7 @@ namespace SipStackTest
             };
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var headerField = header[new HeaderFieldName("blub")];
+            var headerField = header.Result[new HeaderFieldName("blub")];
 
             headerField.Values.Count.Should().Be(1);
             headerField.Values[0].Should().Be("");
@@ -33,7 +33,7 @@ namespace SipStackTest
             };
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var headerField = header[new HeaderFieldName(HeaderFieldType.From)];
+            var headerField = header.Result[new HeaderFieldName(HeaderFieldType.From)];
 
             headerField.Values.Count.Should().Be(1);
             headerField.Values[0].Should().Be("");
@@ -49,7 +49,7 @@ namespace SipStackTest
             };
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var headerField = header[new HeaderFieldName("asdf")];
+            var headerField = header.Result[new HeaderFieldName("asdf")];
 
             headerField.Values.Count.Should().Be(1);
             headerField.Values[0].Should().Be("gdasf");
@@ -65,7 +65,7 @@ namespace SipStackTest
             };
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var headerField = header[new HeaderFieldName(HeaderFieldType.From)];
+            var headerField = header.Result[new HeaderFieldName(HeaderFieldType.From)];
 
             headerField.Values.Count.Should().Be(1);
             headerField.Values[0].Should().Be("gdasf");
@@ -83,7 +83,7 @@ namespace SipStackTest
 
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var routeHeader = header[new HeaderFieldName(HeaderFieldType.Route)];
+            var routeHeader = header.Result[new HeaderFieldName(HeaderFieldType.Route)];
             routeHeader.Name.Type.Should().Be(HeaderFieldType.Route);
             routeHeader.Values.Count.Should().Be(3);
             routeHeader.Values[0].Should().Be("<sip:alice@atlanta.com>");
@@ -92,7 +92,7 @@ namespace SipStackTest
         }
 
         [TestMethod]
-        public void CreateFrom_FieldWithForbiddenMultipleValues_Null()
+        public void CreateFrom_FieldWithForbiddenMultipleValues_Error()
         {
             var headerFields = new[]
             {
@@ -103,7 +103,7 @@ namespace SipStackTest
 
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            header.Should().BeNull();
+            header.IsError.Should().BeTrue();
         }
     }
 }
