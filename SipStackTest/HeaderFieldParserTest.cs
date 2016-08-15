@@ -230,5 +230,15 @@ namespace SipStackTest
             result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
             result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
         }
+
+        [TestMethod]
+        public void Parse_MultipleValuesInMultipleLinesWithDotAtTheBeginning_ValuesAreCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Accept: application/sdp,", ".application/isup" }, 0);
+
+            result.Result.Values.Count.Should().Be(2);
+            result.Result.Values[0].Should().Be("application/sdp");
+            result.Result.Values[1].Should().Be("application/isup");
+        }
     }
 }

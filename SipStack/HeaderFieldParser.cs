@@ -59,15 +59,21 @@ namespace SipStack
                 valueEnd = startLine.Length - 1;
             }
 
-            var additionalLines = CountNextLinesWithWhitespaceInFront(lines, start + 1);
+            var additionalLines = CountNextLinesWithWhitespaceOrDotInFront(lines, start + 1);
             var stringBuilder = new StringBuilder(startLine.Substring(valueStart, valueEnd - valueStart + 1));
 
             for (var i = 0; i < additionalLines; ++i)
             {
                 var currentLine = lines[start + 1 + i];
-                var indexOfNoneWhitespace = IndexOfNoneWhitespace(currentLine, 1);
-                var additionalLine = indexOfNoneWhitespace >= 0 ? currentLine.Substring(indexOfNoneWhitespace) : "";
-                stringBuilder.AppendFormat(" {0}", additionalLine);
+                var lineStart = IndexOfNoneWhitespace(currentLine, 1);
+
+                if (lineStart < 0)
+                {
+                    stringBuilder.Append(" ");
+                    continue;
+                }
+                
+                stringBuilder.AppendFormat(" {0}", currentLine.Substring(lineStart));
             }            
 
             var fieldName = new HeaderFieldName(startLine.Substring(nameStart, nameEnd - nameStart + 1));
@@ -109,7 +115,7 @@ namespace SipStack
             return values;
         }
 
-        private static int CountNextLinesWithWhitespaceInFront(IList<string> lines, int start)
+        private static int CountNextLinesWithWhitespaceOrDotInFront(IList<string> lines, int start)
         {
             var result = 0; 
 
@@ -123,7 +129,7 @@ namespace SipStack
 
                 var firstCharacter = currentLine[0];
 
-                if (firstCharacter != ' ' && firstCharacter != '\t')
+                if (firstCharacter != ' ' && firstCharacter != '\t' && firstCharacter != '.')
                     return result;
             }
 
