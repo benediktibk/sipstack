@@ -5,7 +5,32 @@ namespace SipStack
 {
     public class Header : IHeader
     {
+        private static IList<HeaderFieldType> _fieldsAtStart;
+        private static IList<HeaderFieldType> _fieldsAtEnd;
+        private static HashSet<HeaderFieldType> _allFieldsAtEndOrStart;
         private IDictionary<HeaderFieldName, HeaderField> _fieldsByType;
+
+        static Header()
+        {
+            _fieldsAtStart = new List<HeaderFieldType>
+            {
+                HeaderFieldType.From,
+                HeaderFieldType.To
+            };
+
+            _fieldsAtEnd = new List<HeaderFieldType>
+            {
+                HeaderFieldType.ContentLength,
+                HeaderFieldType.ContentType
+            };
+
+            _allFieldsAtEndOrStart = new HashSet<HeaderFieldType>();
+
+            foreach (var field in _fieldsAtStart)
+                _allFieldsAtEndOrStart.Add(field);
+            foreach (var field in _fieldsAtEnd)
+                _allFieldsAtEndOrStart.Add(field);
+        }
 
         private Header(IMethod method, IDictionary<HeaderFieldName, HeaderField> fields)
         {
@@ -75,6 +100,7 @@ namespace SipStack
 
         public override string ToString()
         {
+            // TODO: take into account the list of fields for the start or end
             return base.ToString();
         }
 
