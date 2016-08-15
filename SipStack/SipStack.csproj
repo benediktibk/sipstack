@@ -50,6 +50,7 @@
     <Compile Include="IHeader.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMethod.cs" />
+    <Compile Include="MessageBuilder.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="ParseResult.cs" />

@@ -3,6 +3,6 @@
     public interface IBody
     {
         int ContentLength { get; }
-        string ToString();
+        void AddTo(MessageBuilder messageBuilder);
     }
 }

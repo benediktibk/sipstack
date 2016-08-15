@@ -5,6 +5,6 @@
         IMethod Method { get; }
         int ContentLength { get; }
         HeaderField this[HeaderFieldName fieldName] { get; }
-        string ToString();
+        void AddTo(MessageBuilder messageBuilder);
     }
 }

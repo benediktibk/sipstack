@@ -13,11 +13,9 @@ namespace SipStack
         public RequestMethod Type { get; private set; }
         public string Uri { get; private set; }
 
-        public override string ToString()
+        public void AddTo(MessageBuilder messageBuilder)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendFormat("{0} {1} SIP/2.0", Type.ToFriendlyString(), Uri);
-            return stringBuilder.ToString();
+            messageBuilder.AddLineFormat("{0} {1} SIP/2.0", Type.ToFriendlyString(), Uri);
         }
     }
 }

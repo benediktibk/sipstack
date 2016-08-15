@@ -16,11 +16,9 @@ namespace SipStack
         public HeaderFieldName Name { get; private set; }
         public IReadOnlyList<string> Values => _values;
 
-        public override string ToString()
+        public void AddTo(MessageBuilder messageBuilder)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendFormat("{0}: {1}", Name.ToString(), string.Join(", ", _values));
-            return stringBuilder.ToString();
+            messageBuilder.AddLineFormat("{0}: {1}", Name.ToString(), string.Join(", ", _values));
         }
     }
 }

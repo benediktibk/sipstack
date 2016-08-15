@@ -100,31 +100,27 @@ namespace SipStack
             return new ParseResult<Header>(new Header(method, fieldsByType));
         }
 
-        public override string ToString()
+        public void AddTo(MessageBuilder messageBuilder)
         {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendFormat("{0}\r\n", Method.ToString());
+            Method.AddTo(messageBuilder);
 
             foreach (var type in _fieldsAtStart)
             {
                 HeaderField field;
 
                 if (_fieldsByType.TryGetValue(new HeaderFieldName(type), out field))
-                    stringBuilder.AppendFormat("{0}\r\n", field.ToString());
+                    field.AddTo(messageBuilder);
             }
 
             foreach (var field in _fieldsByType.Select(x => x.Value))
             {
                 if (field.Name.IsContainedIn(_allFieldsAtEndOrStart))
                     continue;
-                
-                stringBuilder.AppendFormat("{0}\r\n", field.ToString());
+
+                field.AddTo(messageBuilder);
             }
 
-            stringBuilder.AppendFormat("{0}: {1}\r\n", HeaderFieldType.ContentLength.ToFriendlyString(), ContentLength);
-
-            return stringBuilder.ToString();
+            messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldType.ContentLength.ToFriendlyString(), ContentLength.ToString());
         }
 
         private int GetIntegerByType(HeaderFieldType type)

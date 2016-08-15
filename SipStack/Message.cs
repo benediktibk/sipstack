@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace SipStack
 {
@@ -25,10 +24,10 @@ namespace SipStack
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(Header.ToString());
-            stringBuilder.Append(Body.ToString());
-            return stringBuilder.ToString();
+            var messageBuilder = new MessageBuilder();
+            Header.AddTo(messageBuilder);
+            Body.AddTo(messageBuilder);
+            return messageBuilder.ToString();
         }
     }
 }

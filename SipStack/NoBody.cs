@@ -6,9 +6,7 @@ namespace SipStack
     {
         public int ContentLength => 0;
 
-        public override string ToString()
-        {
-            return "";
-        }
+        public void AddTo(MessageBuilder messageBuilder)
+        { }
     }
 }
