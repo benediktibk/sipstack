@@ -3,7 +3,6 @@
     public interface IBody
     {
         int ContentLength { get; }
-        string CreateHeaderInformation();
         string ToString();
     }
 }

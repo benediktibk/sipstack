@@ -20,13 +20,12 @@ namespace SipStack
         {
             var lines = SplitLines(message);
             IBody body = null;
-            var header = new Header();
+            var headerFields = new List<HeaderField>();
 
             var requestLineResult = _requestLineParser.Parse(lines[0]);
             if (requestLineResult.IsError)
                 return requestLineResult.ToParseResult<Message>();
-
-            header.Method = requestLineResult.Result;
+            
             var contentLengthLine = -1;
 
             for (var i = 1; i < lines.Count() && contentLengthLine < 0; ++i)
@@ -55,8 +54,10 @@ namespace SipStack
                 if (headerField.Name.isOfType(HeaderFieldType.ContentLength))
                     contentLengthLine = i;
 
-                header[headerField.Name] = headerField;
+                headerFields.Add(headerField);
             }
+
+            var header = new Header(requestLineResult.Result, headerFields);
 
             return new ParseResult<Message>(new Message(header, body));
         }

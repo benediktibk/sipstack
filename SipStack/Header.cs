@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SipStack
 {
-    public class Header : IReadOnlyHeader
+    public class Header
     {
         private IDictionary<HeaderFieldName, HeaderField> _fieldsByType;
 
-        public Header()
+        public Header(IMethod method, IList<HeaderField> fields)
         {
             _fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
+
+            foreach (var field in fields)
+                _fieldsByType[field.Name] = field;
         }
 
-        public IMethod Method { get; set; }
+        public IMethod Method { get; }
         public int ContentLength => GetIntegerByType(HeaderFieldType.ContentLength);
 
         public HeaderField this[HeaderFieldName fieldName]
@@ -25,13 +29,6 @@ namespace SipStack
                     return result;
 
                 return new HeaderField(fieldName, new[] { "" });
-            }
-            set
-            {
-                if (!value.Name.Equals(fieldName))
-                    throw new ArgumentException("parameter fieldname does not match fieldname of value");
-
-                _fieldsByType[fieldName] = value;
             }
         }
 
