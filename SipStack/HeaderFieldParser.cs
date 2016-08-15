@@ -95,6 +95,9 @@ namespace SipStack
 
             var values = fieldValues.Split(',');
 
+            if (values.Length == 1)
+                return values;
+
             for (var i = 0; i < values.Length; ++i)
             {
                 var value = values[i];

@@ -128,7 +128,7 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_ValueInMultipleLinesAndNameSubject_NameIsSubject()
         {
-            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there", "         pick up the phone", "         and talk to me!" }, 0);
 
             result.Result.Name.ToString().Should().Be("Subject");
         }
@@ -136,19 +136,19 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_ValueInMultipleLines_ValueIsCorrect()
         {
-            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!" }, 0);
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there", "         pick up the phone", "         and talk to me!" }, 0);
 
             result.Result.Values.Count.Should().Be(1);
-            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values[0].Should().Be("I know you're there pick up the phone and talk to me!");
         }
 
         [TestMethod]
         public void Parse_ValueInMultipleLinesAndTabs_ValueIsCorrect()
         {
-            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         \tpick up the phone", "\t         and talk to me!" }, 0);
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there", "         \tpick up the phone", "\t         and talk to me!" }, 0);
 
             result.Result.Values.Count.Should().Be(1);
-            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values[0].Should().Be("I know you're there pick up the phone and talk to me!");
         }
 
         [TestMethod]
@@ -181,10 +181,10 @@ namespace SipStackTest
         [TestMethod]
         public void Parse_ValueInMultipleLinesAndAnotherField_ValueIsCorrect()
         {
-            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there,", "         pick up the phone", "         and talk to me!", "AnotherField: 123" }, 0);
+            var result = _headerFieldParser.Parse(new[] { "Subject: I know you're there", "         pick up the phone", "         and talk to me!", "AnotherField: 123" }, 0);
 
             result.Result.Values.Count.Should().Be(1);
-            result.Result.Values[0].Should().Be("I know you're there, pick up the phone and talk to me!");
+            result.Result.Values[0].Should().Be("I know you're there pick up the phone and talk to me!");
         }
 
         [TestMethod]

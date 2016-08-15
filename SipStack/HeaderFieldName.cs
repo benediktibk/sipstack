@@ -47,7 +47,7 @@ namespace SipStack
             get
             {
                 if (IsCustomField)
-                    return false;
+                    return true;
 
                 return HeaderFieldTypeUtils.CanHaveMultipleValues(_type);
             }

@@ -130,7 +130,7 @@ namespace SipStack
     {
         private static IDictionary<string, HeaderFieldType> StringToHeaderFieldType;
         private static IDictionary<HeaderFieldType, string> HeaderFieldTypeToString;
-        private static HashSet<HeaderFieldType> HeadersWithMultipleValues;
+        private static HashSet<HeaderFieldType> HeadersWithOnlyOneValue;
 
         static HeaderFieldTypeUtils()
         {
@@ -257,11 +257,18 @@ namespace SipStack
                 { HeaderFieldType.WwwAuthenticate, "WWW-Authenticate" }
             };
 
-            HeadersWithMultipleValues = new HashSet<HeaderFieldType>
+            HeadersWithOnlyOneValue = new HashSet<HeaderFieldType>
             {
-                HeaderFieldType.Route,
-                HeaderFieldType.Via,
-                HeaderFieldType.RecordRoute
+                HeaderFieldType.CallId,
+                HeaderFieldType.ContentLength,
+                HeaderFieldType.ContentType,
+                HeaderFieldType.Cseq,
+                HeaderFieldType.Date,
+                HeaderFieldType.Expires,
+                HeaderFieldType.From,
+                HeaderFieldType.MaxForwards,
+                HeaderFieldType.SessionId,
+                HeaderFieldType.To
             };
 
             StringToHeaderFieldType = HeaderFieldTypeToString.ToDictionary(x => x.Value.ToLower(), x => x.Key);
@@ -280,7 +287,7 @@ namespace SipStack
 
         public static bool CanHaveMultipleValues(this HeaderFieldType value)
         {
-            return HeadersWithMultipleValues.Contains(value);
+            return !HeadersWithOnlyOneValue.Contains(value);
         }
     }
 }
