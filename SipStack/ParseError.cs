@@ -11,7 +11,6 @@
         NegativeValueForContentLength,
         ContentLengthLineMissing,
         CrlfAtEndMissing,
-        HeadersAfterContentLength,
         HeaderFieldWithForbiddenMultipleValues
     }
 }
