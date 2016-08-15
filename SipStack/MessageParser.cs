@@ -66,13 +66,15 @@ namespace SipStack
                     break;
                 }
 
-                var headerFieldResult = _headerFieldParser.Parse(lines, i);
+                int end;
+                var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
 
                 if (headerFieldResult.IsError)
                     return headerFieldResult.ToParseResult<Header>();
 
                 var headerField = headerFieldResult.Result;
                 headerFields.Add(headerField);
+                i = end;
             }
 
             return Header.CreateFrom(requestLineResult.Result, headerFields);

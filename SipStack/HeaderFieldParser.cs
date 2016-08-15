@@ -6,9 +6,10 @@ namespace SipStack
 {
     public class HeaderFieldParser
     {
-        public ParseResult<HeaderField> Parse(IList<string> lines, int start)
+        public ParseResult<HeaderField> Parse(IList<string> lines, int start, out int end)
         {
             var startLine = lines[start];
+            end = start;
 
             if (string.IsNullOrEmpty(startLine))
                 return new ParseResult<HeaderField>(ParseError.InvalidHeaderField, $"empty header line");
@@ -60,6 +61,7 @@ namespace SipStack
             }
 
             var additionalLines = CountNextLinesWithWhitespaceOrDotInFront(lines, start + 1);
+            end = start + additionalLines;
             var stringBuilder = new StringBuilder(startLine.Substring(valueStart, valueEnd - valueStart + 1));
 
             for (var i = 0; i < additionalLines; ++i)
