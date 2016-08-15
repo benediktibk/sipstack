@@ -123,7 +123,6 @@ namespace SipStack
             }
 
             stringBuilder.AppendFormat("{0}: {1}\r\n", HeaderFieldType.ContentLength.ToFriendlyString(), ContentLength);
-            stringBuilder.Append("\r\n");
 
             return stringBuilder.ToString();
         }
