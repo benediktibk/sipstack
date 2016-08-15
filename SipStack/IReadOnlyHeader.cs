@@ -4,5 +4,6 @@
     {
         IMethod Method { get; }
         int ContentLength { get; }
+        HeaderField this[HeaderFieldName fieldName] { get; }
     }
 }

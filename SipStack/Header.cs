@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SipStack
 {
     public class Header : IReadOnlyHeader
     {
-        private IDictionary<HeaderFieldType, HeaderField> _fieldsByType;
-        private IDictionary<string, HeaderField> _fieldsByName;
+        private IDictionary<HeaderFieldName, HeaderField> _fieldsByType;
 
-        public Header(IMethod method)
+        public Header()
         {
-            Method = method;
-            _fieldsByType = new Dictionary<HeaderFieldType, HeaderField>();
-            _fieldsByName = new Dictionary<string, HeaderField>();
+            _fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
         }
 
-        public IMethod Method { get; private set; }
-        public int ContentLength => GetIntegerByType(HeaderFieldType.MaxForwards);
+        public IMethod Method { get; set; }
+        public int ContentLength => GetIntegerByType(HeaderFieldType.ContentLength);
 
         public HeaderField this[HeaderFieldName fieldName]
         {
@@ -23,25 +21,17 @@ namespace SipStack
             {
                 HeaderField result;
 
-                if (fieldName.IsCustomField)
-                {
-                    if (_fieldsByName.TryGetValue(fieldName.ToString(), out result))
-                        return result;
-                }
-                else
-                {
-                    if (_fieldsByType.TryGetValue(fieldName.Type, out result))
-                        return result;
-                }
+                if (_fieldsByType.TryGetValue(fieldName, out result))
+                    return result;
 
                 return new HeaderField(fieldName, new[] { "" });
             }
             set
             {
-                if (fieldName.IsCustomField)
-                    _fieldsByName[fieldName.ToString()] = value;
-                else
-                    _fieldsByType[fieldName.Type] = value;
+                if (!value.Name.Equals(fieldName))
+                    throw new ArgumentException("parameter fieldname does not match fieldname of value");
+
+                _fieldsByType[fieldName] = value;
             }
         }
 

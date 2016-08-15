@@ -76,6 +76,7 @@
     <Compile Include="RequestLineParserTest.cs" />
     <Compile Include="HeaderFieldParserTest.cs" />
     <Compile Include="HeaderFieldNameTest.cs" />
+    <Compile Include="HeaderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="messages\001_invite_out.txt">
