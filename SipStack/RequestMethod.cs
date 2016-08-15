@@ -35,7 +35,7 @@ namespace SipStack
             return StringToRequestMethod.TryGetValue(value, out requestMethod);
         }
 
-        public static string ToString(this RequestMethod value)
+        public static string ToFriendlyString(this RequestMethod value)
         {
             return RequestMethodToString[value];
         }

@@ -70,7 +70,7 @@ namespace SipStack
                 var headerField = headerFieldResult.Result;
                 headerFields.Add(headerField);
 
-                if (headerField.Name.isOfType(HeaderFieldType.ContentLength))
+                if (headerField.Name.IsOfType(HeaderFieldType.ContentLength))
                     contentLengthLine = i;
             }
 

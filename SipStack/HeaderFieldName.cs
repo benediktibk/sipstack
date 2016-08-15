@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SipStack
 {
@@ -52,12 +53,20 @@ namespace SipStack
             }
         }
 
-        public bool isOfType(HeaderFieldType type)
+        public bool IsOfType(HeaderFieldType type)
         {
             if (IsCustomField)
                 return false;
 
             return _type == type;
+        }
+
+        public bool IsContainedIn(HashSet<HeaderFieldType> types)
+        {
+            if (IsCustomField)
+                return false;
+
+            return types.Contains(_type);
         }
 
         public override bool Equals(object obj)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SipStack
 {
@@ -100,8 +102,30 @@ namespace SipStack
 
         public override string ToString()
         {
-            // TODO: take into account the list of fields for the start or end
-            return base.ToString();
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendFormat("{0}\r\n", Method.ToString());
+
+            foreach (var type in _fieldsAtStart)
+            {
+                HeaderField field;
+
+                if (_fieldsByType.TryGetValue(new HeaderFieldName(type), out field))
+                    stringBuilder.AppendFormat("{0}\r\n", field.ToString());
+            }
+
+            foreach (var field in _fieldsByType.Select(x => x.Value))
+            {
+                if (field.Name.IsContainedIn(_allFieldsAtEndOrStart))
+                    continue;
+                
+                stringBuilder.AppendFormat("{0}\r\n", field.ToString());
+            }
+
+            stringBuilder.AppendFormat("{0}: {1}\r\n", HeaderFieldType.ContentLength.ToFriendlyString(), ContentLength);
+            stringBuilder.Append("\r\n");
+
+            return stringBuilder.ToString();
         }
 
         private int GetIntegerByType(HeaderFieldType type)

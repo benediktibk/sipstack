@@ -80,7 +80,7 @@ namespace SipStackTest
         {
             var headerFieldName = new HeaderFieldName(HeaderFieldType.Route);
 
-            headerFieldName.isOfType(HeaderFieldType.From).Should().BeFalse();
+            headerFieldName.IsOfType(HeaderFieldType.From).Should().BeFalse();
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace SipStackTest
         {
             var headerFieldName = new HeaderFieldName(HeaderFieldType.Route);
 
-            headerFieldName.isOfType(HeaderFieldType.Route).Should().BeTrue();
+            headerFieldName.IsOfType(HeaderFieldType.Route).Should().BeTrue();
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace SipStackTest
         {
             var headerFieldName = new HeaderFieldName("asdf");
 
-            headerFieldName.isOfType(HeaderFieldType.Route).Should().BeFalse();
+            headerFieldName.IsOfType(HeaderFieldType.Route).Should().BeFalse();
         }
 
         [TestMethod]

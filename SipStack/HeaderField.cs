@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace SipStack
 {
@@ -14,5 +15,12 @@ namespace SipStack
 
         public HeaderFieldName Name { get; private set; }
         public IReadOnlyList<string> Values => _values;
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{0}: {1}", Name.ToString(), string.Join(", ", _values));
+            return stringBuilder.ToString();
+        }
     }
 }
