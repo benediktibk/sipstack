@@ -26,7 +26,7 @@ namespace SipStack
         {
             get
             {
-                if (!IsCustomField)
+                if (IsCustomField)
                     throw new InvalidOperationException("a custom field does not have a specified type");
 
                 return _type;
@@ -35,18 +35,69 @@ namespace SipStack
 
         public override string ToString()
         {
-            if (_isCustomField)
+            if (IsCustomField)
                 return _customFieldName;
 
-            return _type.ToString();
+            return _type.ToFriendlyString();
         }
 
-        public bool CanHaveMultipleValues()
+        public bool CanHaveMultipleValues
         {
-            if (_isCustomField)
+            get
+            {
+                if (IsCustomField)
+                    return false;
+
+                return HeaderFieldTypeUtils.CanHaveMultipleValues(_type);
+            }
+        }
+
+        public bool isOfType(HeaderFieldType type)
+        {
+            if (IsCustomField)
                 return false;
 
-            return HeaderFieldTypeUtils.CanHaveMultipleValues(_type);
+            return _type == type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (!(obj is HeaderFieldName))
+                return false;
+
+            var rhs = obj as HeaderFieldName;
+            return EqualsInternal(rhs);
+        }
+
+        public bool Equals(HeaderFieldName rhs)
+        {
+            if (rhs == null)
+                return false;
+
+            return EqualsInternal(rhs);
+        }
+
+        public override int GetHashCode()
+        {
+            if (IsCustomField)
+                return _customFieldName.GetHashCode();
+            else
+                return _type.GetHashCode();
+        }
+
+        private bool EqualsInternal(HeaderFieldName rhs)
+        {
+            if (IsCustomField != rhs.IsCustomField)
+                return false;
+
+            if (IsCustomField)
+                return _customFieldName == rhs._customFieldName;
+            else
+                return _type == rhs._type;
+
         }
     }
 }

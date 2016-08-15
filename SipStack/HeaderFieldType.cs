@@ -273,7 +273,7 @@ namespace SipStack
             return StringToHeaderFieldType.TryGetValue(value.ToLower(), out requestMethod);
         }
 
-        public static string ToString(this HeaderFieldType value)
+        public static string ToFriendlyString(this HeaderFieldType value)
         {
             return HeaderFieldTypeToString[value];
         }

@@ -26,9 +26,9 @@ namespace SipStack
                 return requestLineResult.ToParseResult<Message>();
 
             var header = new Header(requestLineResult.Result);
-            var bodyStartLine = -1;
+            var contentLengthLine = -1;
 
-            for (var i = 1; i < lines.Count(); ++i)
+            for (var i = 1; i < lines.Count() && contentLengthLine < 0; ++i)
             {
                 var currentLine = lines[i];
 
@@ -49,7 +49,12 @@ namespace SipStack
                 if (headerFieldResult.IsError)
                     return headerFieldResult.ToParseResult<Message>();
 
-                // TODO: set the field in the header
+                var headerField = headerFieldResult.Result;
+
+                if (headerField.Name.isOfType(HeaderFieldType.ContentLength))
+                    contentLengthLine = i;
+
+                header[headerField.Name] = headerField;
             }
 
             return new ParseResult<Message>(new Message(header, body));

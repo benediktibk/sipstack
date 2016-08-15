@@ -81,7 +81,7 @@ namespace SipStack
         {
             var result = new List<string>();
 
-            if (!fieldName.CanHaveMultipleValues())
+            if (!fieldName.CanHaveMultipleValues)
             {
                 result.Add(fieldValues);
                 return result;
