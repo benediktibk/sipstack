@@ -8,15 +8,20 @@ namespace SipStack
     {
         private IDictionary<HeaderFieldName, HeaderField> _fieldsByType;
 
-        public Header(IMethod method, IList<HeaderField> fields)
+        private Header(IMethod method, IDictionary<HeaderFieldName, HeaderField> fields)
         {
-            _fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
+            if (method == null)
+                throw new ArgumentNullException("method");
 
-            foreach (var field in fields)
-                _fieldsByType[field.Name] = field;
+            if (fields == null)
+                throw new ArgumentNullException("fields");
+
+            Method = method;
+            _fieldsByType = fields;
+
         }
 
-        public IMethod Method { get; }
+        public IMethod Method { get; private set; }
         public int ContentLength => GetIntegerByType(HeaderFieldType.ContentLength);
 
         public HeaderField this[HeaderFieldName fieldName]
@@ -30,6 +35,40 @@ namespace SipStack
 
                 return new HeaderField(fieldName, new[] { "" });
             }
+        }
+
+        public static Header CreateFrom(IMethod method, IList<HeaderField> fields)
+        {
+            var fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
+            var fieldsListByType = new Dictionary<HeaderFieldName, List<HeaderField>>();
+            var fieldTypes = new HashSet<HeaderFieldName>();
+
+            foreach (var field in fields)
+                fieldTypes.Add(field.Name);
+
+            foreach (var fieldType in fieldTypes)
+                fieldsListByType[fieldType] = new List<HeaderField>();
+
+            foreach (var field in fields)
+                fieldsListByType[field.Name].Add(field);
+
+            foreach (var fieldsList in fieldsListByType)
+            {
+                var type = fieldsList.Key;
+                var currentFields = fieldsList.Value;
+
+                if (!type.CanHaveMultipleValues && currentFields.Count > 1)
+                    return null;
+
+                var values = new List<string>();
+
+                foreach (var currentField in currentFields)
+                    values.AddRange(currentField.Values);
+
+                fieldsByType[type] = new HeaderField(type, values);
+            }
+
+            return new Header(method, fieldsByType);
         }
 
         private int GetIntegerByType(HeaderFieldType type)

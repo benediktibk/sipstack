@@ -57,7 +57,7 @@ namespace SipStack
                 headerFields.Add(headerField);
             }
 
-            var header = new Header(requestLineResult.Result, headerFields);
+            var header = Header.CreateFrom(requestLineResult.Result, headerFields);
 
             return new ParseResult<Message>(new Message(header, body));
         }
