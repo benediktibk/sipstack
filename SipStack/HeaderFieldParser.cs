@@ -111,12 +111,20 @@ namespace SipStack
 
         private static int CountNextLinesWithWhitespaceInFront(IList<string> lines, int start)
         {
+            var result = 0; 
+
             for(var i = start; i < lines.Count; ++i)
             {
-                var firstCharacter = lines[i][0];
+                var currentLine = lines[i];
+                result = i - start;
+
+                if (currentLine.Length == 0)
+                    return result;
+
+                var firstCharacter = currentLine[0];
 
                 if (firstCharacter != ' ' && firstCharacter != '\t')
-                    return i - start;
+                    return result;
             }
 
             return lines.Count - start;

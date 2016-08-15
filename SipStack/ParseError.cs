@@ -7,6 +7,11 @@
         InvalidSipVersion,
         InvalidRequestMethod,
         WrongSipVersion,
-        InvalidHeaderField
+        InvalidHeaderField,
+        NegativeValueForContentLength,
+        ContentLengthLineMissing,
+        CrlfAtEndMissing,
+        HeadersAfterContentLength,
+        HeaderFieldWithForbiddenMultipleValues
     }
 }
