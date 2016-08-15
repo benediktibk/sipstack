@@ -75,6 +75,18 @@ namespace SipStackTest
             parseResult.IsSuccess.Should().BeTrue();
         }
 
+        [TestMethod]
+        public void Parse_ComplexInviteWithoutBody_SameInviteContentwise()
+        {
+            var message = ReadFromFile("004_invite_in");
+
+            var parseResult = _messageParser.Parse(message);
+
+            var result = parseResult.Result.ToString();
+            var expectedResult = ReadFromFile("004_invite_out");
+            result.Should().Be(expectedResult);
+        }
+
         private static string ReadFromFile(string file)
         {
             return File.ReadAllText($"messages/{file}.txt");
