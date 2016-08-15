@@ -18,11 +18,11 @@ namespace SipStack
 
             Method = method;
             _fieldsByType = fields;
-
+            ContentLength = GetIntegerByType(HeaderFieldType.ContentLength);
         }
 
         public IMethod Method { get; private set; }
-        public int ContentLength => GetIntegerByType(HeaderFieldType.ContentLength);
+        public int ContentLength { get; private set; }
 
         public HeaderField this[HeaderFieldName fieldName]
         {

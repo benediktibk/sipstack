@@ -10,9 +10,14 @@ namespace SipStackTest
         [TestMethod]
         public void IndexerGet_NotSetCustomField_EmptyValue()
         {
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), new HeaderField[]{ });
+            var headerFields = new[]
+            {
+                new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
+            };
+            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
-            var headerField = header[new HeaderFieldName("asdf")];
+            var headerField = header[new HeaderFieldName("blub")];
 
             headerField.Values.Count.Should().Be(1);
             headerField.Values[0].Should().Be("");
@@ -21,7 +26,12 @@ namespace SipStackTest
         [TestMethod]
         public void IndexerGet_NotSetFromField_EmptyValue()
         {
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), new HeaderField[] { });
+            var headerFields = new[]
+            {
+                new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
+            };
+            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header[new HeaderFieldName(HeaderFieldType.From)];
 
@@ -32,8 +42,12 @@ namespace SipStackTest
         [TestMethod]
         public void IndexerGet_SetField_CorrectValue()
         {
-            var source = new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" });
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), new HeaderField[] { source });
+            var headerFields = new[]
+            {
+                new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
+            };
+            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header[new HeaderFieldName("asdf")];
 
@@ -44,8 +58,12 @@ namespace SipStackTest
         [TestMethod]
         public void IndexerGet_SetFrom_CorrectValue()
         {
-            var source = new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] { "gdasf" });
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), new HeaderField[] { source });
+            var headerFields = new[]
+            {
+                new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] { "gdasf" }),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
+            };
+            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header[new HeaderFieldName(HeaderFieldType.From)];
 
@@ -59,7 +77,8 @@ namespace SipStackTest
             var headerFields = new[]
             {
                 new HeaderField(new HeaderFieldName(HeaderFieldType.Route), new[] {"<sip:alice@atlanta.com>"}),
-                new HeaderField(new HeaderFieldName(HeaderFieldType.Route), new[] {"<sip:bob@biloxi.com>", "<sip:carol@chicago.com>"})
+                new HeaderField(new HeaderFieldName(HeaderFieldType.Route), new[] {"<sip:bob@biloxi.com>", "<sip:carol@chicago.com>"}),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
 
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
@@ -78,7 +97,8 @@ namespace SipStackTest
             var headerFields = new[]
             {
                 new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] {"<sip:alice@atlanta.com>"}),
-                new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] {"<sip:bob@biloxi.com>"})
+                new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] {"<sip:bob@biloxi.com>"}),
+                new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
 
             var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
