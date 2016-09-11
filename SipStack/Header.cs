@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SipStack
 {
     public class Header : IHeader
     {
+        #region variables
+
         private static IList<HeaderFieldType> _fieldsAtStart;
         private static IList<HeaderFieldType> _fieldsAtEnd;
         private static HashSet<HeaderFieldType> _allFieldsAtEndOrStart;
         private IDictionary<HeaderFieldName, HeaderField> _fieldsByType;
+        private int _contentLength;
+        private string _contentType;
+
+        #endregion
+
+        #region constructors
 
         static Header()
         {
@@ -44,11 +51,11 @@ namespace SipStack
 
             Method = method;
             _fieldsByType = fields;
-            ContentLength = GetIntegerByType(HeaderFieldType.ContentLength);
         }
 
-        public IMethod Method { get; private set; }
-        public int ContentLength { get; private set; }
+        #endregion
+
+        #region properties
 
         public HeaderField this[HeaderFieldName fieldName]
         {
@@ -62,6 +69,39 @@ namespace SipStack
                 return new HeaderField(fieldName, new[] { "" });
             }
         }
+
+        public IMethod Method { get; private set; }
+
+        public int ContentLength
+        {
+            get
+            {
+                if (_contentLength < 0)
+                {
+                    _contentLength = GetIntegerByType(HeaderFieldType.ContentLength);
+
+                    if (_contentLength < 0)
+                        throw new Exception("negative value for content length is invalid");
+                }
+
+                return _contentLength;
+            }
+        }
+
+        public string ContentType
+        {
+            get
+            {
+                if (_contentType == null)
+                    _contentType = GetStringByType(HeaderFieldType.ContentType);
+
+                return _contentType;
+            }
+        }
+
+        #endregion
+
+        #region public functions
 
         public static ParseResult<Header> CreateFrom(IMethod method, IList<HeaderField> fields)
         {
@@ -123,11 +163,24 @@ namespace SipStack
             messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldType.ContentLength.ToFriendlyString(), ContentLength.ToString());
         }
 
+        #endregion
+
+        #region private functions
+
         private int GetIntegerByType(HeaderFieldType type)
         {
             var field = this[new HeaderFieldName(type)];
             var value = field.Values[0];
             return int.Parse(value);
         }
+
+        private string GetStringByType(HeaderFieldType type)
+        {
+            var field = this[new HeaderFieldName(type)];
+            var value = field.Values[0];
+            return value;
+        }
+
+        #endregion
     }
 }

@@ -7,13 +7,13 @@ namespace SipStack
     {
         private RequestLineParser _requestLineParser;
         private HeaderFieldParser _headerFieldParser;
-        private BodyParser _bodyParser;
+        private BodyParserFactory _bodyParserFactory;
 
-        public MessageParser(RequestLineParser requestLineParser, HeaderFieldParser headerFieldParser, BodyParser bodyParser) 
+        public MessageParser(RequestLineParser requestLineParser, HeaderFieldParser headerFieldParser, BodyParserFactory bodyParserFactory) 
         {
             _requestLineParser = requestLineParser;
             _headerFieldParser = headerFieldParser;
-            _bodyParser = bodyParser;
+            _bodyParserFactory = bodyParserFactory;
         }
 
         public ParseResult<Message> Parse(string message)
@@ -39,8 +39,9 @@ namespace SipStack
 
             if (header.ContentLength == 0)
                 return new ParseResult<Message>(new Message(header, new NoBody()));
-            
-            var bodyResult = _bodyParser.Parse(lines, lastHeaderLine + 2, lines.Count() - 1);
+
+            var bodyParser = _bodyParserFactory.Create(header.ContentType);
+            var bodyResult = bodyParser.Parse(lines, lastHeaderLine + 2, lines.Count() - 1);
             if (bodyResult.IsError)
                 return bodyResult.ToParseResult<Message>();
 

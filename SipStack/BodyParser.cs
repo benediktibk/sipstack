@@ -2,11 +2,8 @@
 
 namespace SipStack
 {
-    public class BodyParser
+    public interface IBodyParser
     {
-        public ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine)
-        {
-            return new ParseResult<IBody>(new NoBody());
-        }
+        ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine);
     }
 }
