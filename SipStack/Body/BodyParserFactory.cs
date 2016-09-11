@@ -9,7 +9,7 @@ namespace SipStack.Body
             contentType = contentType?.ToLower();
 
             if (contentType == "application/sdp")
-                return new SdpBodyParser();
+                return new SdpBodyParser(new SdpLineParser());
             else if (string.IsNullOrEmpty(contentType))
                 return new NoBodyParser();
 

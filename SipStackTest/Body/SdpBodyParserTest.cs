@@ -14,7 +14,7 @@ namespace SipStackTest.Body
         [TestInitialize]
         public void SetUp()
         {
-            _sdpBodyParser = new SdpBodyParser();
+            _sdpBodyParser = new SdpBodyParser(new SdpLineParser());
         }
 
         [TestMethod]

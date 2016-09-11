@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Body\BodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
+    <Compile Include="Body\ISdpLine.cs" />
+    <Compile Include="Body\SdpLineParser.cs" />
     <Compile Include="Header\Header.cs" />
     <Compile Include="Header\HeaderField.cs" />
     <Compile Include="Header\HeaderFieldName.cs" />
