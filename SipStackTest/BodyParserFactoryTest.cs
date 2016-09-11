@@ -5,7 +5,7 @@ using FluentAssertions;
 namespace SipStackTest
 {
     [TestClass]
-    public class UnitTest1
+    public class BodyParserFactoryTest
     {
         private BodyParserFactory _bodyParserFactory;
 
