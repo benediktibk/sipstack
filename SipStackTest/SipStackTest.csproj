@@ -79,8 +79,12 @@
     <Compile Include="HeaderFieldNameTest.cs" />
     <Compile Include="HeaderTest.cs" />
     <Compile Include="BodyParserFactoryTest.cs" />
+    <Compile Include="SdpBodyParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="messages\005_sdp.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="messages\001_invite_out.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
