@@ -5,6 +5,8 @@ namespace SipStack
     {
         public IBodyParser Create(string contentType)
         {
+            contentType = contentType?.ToLower();
+
             if (contentType == "application/sdp")
                 return new SdpBodyParser();
             else if (string.IsNullOrEmpty(contentType))
