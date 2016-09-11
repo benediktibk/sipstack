@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SipStack.Body;
+using SipStack.Header;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SipStack
@@ -48,14 +50,14 @@ namespace SipStack
             return new ParseResult<Message>(new Message(header, bodyResult.Result));
         }
 
-        private ParseResult<Header> ParseHeader(IList<string> lines, out int lastHeaderLine)
+        private ParseResult<Header.Header> ParseHeader(IList<string> lines, out int lastHeaderLine)
         {
             lastHeaderLine = -1;
             var headerFields = new List<HeaderField>();
 
             var requestLineResult = _requestLineParser.Parse(lines[0]);
             if (requestLineResult.IsError)
-                return requestLineResult.ToParseResult<Header>();
+                return requestLineResult.ToParseResult<Header.Header>();
 
             for (var i = 1; i < lines.Count(); ++i)
             {
@@ -71,14 +73,14 @@ namespace SipStack
                 var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
 
                 if (headerFieldResult.IsError)
-                    return headerFieldResult.ToParseResult<Header>();
+                    return headerFieldResult.ToParseResult<Header.Header>();
 
                 var headerField = headerFieldResult.Result;
                 headerFields.Add(headerField);
                 i = end;
             }
 
-            return Header.CreateFrom(requestLineResult.Result, headerFields);
+            return Header.Header.CreateFrom(requestLineResult.Result, headerFields);
         }
 
         private static IList<string> SplitLines(string message)

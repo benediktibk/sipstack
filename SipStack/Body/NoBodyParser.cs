@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SipStack
+namespace SipStack.Body
 {
     public class NoBodyParser : IBodyParser
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SipStack
+namespace SipStack.Header
 {
     public class HeaderFieldName
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SipStack
+﻿namespace SipStack.Body
 {
     public class NoBody : IBody
     {

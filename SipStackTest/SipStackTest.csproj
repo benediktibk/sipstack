@@ -71,15 +71,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MessageParserTest.cs" />
-    <Compile Include="NoBodyParserTest.cs" />
+    <Compile Include="Body\NoBodyParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ParseResultTest.cs" />
-    <Compile Include="RequestLineParserTest.cs" />
-    <Compile Include="HeaderFieldParserTest.cs" />
-    <Compile Include="HeaderFieldNameTest.cs" />
-    <Compile Include="HeaderTest.cs" />
-    <Compile Include="BodyParserFactoryTest.cs" />
-    <Compile Include="SdpBodyParserTest.cs" />
+    <Compile Include="Header\RequestLineParserTest.cs" />
+    <Compile Include="Header\HeaderFieldParserTest.cs" />
+    <Compile Include="Header\HeaderFieldNameTest.cs" />
+    <Compile Include="Header\HeaderTest.cs" />
+    <Compile Include="Body\BodyParserFactoryTest.cs" />
+    <Compile Include="Body\SdpBodyParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="messages\005_sdp.txt">

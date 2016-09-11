@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack;
 using FluentAssertions;
+using SipStack.Header;
 
-namespace SipStackTest
+namespace SipStackTest.Header
 {
     [TestClass]
     public class HeaderFieldParserTest

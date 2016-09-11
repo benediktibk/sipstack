@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SipStack;
 using FluentAssertions;
+using SipStack.Body;
 
-namespace SipStackTest
+namespace SipStackTest.Body
 {
     [TestClass]
     public class NoBodyParserTest

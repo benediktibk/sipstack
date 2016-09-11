@@ -1,4 +1,6 @@
-﻿namespace SipStack
+﻿using SipStack.Header;
+
+namespace SipStack
 {
     public interface IHeader
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SipStack;
 using FluentAssertions;
 using System.IO;
 using System.Collections.Generic;
+using SipStack.Body;
 
-namespace SipStackTest
+namespace SipStackTest.Body
 { 
     [TestClass]
     public class SdpBodyParserTest

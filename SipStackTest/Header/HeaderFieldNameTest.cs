@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SipStack;
 using FluentAssertions;
 using System;
 using System.Text;
+using SipStack.Header;
 
-namespace SipStackTest
+namespace SipStackTest.Header
 {
     [TestClass]
     public class HeaderFieldNameTest

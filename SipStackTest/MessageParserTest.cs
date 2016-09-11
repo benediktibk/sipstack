@@ -3,6 +3,8 @@ using SipStack;
 using System.IO;
 using FluentAssertions;
 using Moq;
+using SipStack.Header;
+using SipStack.Body;
 
 namespace SipStackTest
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SipStack
+namespace SipStack.Header
 {
     public class HeaderFieldParser
     {

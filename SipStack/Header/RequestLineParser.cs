@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace SipStack
+namespace SipStack.Header
 {
     public class RequestLineParser
     {

@@ -40,29 +40,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BodyParser.cs" />
-    <Compile Include="BodyParserFactory.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="HeaderField.cs" />
-    <Compile Include="HeaderFieldName.cs" />
-    <Compile Include="HeaderFieldParser.cs" />
-    <Compile Include="HeaderFieldType.cs" />
+    <Compile Include="Body\BodyParser.cs" />
+    <Compile Include="Body\BodyParserFactory.cs" />
+    <Compile Include="Header\Header.cs" />
+    <Compile Include="Header\HeaderField.cs" />
+    <Compile Include="Header\HeaderFieldName.cs" />
+    <Compile Include="Header\HeaderFieldParser.cs" />
+    <Compile Include="Header\HeaderFieldType.cs" />
     <Compile Include="IBody.cs" />
     <Compile Include="IHeader.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="MessageBuilder.cs" />
-    <Compile Include="NoBodyParser.cs" />
+    <Compile Include="Body\NoBodyParser.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="ParseResult.cs" />
-    <Compile Include="NoBody.cs" />
+    <Compile Include="Body\NoBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestLine.cs" />
-    <Compile Include="RequestLineParser.cs" />
-    <Compile Include="RequestMethod.cs" />
-    <Compile Include="SdpBody.cs" />
-    <Compile Include="SdpBodyParser.cs" />
+    <Compile Include="Header\RequestLine.cs" />
+    <Compile Include="Header\RequestLineParser.cs" />
+    <Compile Include="Header\RequestMethod.cs" />
+    <Compile Include="Body\SdpBody.cs" />
+    <Compile Include="Body\SdpBodyParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

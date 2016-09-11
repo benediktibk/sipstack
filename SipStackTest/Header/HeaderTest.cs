@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SipStack;
 using FluentAssertions;
+using SipStack.Header;
 
-namespace SipStackTest
+namespace SipStackTest.Header
 {
     [TestClass]
     public class HeaderTest
@@ -15,7 +15,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header.Result[new HeaderFieldName("blub")];
 
@@ -31,7 +31,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header.Result[new HeaderFieldName(HeaderFieldType.From)];
 
@@ -47,7 +47,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName("asdf"), new[] { "gdasf" }),
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header.Result[new HeaderFieldName("asdf")];
 
@@ -63,7 +63,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName(HeaderFieldType.From), new[] { "gdasf" }),
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var headerField = header.Result[new HeaderFieldName(HeaderFieldType.From)];
 
@@ -81,7 +81,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
 
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             var routeHeader = header.Result[new HeaderFieldName(HeaderFieldType.Route)];
             routeHeader.Name.Type.Should().Be(HeaderFieldType.Route);
@@ -101,7 +101,7 @@ namespace SipStackTest
                 new HeaderField(new HeaderFieldName(HeaderFieldType.ContentLength), new[] {"0"})
             };
 
-            var header = Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
+            var header = SipStack.Header.Header.CreateFrom(new RequestLine(RequestMethod.Invite, "ASDFASDFGASDG"), headerFields);
 
             header.IsError.Should().BeTrue();
         }

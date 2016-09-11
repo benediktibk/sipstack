@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SipStack
+namespace SipStack.Header
 {
     public class Header : IHeader
     {
