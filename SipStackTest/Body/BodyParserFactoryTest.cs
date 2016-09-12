@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SipStack;
 using FluentAssertions;
 using SipStack.Body;
+using SipStack.Body.Sdp;
 
 namespace SipStackTest.Body
 {

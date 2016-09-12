@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SipStack.Body
+namespace SipStack.Body.Sdp
 {
     public class SdpBody : IBody
     {
@@ -25,7 +25,7 @@ namespace SipStack.Body
 
         #region public functions
 
-        public static ParseResult<SdpBody> CreateFrom(IList<ISdpLine> lines)
+        public static ParseResult<SdpBody> CreateFrom(IList<ILine> lines)
         {
             throw new NotImplementedException();
         }

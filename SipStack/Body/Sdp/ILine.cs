@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SipStack.Body
+namespace SipStack.Body.Sdp
 {
-    public interface ISdpLine
+    public interface ILine
     {
     }
 }

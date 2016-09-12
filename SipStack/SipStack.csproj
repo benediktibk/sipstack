@@ -42,8 +42,8 @@
   <ItemGroup>
     <Compile Include="Body\BodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
-    <Compile Include="Body\ISdpLine.cs" />
-    <Compile Include="Body\SdpLineParser.cs" />
+    <Compile Include="Body\Sdp\ILine.cs" />
+    <Compile Include="Body\Sdp\LineParser.cs" />
     <Compile Include="Header\Header.cs" />
     <Compile Include="Header\HeaderField.cs" />
     <Compile Include="Header\HeaderFieldName.cs" />
@@ -63,8 +63,8 @@
     <Compile Include="Header\RequestLine.cs" />
     <Compile Include="Header\RequestLineParser.cs" />
     <Compile Include="Header\RequestMethod.cs" />
-    <Compile Include="Body\SdpBody.cs" />
-    <Compile Include="Body\SdpBodyParser.cs" />
+    <Compile Include="Body\Sdp\SdpBody.cs" />
+    <Compile Include="Body\Sdp\SdpBodyParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

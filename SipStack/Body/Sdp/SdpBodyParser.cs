@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SipStack.Body
+namespace SipStack.Body.Sdp
 {
     public class SdpBodyParser : IBodyParser
     {
-        private readonly SdpLineParser _lineParser;
+        private readonly LineParser _lineParser;
 
-        public SdpBodyParser(SdpLineParser lineParser)
+        public SdpBodyParser(LineParser lineParser)
         {
             _lineParser = lineParser;
         }
 
         public ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine)
         {
-            var parsedLines = new List<ISdpLine>();
+            var parsedLines = new List<ILine>();
             parsedLines.Capacity = endLine - startLine + 1;
 
             for (var i = startLine; i <= endLine; ++i)

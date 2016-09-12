@@ -2,7 +2,7 @@
 using FluentAssertions;
 using System.IO;
 using System.Collections.Generic;
-using SipStack.Body;
+using SipStack.Body.Sdp;
 
 namespace SipStackTest.Body
 { 
@@ -14,7 +14,7 @@ namespace SipStackTest.Body
         [TestInitialize]
         public void SetUp()
         {
-            _sdpBodyParser = new SdpBodyParser(new SdpLineParser());
+            _sdpBodyParser = new SdpBodyParser(new LineParser());
         }
 
         [TestMethod]

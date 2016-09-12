@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SipStack.Body.Sdp;
+using System;
 
 namespace SipStack.Body
 {
@@ -9,7 +10,7 @@ namespace SipStack.Body
             contentType = contentType?.ToLower();
 
             if (contentType == "application/sdp")
-                return new SdpBodyParser(new SdpLineParser());
+                return new SdpBodyParser(new LineParser());
             else if (string.IsNullOrEmpty(contentType))
                 return new NoBodyParser();
 
