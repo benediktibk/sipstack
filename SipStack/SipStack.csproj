@@ -53,10 +53,11 @@
     <Compile Include="Body\Sdp\OriginatorLine.cs" />
     <Compile Include="Body\Sdp\PhoneNumberLine.cs" />
     <Compile Include="Body\Sdp\RepeatLine.cs" />
-    <Compile Include="Body\Sdp\SessionInformationLine.cs" />
+    <Compile Include="Body\Sdp\DescriptionLine.cs" />
     <Compile Include="Body\Sdp\SessionNameLine.cs" />
     <Compile Include="Body\Sdp\TimeLine.cs" />
     <Compile Include="Body\Sdp\TimeZoneLine.cs" />
+    <Compile Include="Body\Sdp\UnknownLine.cs" />
     <Compile Include="Body\Sdp\UriLine.cs" />
     <Compile Include="Body\Sdp\VersionLine.cs" />
     <Compile Include="Header\Header.cs" />

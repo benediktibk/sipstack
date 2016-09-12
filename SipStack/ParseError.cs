@@ -11,6 +11,7 @@
         NegativeValueForContentLength,
         ContentLengthLineMissing,
         CrlfAtEndMissing,
-        HeaderFieldWithForbiddenMultipleValues
+        HeaderFieldWithForbiddenMultipleValues,
+        InvalidSdpLine
     }
 }

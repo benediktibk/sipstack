@@ -8,5 +8,9 @@ namespace SipStack.Body.Sdp
 {
     public class UriLine : ILine
     {
+        public static ParseResult<ILine> CreateFrom(string data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

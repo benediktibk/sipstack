@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SipStack.Body.Sdp
 {
-    public class SessionNameLine : ILine
+    public class DescriptionLine : ILine
     {
         public static ParseResult<ILine> CreateFrom(string data)
         {

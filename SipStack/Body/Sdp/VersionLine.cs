@@ -8,5 +8,9 @@ namespace SipStack.Body.Sdp
 {
     public class VersionLine : ILine
     {
+        public static ParseResult<ILine> CreateFrom(string data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
