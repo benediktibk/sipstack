@@ -42,8 +42,23 @@
   <ItemGroup>
     <Compile Include="Body\BodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
+    <Compile Include="Body\Sdp\AttributeLine.cs" />
+    <Compile Include="Body\Sdp\BandwithLine.cs" />
+    <Compile Include="Body\Sdp\ConnectionInformationLine.cs" />
+    <Compile Include="Body\Sdp\EmailAddressLine.cs" />
+    <Compile Include="Body\Sdp\EncryptionKeyLine.cs" />
     <Compile Include="Body\Sdp\ILine.cs" />
     <Compile Include="Body\Sdp\LineParser.cs" />
+    <Compile Include="Body\Sdp\MediaLine.cs" />
+    <Compile Include="Body\Sdp\OriginatorLine.cs" />
+    <Compile Include="Body\Sdp\PhoneNumberLine.cs" />
+    <Compile Include="Body\Sdp\RepeatLine.cs" />
+    <Compile Include="Body\Sdp\SessionInformationLine.cs" />
+    <Compile Include="Body\Sdp\SessionNameLine.cs" />
+    <Compile Include="Body\Sdp\TimeLine.cs" />
+    <Compile Include="Body\Sdp\TimeZoneLine.cs" />
+    <Compile Include="Body\Sdp\UriLine.cs" />
+    <Compile Include="Body\Sdp\VersionLine.cs" />
     <Compile Include="Header\Header.cs" />
     <Compile Include="Header\HeaderField.cs" />
     <Compile Include="Header\HeaderFieldName.cs" />
