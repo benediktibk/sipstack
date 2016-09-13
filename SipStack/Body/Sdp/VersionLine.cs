@@ -8,9 +8,23 @@ namespace SipStack.Body.Sdp
 {
     public class VersionLine : ILine
     {
+        private readonly int _version;
+
+        private VersionLine(int version)
+        {
+            _version = version;
+        }
+
+        public int Version => _version;
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
-            throw new NotImplementedException();
+            int version;
+
+            if (!int.TryParse(data, out version))
+                return new ParseResult<ILine>(ParseError.ContentLengthLineMissing, "could not parse version of SDP");
+
+            return new ParseResult<ILine>(new VersionLine(version));
         }
     }
 }
