@@ -10,7 +10,7 @@ namespace SipStack.Body.Sdp
     {
         private readonly int _version;
 
-        private VersionLine(int version)
+        public VersionLine(int version)
         {
             _version = version;
         }

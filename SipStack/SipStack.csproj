@@ -50,6 +50,8 @@
     <Compile Include="Body\Sdp\ILine.cs" />
     <Compile Include="Body\Sdp\LineParser.cs" />
     <Compile Include="Body\Sdp\MediaLine.cs" />
+    <Compile Include="Network\AddressType.cs" />
+    <Compile Include="Network\NetType.cs" />
     <Compile Include="Body\Sdp\OriginatorLine.cs" />
     <Compile Include="Body\Sdp\PhoneNumberLine.cs" />
     <Compile Include="Body\Sdp\RepeatLine.cs" />

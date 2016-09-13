@@ -128,13 +128,13 @@ namespace SipStack.Header
 
     public static class HeaderFieldTypeUtils
     {
-        private static IDictionary<string, HeaderFieldType> StringToHeaderFieldType;
-        private static IDictionary<HeaderFieldType, string> HeaderFieldTypeToString;
+        private static IDictionary<string, HeaderFieldType> StringToType;
+        private static IDictionary<HeaderFieldType, string> TypeToString;
         private static HashSet<HeaderFieldType> HeadersWithOnlyOneValue;
 
         static HeaderFieldTypeUtils()
         {
-            HeaderFieldTypeToString = new Dictionary<HeaderFieldType, string>
+            TypeToString = new Dictionary<HeaderFieldType, string>
             {
                 { HeaderFieldType.Accept, "Accept" },
                 { HeaderFieldType.AcceptContact, "Accept-Contact" },
@@ -271,18 +271,17 @@ namespace SipStack.Header
                 HeaderFieldType.To
             };
 
-            StringToHeaderFieldType = HeaderFieldTypeToString.ToDictionary(x => x.Value.ToLower(), x => x.Key);
-
+            StringToType = TypeToString.ToDictionary(x => x.Value.ToLower(), x => x.Key);
         }
 
         public static bool TryParse(string value, out HeaderFieldType requestMethod)
         {
-            return StringToHeaderFieldType.TryGetValue(value.ToLower(), out requestMethod);
+            return StringToType.TryGetValue(value.ToLower(), out requestMethod);
         }
 
         public static string ToFriendlyString(this HeaderFieldType value)
         {
-            return HeaderFieldTypeToString[value];
+            return TypeToString[value];
         }
 
         public static bool CanHaveMultipleValues(this HeaderFieldType value)
