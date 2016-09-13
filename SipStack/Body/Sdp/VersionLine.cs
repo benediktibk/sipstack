@@ -24,6 +24,9 @@ namespace SipStack.Body.Sdp
             if (!int.TryParse(data, out version))
                 return new ParseResult<ILine>("could not parse version of SDP");
 
+            if (version != 0)
+                return new ParseResult<ILine>($"SDP version {version} is not supported");
+
             return new ParseResult<ILine>(new VersionLine(version));
         }
     }
