@@ -1,7 +1,9 @@
 ﻿using SipStack.Body;
 using SipStack.Header;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SipStack
 {
@@ -20,7 +22,7 @@ namespace SipStack
 
         public ParseResult<Message> Parse(string message)
         {
-            var lines = SplitLines(message);
+            var lines = message.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
             int lastHeaderLine;
 
             var headerParseResult = ParseHeader(lines, out lastHeaderLine);
@@ -36,7 +38,7 @@ namespace SipStack
             if (header.ContentLength < 0)
                 return new ParseResult<Message>("the content length must not have a negative value");
 
-            if (lastHeaderLine + 1 >= lines.Count)
+            if (lastHeaderLine + 1 >= lines.Count())
                 return new ParseResult<Message>("the CRLF after the content length field is missing");
 
             if (header.ContentLength == 0)
@@ -81,26 +83,6 @@ namespace SipStack
             }
 
             return Header.Header.CreateFrom(requestLineResult.Result, headerFields);
-        }
-
-        private static IList<string> SplitLines(string message)
-        {
-            var lines = message.Split('\n'); ;
-
-            for(var i = 0; i < lines.Count(); ++i)
-            {
-                var line = lines[i];
-
-                if (string.IsNullOrEmpty(line))
-                    continue;
-
-                if (line[line.Length - 1] != '\r')
-                    continue;
-
-                lines[i] = line.Substring(0, line.Length - 1);
-            }
-
-            return lines;
         }
     }
 }

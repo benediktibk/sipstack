@@ -23,6 +23,7 @@ namespace SipStackTest.Body.Sdp
             var ipAddress = IPAddress.Parse("10.47.16.5");
             originatorLine.IpAddress.Should().Be(ipAddress);
         }
+
         [TestMethod]
         public void CreateFrom_ValidExampleWithIpv6_IpIsCorrect()
         {
