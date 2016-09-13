@@ -17,27 +17,27 @@ namespace SipStackTest.Header
         }
 
         [TestMethod]
-        public void Parse_EmptyLine_Error()
+        public void Parse_EmptyLine_ParseError()
         {
             var result = _parser.Parse("");
 
-            result.Error.Should().Be(ParseError.InvalidRequestLine);
+            result.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void Parse_WrongSipVersion_InvalidSipVersion()
+        public void Parse_WrongSipVersion_ParseError()
         {
             var result = _parser.Parse("INVITE 1234 SIP/3.0");
 
-            result.Error.Should().Be(ParseError.InvalidSipVersion);
+            result.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void Parse_RequestBlub_InvalidRequest()
+        public void Parse_RequestBlub_ParseError()
         {
             var result = _parser.Parse("BLUB 1234 SIP/2.0");
 
-            result.Error.Should().Be(ParseError.InvalidRequestMethod);
+            result.IsError.Should().BeTrue();
         }
     }
 }

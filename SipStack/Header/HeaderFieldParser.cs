@@ -12,13 +12,13 @@ namespace SipStack.Header
             end = start;
 
             if (string.IsNullOrEmpty(startLine))
-                return new ParseResult<HeaderField>(ParseError.InvalidHeaderField, $"empty header line");
+                return new ParseResult<HeaderField>($"empty header line");
 
             var indexOfDelimiter = startLine.IndexOf(':');
             var indexOfWhitespace = startLine.IndexOf(' ');
 
             if (indexOfDelimiter < 0)
-                return new ParseResult<HeaderField>(ParseError.InvalidHeaderField, $"missing colon in header field: {startLine}");
+                return new ParseResult<HeaderField>($"missing colon in header field: {startLine}");
 
             var nameStart = 0;
             var nameEnd = 0;

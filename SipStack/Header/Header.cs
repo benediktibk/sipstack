@@ -113,7 +113,7 @@ namespace SipStack.Header
                 fieldTypes.Add(field.Name);
 
             if (!fieldTypes.Contains(new HeaderFieldName(HeaderFieldType.ContentLength)))
-                return new ParseResult<Header>(ParseError.ContentLengthLineMissing, "required field Content-Length is missing");
+                return new ParseResult<Header>("required field Content-Length is missing");
 
             foreach (var fieldType in fieldTypes)
                 fieldsListByType[fieldType] = new List<HeaderField>();
@@ -127,7 +127,7 @@ namespace SipStack.Header
                 var currentFields = fieldsList.Value;
 
                 if (!type.CanHaveMultipleValues && currentFields.Count > 1)
-                    return new ParseResult<Header>(ParseError.HeaderFieldWithForbiddenMultipleValues, "a header field has multiple values, although it is not allowed to have multiple values");
+                    return new ParseResult<Header>("a header field has multiple values, although it is not allowed to have multiple values");
 
                 var values = new List<string>();
 

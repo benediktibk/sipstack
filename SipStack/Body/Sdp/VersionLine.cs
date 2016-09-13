@@ -22,7 +22,7 @@ namespace SipStack.Body.Sdp
             int version;
 
             if (!int.TryParse(data, out version))
-                return new ParseResult<ILine>(ParseError.ContentLengthLineMissing, "could not parse version of SDP");
+                return new ParseResult<ILine>("could not parse version of SDP");
 
             return new ParseResult<ILine>(new VersionLine(version));
         }

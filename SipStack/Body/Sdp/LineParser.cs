@@ -11,7 +11,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(line, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<ILine>(ParseError.InvalidSdpLine, $"the line '{line}' is malformed");
+                return new ParseResult<ILine>($"the line '{line}' is malformed");
 
             var match = matches[0];
             var type = match.Groups[1].Value;

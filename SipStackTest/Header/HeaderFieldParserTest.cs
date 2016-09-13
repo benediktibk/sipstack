@@ -18,11 +18,11 @@ namespace SipStackTest.Header
         }
 
         [TestMethod]
-        public void Parse_EmptyLine_InvalidHeaderField()
+        public void Parse_EmptyLine_ParseError()
         {
             var result = _headerFieldParser.Parse(new[] { "" }, 0, out _end);
 
-            result.Error.Should().Be(ParseError.InvalidHeaderField);
+            result.IsError.Should().BeTrue();
         }
 
         [TestMethod]

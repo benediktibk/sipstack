@@ -71,7 +71,6 @@
     <Compile Include="IMethod.cs" />
     <Compile Include="MessageBuilder.cs" />
     <Compile Include="Body\NoBodyParser.cs" />
-    <Compile Include="ParseError.cs" />
     <Compile Include="MessageParser.cs" />
     <Compile Include="ParseResult.cs" />
     <Compile Include="Body\NoBody.cs" />

@@ -31,13 +31,13 @@ namespace SipStack
             var header = headerParseResult.Result;
 
             if (lastHeaderLine < 0)
-                return new ParseResult<Message>(ParseError.ContentLengthLineMissing, "the content length field is missing");
+                return new ParseResult<Message>("the content length field is missing");
 
             if (header.ContentLength < 0)
-                return new ParseResult<Message>(ParseError.NegativeValueForContentLength, "the content length must not have a negative value");
+                return new ParseResult<Message>("the content length must not have a negative value");
 
             if (lastHeaderLine + 1 >= lines.Count)
-                return new ParseResult<Message>(ParseError.CrlfAtEndMissing, "the CRLF after the content length field is missing");
+                return new ParseResult<Message>("the CRLF after the content length field is missing");
 
             if (header.ContentLength == 0)
                 return new ParseResult<Message>(new Message(header, new NoBody()));

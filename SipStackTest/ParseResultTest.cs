@@ -15,19 +15,11 @@ namespace SipStackTest
         [TestInitialize]
         public void SetUp()
         {
-            _errorResult = new ParseResult<Message>(ParseError.InvalidRequestLine, "asdfg");
+            _errorResult = new ParseResult<Message>("asdfg");
             var header = new Mock<IHeader>();
             var body = new Mock<IBody>();
             var message = new Mock<Message>(header.Object, body.Object);
             _successResult = new ParseResult<Message>(message.Object);
-        }
-
-        [TestMethod]
-        public void Constructor_ParseErrorNone_ThrowsException()
-        {
-            Action action = () => { var result = new ParseResult<Message>(ParseError.None, ""); };
-
-            action.ShouldThrow<ArgumentException>();
         }
 
         [TestMethod]
@@ -71,17 +63,9 @@ namespace SipStackTest
         }
 
         [TestMethod]
-        public void Error_InvalidRequestLine_InvalidRequestLine()
+        public void Error_InvalidRequestLine_ParseError()
         {
-            _errorResult.Error.Should().Be(ParseError.InvalidRequestLine);
-        }
-
-        [TestMethod]
-        public void Error_NoError_ExceptionThrown()
-        {
-            Action action = () => { var error = _successResult.Error; };
-
-            action.ShouldThrow<InvalidOperationException>();
+            _errorResult.IsError.Should().BeTrue();
         }
 
         [TestMethod]
