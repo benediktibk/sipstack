@@ -74,6 +74,7 @@
     <Compile Include="Body\Sdp\LineParserTest.cs" />
     <Compile Include="Body\Sdp\OriginatorLineTest.cs" />
     <Compile Include="Body\Sdp\BandwidthLineTest.cs" />
+    <Compile Include="Body\Sdp\DescriptionLineTest.cs" />
     <Compile Include="Body\Sdp\VersionLineTest.cs" />
     <Compile Include="MessageParserTest.cs" />
     <Compile Include="Body\NoBodyParserTest.cs" />

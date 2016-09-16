@@ -9,6 +9,8 @@
             _description = description;
         }
 
+        public string Description => _description;
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
             return new ParseResult<ILine>(new DescriptionLine(data));
