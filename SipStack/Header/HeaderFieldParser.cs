@@ -23,7 +23,7 @@ namespace SipStack.Header
 
             var fieldName = new HeaderFieldName(matches[0].Groups[1].Value);
             var stringBuilder = new StringBuilder(matches[0].Groups[2].Value);
-            pattern = @"^(\.|[ \t]+)([^ \t].*)$|^[ \t]*$";
+            pattern = @"^(\.|[ \t]+)([^ \t].*)$|^[ \t]+$";
 
             while (end + 1 < lines.Count)
             {
