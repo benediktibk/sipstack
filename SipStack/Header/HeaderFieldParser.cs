@@ -53,30 +53,15 @@ namespace SipStack.Header
                 result.Add(fieldValues);
                 return result;
             }
-
-            var values = fieldValues.Split(',');
-
-            if (values.Length == 1)
-                return values;
-
-            for (var i = 0; i < values.Length; ++i)
-            {
-                var value = values[i];
-                var indexOfNoneWhitespaceFromFront = IndexOfNoneWhitespace(value, 0);
-                var indexOfNoneWhitespaceFromEnd = IndexOfNoneWhitespaceBackwards(value, value.Length - 1);
-                var start = 0;
-                var end = value.Length - 1;
-                
-                if (indexOfNoneWhitespaceFromFront >= 0)
-                    start = indexOfNoneWhitespaceFromFront;
-
-                if (indexOfNoneWhitespaceFromEnd >= 0)
-                    end = indexOfNoneWhitespaceFromEnd;
-
-                values[i] = value.Substring(start, end - start + 1);
-            }
             
-            return values;
+            var pattern = @"([^ ,][^,]*[^ ,])(([ ]*,)|$)";
+            var matches = Regex.Matches(fieldValues, pattern);
+            result.Capacity = matches.Count;
+
+            foreach (Match match in matches)
+                result.Add(match.Groups[1].Value);
+            
+            return result;
         }
 
         private static int IndexOfNoneWhitespace(string line, int start)

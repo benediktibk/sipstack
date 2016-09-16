@@ -159,7 +159,18 @@ namespace SipStackTest.Header
             var result = _headerFieldParser.Parse(new[] { "Subject:", "         \tpick up the phone", "\t         and talk to me!" }, 0, out _end);
 
             result.Result.Values.Count.Should().Be(1);
-            result.Result.Values[0].Should().Be(" pick up the phone and talk to me!");
+            result.Result.Values[0].Should().Be("pick up the phone and talk to me!");
+        }
+
+        [TestMethod]
+        public void Parse_ValueInMultipleLinesAndEmptyFirstLineWithMultipleValuesInSecondLine_ValueIsCorrect()
+        {
+            var result = _headerFieldParser.Parse(new[] { "Route:", " <sip:alice@atlanta.com>, <sip:bob@biloxi.com>,", "       <sip:carol@chicago.com>" }, 0, out _end);
+
+            result.Result.Values.Count.Should().Be(3);
+            result.Result.Values[0].Should().Be("<sip:alice@atlanta.com>");
+            result.Result.Values[1].Should().Be("<sip:bob@biloxi.com>");
+            result.Result.Values[2].Should().Be("<sip:carol@chicago.com>");
         }
 
         [TestMethod]
@@ -168,7 +179,7 @@ namespace SipStackTest.Header
             var result = _headerFieldParser.Parse(new[] { "Subject: ", "  \t   \t    pick up the phone", "\t         and talk to me!" }, 0, out _end);
 
             result.Result.Values.Count.Should().Be(1);
-            result.Result.Values[0].Should().Be(" pick up the phone and talk to me!");
+            result.Result.Values[0].Should().Be("pick up the phone and talk to me!");
         }
 
         [TestMethod]
