@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SipStack.Header
 {
@@ -6,19 +7,24 @@ namespace SipStack.Header
     {
         public ParseResult<RequestLine> Parse(string line)
         {
-            var content = line.Split(' ');
+            var pattern = @"^(.*) (.*) (.*)$";
+            var matches = Regex.Matches(line, pattern);
 
-            if (content.Count() != 3)
-                return new ParseResult<RequestLine>("request line has invalid format");
+            if (matches.Count != 1)
+                return new ParseResult<RequestLine>($"request line '{line}' has an invalid format");
 
-            if (content[2] != "SIP/2.0")
-                return new ParseResult<RequestLine>($"sip version {content[2]} is not supported");
+            var requestMethod = matches[0].Groups[1].Value;
+            var requestUri = matches[0].Groups[2].Value;
+            var sipVersion = matches[0].Groups[3].Value;
 
-            RequestMethod requestMethod;
-            if (!RequestMethodUtils.TryParse(content[0], out requestMethod))
-                return new ParseResult<RequestLine>($"invalid request {content[0]}");
+            if (sipVersion != "SIP/2.0")
+                return new ParseResult<RequestLine>($"sip version {sipVersion} is not supported");
 
-            return new ParseResult<RequestLine>(new RequestLine(requestMethod, content[1]));
+            RequestMethod requestMethodParsed;
+            if (!RequestMethodUtils.TryParse(requestMethod, out requestMethodParsed))
+                return new ParseResult<RequestLine>($"invalid request {requestMethod}");
+
+            return new ParseResult<RequestLine>(new RequestLine(requestMethodParsed, requestUri));
         }
     }
 }
