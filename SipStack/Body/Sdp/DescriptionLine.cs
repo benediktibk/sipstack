@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SipStack.Body.Sdp
+﻿namespace SipStack.Body.Sdp
 {
     public class DescriptionLine : ILine
     {
+        private readonly string _description;
+
+        public DescriptionLine(string description)
+        {
+            _description = description;
+        }
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
-            throw new NotImplementedException();
+            return new ParseResult<ILine>(new DescriptionLine(data));
         }
     }
 }
