@@ -43,7 +43,8 @@
     <Compile Include="Body\BodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
     <Compile Include="Body\Sdp\AttributeLine.cs" />
-    <Compile Include="Body\Sdp\BandwithLine.cs" />
+    <Compile Include="Body\Sdp\BandwidthLine.cs" />
+    <Compile Include="Body\Sdp\BandwidthType.cs" />
     <Compile Include="Body\Sdp\ConnectionInformationLine.cs" />
     <Compile Include="Body\Sdp\EmailAddressLine.cs" />
     <Compile Include="Body\Sdp\EncryptionKeyLine.cs" />

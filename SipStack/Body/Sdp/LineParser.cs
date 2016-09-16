@@ -31,7 +31,7 @@ namespace SipStack.Body.Sdp
                 case 'e': return EmailAddressLine.CreateFrom(data);
                 case 'p': return PhoneNumberLine.CreateFrom(data);
                 case 'c': return ConnectionInformationLine.CreateFrom(data);
-                case 'b': return BandwithLine.CreateFrom(data);
+                case 'b': return BandwidthLine.CreateFrom(data);
                 case 'z': return TimeZoneLine.CreateFrom(data);
                 case 'k': return EncryptionKeyLine.CreateFrom(data);
                 case 'a': return AttributeLine.CreateFrom(data);

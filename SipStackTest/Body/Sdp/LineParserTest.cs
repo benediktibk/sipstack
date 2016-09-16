@@ -108,7 +108,7 @@ namespace SipStackTest.Body.Sdp
         {
             var parseResult = _lineParser.Parse(@"b=CT:128");
 
-            parseResult.Result.Should().BeOfType(typeof(BandwithLine));
+            parseResult.Result.Should().BeOfType(typeof(BandwidthLine));
         }
 
         [TestMethod]
