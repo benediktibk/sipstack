@@ -91,6 +91,7 @@
     <Compile Include="Header\HeaderTest.cs" />
     <Compile Include="Body\BodyParserFactoryTest.cs" />
     <Compile Include="Body\SdpBodyParserTest.cs" />
+    <Compile Include="Utils\EmailAddressTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="messages\005_sdp.txt">

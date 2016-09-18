@@ -1,16 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SipStack.Utils;
+using System;
 
 namespace SipStack.Body.Sdp
 {
     public class EmailAddressLine : ILine
     {
+        private readonly EmailAddress _emailAddress;
+
+        public EmailAddressLine(EmailAddress emailAddress)
+        {
+            _emailAddress = emailAddress;
+        }
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
-            throw new NotImplementedException();
+            var parseResult = EmailAddress.Parse(data);
+
+            if (parseResult.IsError)
+                return parseResult.ToParseResult<ILine>();
+
+            return new ParseResult<ILine>(new EmailAddressLine(parseResult.Result));
         }
     }
 }
