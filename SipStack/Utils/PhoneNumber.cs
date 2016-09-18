@@ -48,6 +48,14 @@ namespace SipStack.Utils
             _displayName = displayName;
         }
 
+        private PhoneNumber(string user, string domain, string displayName, bool isNumeric)
+        {
+            _isNumeric = isNumeric;
+            _user = _isNumeric ? user : ParseNumericUser(user);
+            _domain = domain;
+            _displayName = displayName;
+        }
+
         #endregion
 
         #region properties
@@ -68,17 +76,17 @@ namespace SipStack.Utils
             var match = Regex.Match(data, _patternPhoneNumberOnly);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", ""));
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", "", true));
 
             match = Regex.Match(data, _patternPhoneNumberWithDisplayNameAfter);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", match.Groups[2].Value));
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", match.Groups[2].Value, true));
 
             match = Regex.Match(data, _patternPhoneNumberWithDisplayNameBefore);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, "", match.Groups[1].Value));
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, "", match.Groups[1].Value, true));
 
             match = Regex.Match(data, _patternUriOnly);
 
@@ -104,7 +112,7 @@ namespace SipStack.Utils
 
         private static string ParseNumericUser(string data)
         {
-            throw new NotImplementedException();
+            return Regex.Replace(data, @"[\s\-\/\\]+", "");
         }
 
         private static bool IsNumericUser(string user)
