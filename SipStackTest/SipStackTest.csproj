@@ -78,6 +78,7 @@
     <Compile Include="Body\Sdp\ConnectionInformationLineTest.cs" />
     <Compile Include="Body\Sdp\TimeLineTest.cs" />
     <Compile Include="Body\Sdp\RepeatLineTest.cs" />
+    <Compile Include="Body\Sdp\SessionNameLineTest.cs" />
     <Compile Include="Body\Sdp\VersionLineTest.cs" />
     <Compile Include="MessageParserTest.cs" />
     <Compile Include="Body\NoBodyParserTest.cs" />
