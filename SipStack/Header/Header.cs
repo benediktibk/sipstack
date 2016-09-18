@@ -104,7 +104,7 @@ namespace SipStack.Header
 
         #region public functions
 
-        public static ParseResult<Header> CreateFrom(IMethod method, IList<HeaderField> fields)
+        public static ParseResult<Header> Parse(IMethod method, IList<HeaderField> fields)
         {
             var fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
             var fieldsListByType = new Dictionary<HeaderFieldName, List<HeaderField>>();

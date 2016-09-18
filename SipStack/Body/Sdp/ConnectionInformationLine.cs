@@ -140,16 +140,16 @@ namespace SipStack.Body.Sdp
             {
                 switch (addressType)
                 {
-                    case AddressType.Ipv4: return CreateFromIpv4(ipAddress, firstExtensionString, secondExtensionString);
-                    case AddressType.Ipv6: return CreateFromIpv6(ipAddress, firstExtensionString, secondExtensionString);
+                    case AddressType.Ipv4: return ParseFromMulticastIpv4(ipAddress, firstExtensionString, secondExtensionString);
+                    case AddressType.Ipv6: return ParseFromMulticastIpv6(ipAddress, firstExtensionString, secondExtensionString);
                     default: throw new NotImplementedException();
                 }
             }
             else
-                return CreateFromUnicast(addressType, ipAddress, firstExtensionString, secondExtensionString);
+                return ParseFromUnicast(addressType, ipAddress, firstExtensionString, secondExtensionString);
         }
 
-        private static ParseResult<ILine> CreateFromUnicast(AddressType addressType, IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromUnicast(AddressType addressType, IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(firstExtension) || !string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for unicast addresses the specification of TTL or address count is forbidden");
@@ -157,7 +157,7 @@ namespace SipStack.Body.Sdp
             return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, addressType, ipAddress));
         }
 
-        private static ParseResult<ILine> CreateFromIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromMulticastIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             int ttlCount = 0;
             var ttlCountMissing = string.IsNullOrEmpty(firstExtension);
@@ -185,7 +185,7 @@ namespace SipStack.Body.Sdp
             return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress, multiCastAddressCount, ttlCount));
         }
 
-        private static ParseResult<ILine> CreateFromIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromMulticastIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for IPv6 address there must be at most one extension to the ipaddress");

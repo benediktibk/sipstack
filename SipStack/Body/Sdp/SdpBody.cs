@@ -26,7 +26,7 @@ namespace SipStack.Body.Sdp
 
         #region public functions
 
-        public static ParseResult<SdpBody> CreateFrom(IList<ILine> lines)
+        public static ParseResult<SdpBody> Parse(IList<ILine> lines)
         {
             throw new NotImplementedException();
         }

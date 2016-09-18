@@ -29,7 +29,7 @@ namespace SipStack.Body.Sdp
                 parsedLines.Add(parsedLine.Result);
             }
 
-            var body = SdpBody.CreateFrom(parsedLines);
+            var body = SdpBody.Parse(parsedLines);
 
             if (body.IsError)
                 return body.ToParseResult<IBody>();

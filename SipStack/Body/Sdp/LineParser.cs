@@ -17,10 +17,10 @@ namespace SipStack.Body.Sdp
             var match = matches[0];
             var type = match.Groups[1].Value;
             var data = match.Groups[2].Value;
-            return CreateFrom(type[0], data);
+            return Parse(type[0], data);
         }
 
-        private ParseResult<ILine> CreateFrom(char type, string data)
+        private ParseResult<ILine> Parse(char type, string data)
         {
             switch (type)
             {

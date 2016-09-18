@@ -83,7 +83,7 @@ namespace SipStack
                 i = end;
             }
 
-            return Header.Header.CreateFrom(requestLineResult.Result, headerFields);
+            return Header.Header.Parse(requestLineResult.Result, headerFields);
         }
     }
 }
