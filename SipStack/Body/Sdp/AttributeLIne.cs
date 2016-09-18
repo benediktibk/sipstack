@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using SipStack.Utils;
+using System.Text.RegularExpressions;
 
 namespace SipStack.Body.Sdp
 {

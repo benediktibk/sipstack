@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SipStack
+namespace SipStack.Utils
 {
     public class ParseResult<ResultType>
     {

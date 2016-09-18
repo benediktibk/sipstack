@@ -1,4 +1,6 @@
-﻿namespace SipStack.Body.Sdp
+﻿using SipStack.Utils;
+
+namespace SipStack.Body.Sdp
 {
     public class DescriptionLine : ILine
     {

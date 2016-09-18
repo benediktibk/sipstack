@@ -81,7 +81,7 @@
     <Compile Include="MessageBuilder.cs" />
     <Compile Include="Body\NoBodyParser.cs" />
     <Compile Include="MessageParser.cs" />
-    <Compile Include="ParseResult.cs" />
+    <Compile Include="Utils\ParseResult.cs" />
     <Compile Include="Body\NoBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Header\RequestLine.cs" />

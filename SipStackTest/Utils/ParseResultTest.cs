@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SipStack.Utils;
 using SipStack;
 using FluentAssertions;
 using Moq;
 using System;
 
-namespace SipStackTest
+namespace SipStackTest.Utils
 {
     [TestClass]
     public class ParseResultTest
