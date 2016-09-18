@@ -20,6 +20,8 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("10.122.69.145"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(0);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(0);
+            connectionInformationLine.IsMulticast.Should().BeFalse();
+            connectionInformationLine.IsUnicast.Should().BeTrue();
         }
 
         [TestMethod]
@@ -33,6 +35,8 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("0015::101"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(0);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(0);
+            connectionInformationLine.IsMulticast.Should().BeFalse();
+            connectionInformationLine.IsUnicast.Should().BeTrue();
         }
 
         [TestMethod]
@@ -46,6 +50,8 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("FF15::101"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(0);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(3);
+            connectionInformationLine.IsMulticast.Should().BeTrue();
+            connectionInformationLine.IsUnicast.Should().BeFalse();
         }
 
         [TestMethod]
@@ -59,6 +65,8 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("FF15::101"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(0);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(3);
+            connectionInformationLine.IsMulticast.Should().BeTrue();
+            connectionInformationLine.IsUnicast.Should().BeFalse();
         }
 
         [TestMethod]
@@ -71,7 +79,9 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv4);
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(127);
-            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(0);
+            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(1);
+            connectionInformationLine.IsMulticast.Should().BeTrue();
+            connectionInformationLine.IsUnicast.Should().BeFalse();
         }
 
         [TestMethod]
@@ -85,6 +95,72 @@ namespace SipStackTest.Body.Sdp
             connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(127);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(2);
+            connectionInformationLine.IsMulticast.Should().BeTrue();
+            connectionInformationLine.IsUnicast.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv6MulticastMultipleAddressesAndInvalidTtlCount_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP6 FF15::101/3/56");
+
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_AddressTypeIpv6WithIpv4Address_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP6 224.2.36.42");
+
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithNegativeTtl_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/-127");
+            
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithZeroTtl_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/0");
+            
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithTtlAndZeroMultipleAddress_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127/0");
+
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithTtlAndNegativeMultipleAddress_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127/-2");
+
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithoutTtl_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42");
+
+            line.IsError.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void CreateFrom_Ipv4MulticastWithoutTtlButAddressCount_Error()
+        {
+            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42//3");
+
+            line.IsError.Should().BeTrue();
         }
     }
 }
