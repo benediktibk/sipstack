@@ -29,6 +29,15 @@ namespace SipStack.Body.Sdp
 
         #endregion
 
+        #region properties
+
+        public TimeSpan RepeatInterval => _repeatInterval;
+        public TimeSpan ActiveDuration => _activeDuration;
+        public TimeSpan OffsetStart => _offsetStart;
+        public TimeSpan OffsetEnd => _offsetEnd;
+
+        #endregion
+
         #region static functions
 
         public static ParseResult<ILine> CreateFrom(string data)

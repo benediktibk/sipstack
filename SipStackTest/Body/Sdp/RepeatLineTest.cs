@@ -75,5 +75,37 @@ namespace SipStackTest.Body.Sdp
 
             parseResult.IsError.Should().BeTrue();
         }
+
+        [TestMethod]
+        public void CreateFrom_ValidRepeatLine_AllValuesAreCorrect()
+        {
+            var line = RepeatLine.CreateFrom("604800 3600 0 90000");
+
+            var repeatLine = line.Result as RepeatLine;
+            repeatLine.RepeatInterval.TotalSeconds.Should().BeApproximately(604800, 1e-10);
+            repeatLine.ActiveDuration.TotalSeconds.Should().BeApproximately(3600, 1e-10);
+            repeatLine.OffsetStart.TotalSeconds.Should().BeApproximately(0, 1e-10);
+            repeatLine.OffsetEnd.TotalSeconds.Should().BeApproximately(90000, 1e-10);
+        }
+
+        [TestMethod]
+        public void CreateFrom_ValidRepeatLineWithUnits_AllValuesAreCorrect()
+        {
+            var line = RepeatLine.CreateFrom("7d 1h 3m 25h");
+
+            var repeatLine = line.Result as RepeatLine;
+            repeatLine.RepeatInterval.TotalSeconds.Should().BeApproximately(604800, 1e-10);
+            repeatLine.ActiveDuration.TotalSeconds.Should().BeApproximately(3600, 1e-10);
+            repeatLine.OffsetStart.TotalSeconds.Should().BeApproximately(180, 1e-10);
+            repeatLine.OffsetEnd.TotalSeconds.Should().BeApproximately(90000, 1e-10);
+        }
+
+        [TestMethod]
+        public void CreateFrom_OffsetStartBiggerThanOffsetEnd_Error()
+        {
+            var line = RepeatLine.CreateFrom("7d 1 3m 25s");
+
+            line.IsError.Should().BeTrue();
+        }
     }
 }
