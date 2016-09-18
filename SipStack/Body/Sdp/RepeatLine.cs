@@ -36,7 +36,7 @@ namespace SipStack.Body.Sdp
             throw new NotImplementedException();
         }
 
-        public ParseResult<TimeSpan> CreateTimeSpanFrom(string data)
+        public static ParseResult<TimeSpan> CreateTimeSpanFrom(string data)
         {
             var pattern = @"^([0-9]*)([dhms]?)$";
             var matches = Regex.Matches(data, pattern);
@@ -67,7 +67,7 @@ namespace SipStack.Body.Sdp
 
             value = value * muliplicator;
 
-            return new ParseResult<TimeSpan>(new TimeSpan(value));
+            return new ParseResult<TimeSpan>(TimeSpan.FromSeconds(value));
         }
 
         #endregion
