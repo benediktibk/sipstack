@@ -11,12 +11,9 @@ namespace SipStack.Utils
         private static readonly string _charactersAllowedForDomain = @"[^ @]";
         private static readonly string _charactersAllowedForAlphaNumericUser = @"[^ ()<>]";
         private static readonly string _patternPhoneNumberOnly;
-        private static readonly string _patternPhoneNumberWithDomain;
-        private static readonly string _patternPhoneNumberWithDomainAndDisplayNameAfter;
-        private static readonly string _patternPhoneNumberWithDomainAndDisplayNameBefore;
-        private static readonly string _patternAlphaNumericOnly;
-        private static readonly string _patternAlphaNumericWithDisplayNameAfter;
-        private static readonly string _patternAlphaNumericWithDisplayNameBefore;
+        private static readonly string _patternUriOnly;
+        private static readonly string _patternUriWithDisplayNameAfter;
+        private static readonly string _patternUriWithDisplayNameBefore;
 
         #endregion
 
@@ -25,7 +22,7 @@ namespace SipStack.Utils
         private readonly string _displayName;
         private readonly string _user;
         private readonly string _domain;
-        private readonly bool _isAlphaNumeric;
+        private readonly bool _isNumeric;
 
         #endregion
 
@@ -34,12 +31,17 @@ namespace SipStack.Utils
         static PhoneNumber()
         {
             _patternPhoneNumberOnly = $@"^({_charactersAllowedForPhoneNumber}*)$";
-            _patternPhoneNumberWithDomain = $@"^({_charactersAllowedForPhoneNumber}*)@({_charactersAllowedForDomain}*)$";
-            _patternPhoneNumberWithDomainAndDisplayNameAfter = $@"^({_charactersAllowedForPhoneNumber}*)@({_charactersAllowedForDomain}*) \((.*)\)$";
-            _patternPhoneNumberWithDomainAndDisplayNameBefore = $@"^(.*) <({_charactersAllowedForPhoneNumber}*)@({_charactersAllowedForDomain}*)>$";
-            _patternAlphaNumericOnly = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)$";
-            _patternAlphaNumericWithDisplayNameAfter = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*) \((.*)\)$";
-            _patternAlphaNumericWithDisplayNameBefore = $@"^(.*) <({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)>$";
+            _patternUriOnly = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)$";
+            _patternUriWithDisplayNameAfter = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*) \((.*)\)$";
+            _patternUriWithDisplayNameBefore = $@"^(.*) <({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)>$";
+        }
+
+        public PhoneNumber(string user, string domain, string displayName)
+        {
+            _isNumeric = IsNumericUser(user);
+            _user = _isNumeric ? user : ParseNumericUser(user);
+            _domain = domain;
+            _displayName = displayName;
         }
 
         #endregion
@@ -49,7 +51,8 @@ namespace SipStack.Utils
         public string DisplayName => _displayName;
         public string User => _user;
         public string Domain => _domain;
-        public bool IsAlphaNumeric => _isAlphaNumeric;
+        public bool IsAlphaNumeric => !IsNumeric;
+        public bool IsNumeric => _isNumeric;
         public bool HasDomain => !string.IsNullOrEmpty(_domain);
 
         #endregion
@@ -58,12 +61,27 @@ namespace SipStack.Utils
 
         public static ParseResult<PhoneNumber> Parse(string data)
         {
-            var matchPhoneNumberOnly = Regex.Match(data, _patternPhoneNumberOnly);
+            var match = Regex.Match(data, _patternPhoneNumberOnly);
 
-            if (matchPhoneNumberOnly.Success)
-            {
-                var user = ParseNumericUser()
-            }
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", ""));
+
+            match = Regex.Match(data, _patternUriOnly);
+
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, ""));
+
+            match = Regex.Match(data, _patternUriWithDisplayNameAfter);
+
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value));
+
+            match = Regex.Match(data, _patternUriWithDisplayNameBefore);
+
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, match.Groups[3].Value, match.Groups[1].Value));
+
+            return new ParseResult<PhoneNumber>($"the phone number '{data}' is invalid");
         }
 
         #endregion
@@ -73,6 +91,11 @@ namespace SipStack.Utils
         private static string ParseNumericUser(string data)
         {
             throw new NotImplementedException();
+        }
+
+        private static bool IsNumericUser(string user)
+        {
+            return Regex.Match(user, _patternPhoneNumberOnly).Success;
         }
 
         #endregion
