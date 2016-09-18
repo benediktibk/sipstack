@@ -11,6 +11,8 @@ namespace SipStack.Utils
         private static readonly string _charactersAllowedForDomain = @"[^ @]";
         private static readonly string _charactersAllowedForAlphaNumericUser = @"[^ ()<>]";
         private static readonly string _patternPhoneNumberOnly;
+        private static readonly string _patternPhoneNumberWithDisplayNameAfter;
+        private static readonly string _patternPhoneNumberWithDisplayNameBefore;
         private static readonly string _patternUriOnly;
         private static readonly string _patternUriWithDisplayNameAfter;
         private static readonly string _patternUriWithDisplayNameBefore;
@@ -31,6 +33,8 @@ namespace SipStack.Utils
         static PhoneNumber()
         {
             _patternPhoneNumberOnly = $@"^({_charactersAllowedForPhoneNumber}*)$";
+            _patternPhoneNumberWithDisplayNameAfter = $@"^({_charactersAllowedForPhoneNumber}*) \((.*)\)$";
+            _patternPhoneNumberWithDisplayNameBefore = $@"^(.*) <({_charactersAllowedForPhoneNumber}*)>$";
             _patternUriOnly = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)$";
             _patternUriWithDisplayNameAfter = $@"^({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*) \((.*)\)$";
             _patternUriWithDisplayNameBefore = $@"^(.*) <({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)>$";
@@ -65,6 +69,16 @@ namespace SipStack.Utils
 
             if (match.Success)
                 return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", ""));
+
+            match = Regex.Match(data, _patternPhoneNumberWithDisplayNameAfter);
+
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", match.Groups[2].Value));
+
+            match = Regex.Match(data, _patternPhoneNumberWithDisplayNameBefore);
+
+            if (match.Success)
+                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, "", match.Groups[1].Value));
 
             match = Regex.Match(data, _patternUriOnly);
 
