@@ -12,6 +12,8 @@ namespace SipStack.Body.Sdp
             _emailAddress = emailAddress;
         }
 
+        public EmailAddress EmailAddress => _emailAddress;
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
             var parseResult = EmailAddress.Parse(data);

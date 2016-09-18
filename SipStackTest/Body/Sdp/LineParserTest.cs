@@ -60,7 +60,7 @@ namespace SipStackTest.Body.Sdp
         {
             var parseResult = _lineParser.Parse(@"e=j.doe@example.com (Jane Doe)");
 
-            parseResult.Result.Should().BeOfType(typeof(EmailAddressLine));
+            parseResult.Result.Should().BeOfType(typeof(SipStack.Body.Sdp.EmailAddressLine));
         }
 
         [TestMethod]
