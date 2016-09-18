@@ -23,7 +23,7 @@ namespace SipStack.Body.Sdp
         public string Name => _name;
         public string Value => _value;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var pattern = @"^([^:]*):?(.*)$";
             var matches = Regex.Matches(data, pattern);

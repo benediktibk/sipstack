@@ -77,9 +77,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_ValidRepeatLine_AllValuesAreCorrect()
+        public void Parse_ValidRepeatLine_AllValuesAreCorrect()
         {
-            var line = RepeatLine.CreateFrom("604800 3600 0 90000");
+            var line = RepeatLine.Parse("604800 3600 0 90000");
 
             var repeatLine = line.Result as RepeatLine;
             repeatLine.RepeatInterval.TotalSeconds.Should().BeApproximately(604800, 1e-10);
@@ -89,9 +89,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_ValidRepeatLineWithUnits_AllValuesAreCorrect()
+        public void Parse_ValidRepeatLineWithUnits_AllValuesAreCorrect()
         {
-            var line = RepeatLine.CreateFrom("7d 1h 3m 25h");
+            var line = RepeatLine.Parse("7d 1h 3m 25h");
 
             var repeatLine = line.Result as RepeatLine;
             repeatLine.RepeatInterval.TotalSeconds.Should().BeApproximately(604800, 1e-10);
@@ -101,9 +101,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_OffsetStartBiggerThanOffsetEnd_Error()
+        public void Parse_OffsetStartBiggerThanOffsetEnd_Error()
         {
-            var line = RepeatLine.CreateFrom("7d 1 3m 25s");
+            var line = RepeatLine.Parse("7d 1 3m 25s");
 
             line.IsError.Should().BeTrue();
         }

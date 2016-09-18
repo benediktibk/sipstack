@@ -5,7 +5,7 @@ namespace SipStack.Body.Sdp
 {
     public class UnknownLine : ILine
     {
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             throw new NotImplementedException();
         }

@@ -24,22 +24,22 @@ namespace SipStack.Body.Sdp
         {
             switch (type)
             {
-                case 'v': return VersionLine.CreateFrom(data);
-                case 'o': return OriginatorLine.CreateFrom(data);
-                case 's': return SessionNameLine.CreateFrom(data);
-                case 'i': return DescriptionLine.CreateFrom(data);
-                case 'u': return UriLine.CreateFrom(data);
-                case 'e': return EmailAddressLine.CreateFrom(data);
-                case 'p': return PhoneNumberLine.CreateFrom(data);
-                case 'c': return ConnectionInformationLine.CreateFrom(data);
-                case 'b': return BandwidthLine.CreateFrom(data);
-                case 'z': return TimeZoneLine.CreateFrom(data);
-                case 'k': return EncryptionKeyLine.CreateFrom(data);
-                case 'a': return AttributeLine.CreateFrom(data);
-                case 't': return TimeLine.CreateFrom(data);
-                case 'r': return RepeatLine.CreateFrom(data);
-                case 'm': return MediaLine.CreateFrom(data);
-                default: return UnknownLine.CreateFrom(data);
+                case 'v': return VersionLine.Parse(data);
+                case 'o': return OriginatorLine.Parse(data);
+                case 's': return SessionNameLine.Parse(data);
+                case 'i': return DescriptionLine.Parse(data);
+                case 'u': return UriLine.Parse(data);
+                case 'e': return EmailAddressLine.Parse(data);
+                case 'p': return PhoneNumberLine.Parse(data);
+                case 'c': return ConnectionInformationLine.Parse(data);
+                case 'b': return BandwidthLine.Parse(data);
+                case 'z': return TimeZoneLine.Parse(data);
+                case 'k': return EncryptionKeyLine.Parse(data);
+                case 'a': return AttributeLine.Parse(data);
+                case 't': return TimeLine.Parse(data);
+                case 'r': return RepeatLine.Parse(data);
+                case 'm': return MediaLine.Parse(data);
+                default: return UnknownLine.Parse(data);
             }
         }
     }

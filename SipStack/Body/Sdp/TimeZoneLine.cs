@@ -9,7 +9,7 @@ namespace SipStack.Body.Sdp
 {
     public class TimeZoneLine : ILine
     {
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             throw new NotImplementedException();
         }

@@ -10,9 +10,9 @@ namespace SipStackTest.Body.Sdp
     public class AttributeLineTest
     {
         [TestMethod]
-        public void CreateFrom_recvonly_NameAndValueAreCorrect()
+        public void Parse_recvonly_NameAndValueAreCorrect()
         {
-            var line = AttributeLine.CreateFrom(@"recvonly");
+            var line = AttributeLine.Parse(@"recvonly");
 
             var attributeLine = line.Result as AttributeLine;
             attributeLine.Name.Should().Be("recvonly");
@@ -20,9 +20,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_rtpmap_NameAndValueAreCorrect()
+        public void Parse_rtpmap_NameAndValueAreCorrect()
         {
-            var line = AttributeLine.CreateFrom(@"rtpmap:8 PCMA/8000/1");
+            var line = AttributeLine.Parse(@"rtpmap:8 PCMA/8000/1");
 
             var attributeLine = line.Result as AttributeLine;
             attributeLine.Name.Should().Be("rtpmap");

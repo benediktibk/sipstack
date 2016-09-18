@@ -8,18 +8,18 @@ namespace SipStackTest.Body.Sdp
     public class VersionLineTest
     {
         [TestMethod]
-        public void CreateFrom_0_Version0()
+        public void Parse_0_Version0()
         {
-            var line = VersionLine.CreateFrom("0");
+            var line = VersionLine.Parse("0");
 
             var versionLine = line.Result as VersionLine;
             versionLine.Version.Should().Be(0);
         }
 
         [TestMethod]
-        public void CreateFrom_5_ParseError()
+        public void Parse_5_ParseError()
         {
-            var line = VersionLine.CreateFrom("5");
+            var line = VersionLine.Parse("5");
 
             line.IsError.Should().BeTrue();
         }

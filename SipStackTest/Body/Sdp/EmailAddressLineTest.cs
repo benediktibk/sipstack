@@ -8,9 +8,9 @@ namespace SipStackTest.Body.Sdp
     public class EmailAddressLineTest
     {
         [TestMethod]
-        public void CreateFrom_ValidEmailAddress_AllValuesAreCorrect()
+        public void Parse_ValidEmailAddress_AllValuesAreCorrect()
         {
-            var line = EmailAddressLine.CreateFrom(@"j.doe@example.com (Jane Doe)");
+            var line = EmailAddressLine.Parse(@"j.doe@example.com (Jane Doe)");
 
             var emailAddressLine = line.Result as EmailAddressLine;
             emailAddressLine.EmailAddress.LocalPart.Should().Be("j.doe");

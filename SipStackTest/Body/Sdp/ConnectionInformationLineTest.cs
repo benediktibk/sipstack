@@ -10,9 +10,9 @@ namespace SipStackTest.Body.Sdp
     public class ConnectionInformationLineTest
     {
         [TestMethod]
-        public void CreateFrom_Ipv4Unicast_AllValuesAreCorrect()
+        public void Parse_Ipv4Unicast_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 10.122.69.145");
+            var line = ConnectionInformationLine.Parse("IN IP4 10.122.69.145");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -23,9 +23,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv6Unicast_AllValuesAreCorrect()
+        public void Parse_Ipv6Unicast_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP6 0015::101");
+            var line = ConnectionInformationLine.Parse("IN IP6 0015::101");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -36,9 +36,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv6Multicast_AllValuesAreCorrect()
+        public void Parse_Ipv6Multicast_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP6 FF15::101");
+            var line = ConnectionInformationLine.Parse("IN IP6 FF15::101");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -50,9 +50,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv6MulticastMultipleAddresses_AllValuesAreCorrect()
+        public void Parse_Ipv6MulticastMultipleAddresses_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP6 FF15::101/3");
+            var line = ConnectionInformationLine.Parse("IN IP6 FF15::101/3");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -64,9 +64,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithTtl_AllValuesAreCorrect()
+        public void Parse_Ipv4MulticastWithTtl_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/127");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -79,9 +79,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithTtlAndMultipleAddress_AllValuesAreCorrect()
+        public void Parse_Ipv4MulticastWithTtlAndMultipleAddress_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127/2");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/127/2");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
@@ -94,65 +94,65 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv6MulticastMultipleAddressesAndInvalidTtlCount_Error()
+        public void Parse_Ipv6MulticastMultipleAddressesAndInvalidTtlCount_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP6 FF15::101/3/56");
+            var line = ConnectionInformationLine.Parse("IN IP6 FF15::101/3/56");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_AddressTypeIpv6WithIpv4Address_Error()
+        public void Parse_AddressTypeIpv6WithIpv4Address_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP6 224.2.36.42");
+            var line = ConnectionInformationLine.Parse("IN IP6 224.2.36.42");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithNegativeTtl_Error()
+        public void Parse_Ipv4MulticastWithNegativeTtl_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/-127");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/-127");
             
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithZeroTtl_Error()
+        public void Parse_Ipv4MulticastWithZeroTtl_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/0");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/0");
             
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithTtlAndZeroMultipleAddress_Error()
+        public void Parse_Ipv4MulticastWithTtlAndZeroMultipleAddress_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127/0");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/127/0");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithTtlAndNegativeMultipleAddress_Error()
+        public void Parse_Ipv4MulticastWithTtlAndNegativeMultipleAddress_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42/127/-2");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42/127/-2");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithoutTtl_Error()
+        public void Parse_Ipv4MulticastWithoutTtl_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_Ipv4MulticastWithoutTtlButAddressCount_Error()
+        public void Parse_Ipv4MulticastWithoutTtlButAddressCount_Error()
         {
-            var line = ConnectionInformationLine.CreateFrom("IN IP4 224.2.36.42//3");
+            var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42//3");
 
             line.IsError.Should().BeTrue();
         }

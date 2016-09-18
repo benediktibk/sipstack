@@ -13,7 +13,7 @@ namespace SipStack.Body.Sdp
 
         public string Description => _description;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             return new ParseResult<ILine>(new DescriptionLine(data));
         }

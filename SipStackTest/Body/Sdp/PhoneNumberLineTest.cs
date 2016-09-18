@@ -8,9 +8,9 @@ namespace SipStackTest.Body.Sdp
     public class PhoneNumberLineTest
     {
         [TestMethod]
-        public void CreateFrom_ValidPhoneNumber_AllValuesAreCorrect()
+        public void Parse_ValidPhoneNumber_AllValuesAreCorrect()
         {
-            var line = PhoneNumberLine.CreateFrom("Jane White <+1235325@asdf.blub.at>");
+            var line = PhoneNumberLine.Parse("Jane White <+1235325@asdf.blub.at>");
 
             var phoneNumberLine = line.Result as PhoneNumberLine;
             phoneNumberLine.PhoneNumber.DisplayName.Should().Be("Jane White");

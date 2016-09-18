@@ -10,9 +10,9 @@ namespace SipStackTest.Body.Sdp
     public class OriginatorLineTest
     {
         [TestMethod]
-        public void CreateFrom_ValidExample_AllValuesAreCorrect()
+        public void Parse_ValidExample_AllValuesAreCorrect()
         {
-            var line = OriginatorLine.CreateFrom(@"jdoe 2890844526 2890842807 IN IP4 10.47.16.5");
+            var line = OriginatorLine.Parse(@"jdoe 2890844526 2890842807 IN IP4 10.47.16.5");
 
             var originatorLine = line.Result as OriginatorLine;
             originatorLine.Username.Should().Be("jdoe");
@@ -25,9 +25,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_ValidExampleWithIpv6_IpIsCorrect()
+        public void Parse_ValidExampleWithIpv6_IpIsCorrect()
         {
-            var line = OriginatorLine.CreateFrom(@"jdoe 2890844526 2890842807 IN IP6 2001:0db8:0000:0000:0000:ff00:0042:8329");
+            var line = OriginatorLine.Parse(@"jdoe 2890844526 2890842807 IN IP6 2001:0db8:0000:0000:0000:ff00:0042:8329");
 
             var originatorLine = line.Result as OriginatorLine;
             originatorLine.AddressType.Should().Be(AddressType.Ipv6);

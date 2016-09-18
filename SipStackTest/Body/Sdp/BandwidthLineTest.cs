@@ -9,9 +9,9 @@ namespace SipStackTest.Body.Sdp
     public class BandwidthLineTest
     {
         [TestMethod]
-        public void CreateFrom_CtBandwidth_TypeAndValueAreCorrect()
+        public void Parse_CtBandwidth_TypeAndValueAreCorrect()
         {
-            var line = BandwidthLine.CreateFrom("CT:128");
+            var line = BandwidthLine.Parse("CT:128");
 
             var bandwidthLine = line.Result as BandwidthLine;
             bandwidthLine.Type.Should().Be(BandwidthType.ConferenceTotal);
@@ -19,9 +19,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_AsBandwidth_TypeAndValueAreCorrect()
+        public void Parse_AsBandwidth_TypeAndValueAreCorrect()
         {
-            var line = BandwidthLine.CreateFrom("AS:35");
+            var line = BandwidthLine.Parse("AS:35");
 
             var bandwidthLine = line.Result as BandwidthLine;
             bandwidthLine.Type.Should().Be(BandwidthType.ApplicationSpecific);
@@ -29,9 +29,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_ProprietaryBandwidth_TypeAndValueAreCorrect()
+        public void Parse_ProprietaryBandwidth_TypeAndValueAreCorrect()
         {
-            var line = BandwidthLine.CreateFrom("X-ASDF:59");
+            var line = BandwidthLine.Parse("X-ASDF:59");
 
             var bandwidthLine = line.Result as BandwidthLine;
             bandwidthLine.Type.Should().Be(BandwidthType.Unknown);

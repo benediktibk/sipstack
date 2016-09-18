@@ -31,7 +31,7 @@ namespace SipStack.Body.Sdp
         public AddressType AddressType => _addressType;
         public IPAddress IpAddress => _ipAddress;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var pattern = @"^(.*) (.*) (.*) (.*) (.*) (.*)$";
             var matches = Regex.Matches(data, pattern);

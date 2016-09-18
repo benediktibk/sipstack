@@ -17,7 +17,7 @@ namespace SipStack.Body.Sdp
 
         public string Name => _name;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
                 return new ParseResult<ILine>("the session name must not be empty");

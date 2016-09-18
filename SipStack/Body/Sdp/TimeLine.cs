@@ -21,7 +21,7 @@ namespace SipStack.Body.Sdp
         public DateTime Start => _start;
         public DateTime End => _end;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var pattern = @"^([0-9]*) ([0-9]*)$";
             var matches = Regex.Matches(data, pattern);

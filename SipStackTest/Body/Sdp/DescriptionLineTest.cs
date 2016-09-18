@@ -8,9 +8,9 @@ namespace SipStackTest.Body.Sdp
     public class DescriptionLineTest
     {
         [TestMethod]
-        public void CreateFrom_validDescription_DescriptionIsCorrect()
+        public void Parse_validDescription_DescriptionIsCorrect()
         {
-            var line = DescriptionLine.CreateFrom("asdf sadf . : asdf?");
+            var line = DescriptionLine.Parse("asdf sadf . : asdf?");
 
             var descriptionLine = line.Result as DescriptionLine;
             descriptionLine.Description.Should().Be("asdf sadf . : asdf?");

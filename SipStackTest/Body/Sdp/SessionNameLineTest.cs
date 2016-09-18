@@ -8,27 +8,27 @@ namespace SipStackTest.Body.Sdp
     public class SessionNameLineTest
     {
         [TestMethod]
-        public void CreateFrom_ValidName_CorrectName()
+        public void Parse_ValidName_CorrectName()
         {
-            var line = SessionNameLine.CreateFrom("SDP Seminar");
+            var line = SessionNameLine.Parse("SDP Seminar");
 
             var sessionNameLine = line.Result as SessionNameLine;
             sessionNameLine.Name.Should().Be("SDP Seminar");
         }
 
         [TestMethod]
-        public void CreateFrom_WhitespaceAsName_CorrectName()
+        public void Parse_WhitespaceAsName_CorrectName()
         {
-            var line = SessionNameLine.CreateFrom(" ");
+            var line = SessionNameLine.Parse(" ");
 
             var sessionNameLine = line.Result as SessionNameLine;
             sessionNameLine.Name.Should().Be(" ");
         }
 
         [TestMethod]
-        public void CreateFrom_EmptyName_Error()
+        public void Parse_EmptyName_Error()
         {
-            var line = SessionNameLine.CreateFrom("");
+            var line = SessionNameLine.Parse("");
 
             line.IsError.Should().BeTrue();
         }

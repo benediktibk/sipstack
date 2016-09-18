@@ -13,7 +13,7 @@ namespace SipStack.Body.Sdp
 
         public PhoneNumber PhoneNumber => _phoneNumber;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var parseResult = PhoneNumber.Parse(data);
 

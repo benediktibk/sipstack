@@ -9,9 +9,9 @@ namespace SipStackTest.Body.Sdp
     public class TimeLineTest
     {
         [TestMethod]
-        public void CreateFrom_PositiveStartAndEnd_AllValuesAreCorrect()
+        public void Parse_PositiveStartAndEnd_AllValuesAreCorrect()
         {
-            var line = TimeLine.CreateFrom(@"2873397496 2873404696");
+            var line = TimeLine.Parse(@"2873397496 2873404696");
 
             var timeLine = line.Result as TimeLine;
             timeLine.Start.Ticks.Should().Be(2873397496L);
@@ -19,9 +19,9 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_PositiveStartAndZeroEnd_AllValuesAreCorrect()
+        public void Parse_PositiveStartAndZeroEnd_AllValuesAreCorrect()
         {
-            var line = TimeLine.CreateFrom(@"2873397496 0");
+            var line = TimeLine.Parse(@"2873397496 0");
 
             var timeLine = line.Result as TimeLine;
             timeLine.Start.Ticks.Should().Be(2873397496L);
@@ -29,25 +29,25 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void CreateFrom_NegativeStartAndPositiveEnd_Error()
+        public void Parse_NegativeStartAndPositiveEnd_Error()
         {
-            var line = TimeLine.CreateFrom(@"-2873397496 2873404696");
+            var line = TimeLine.Parse(@"-2873397496 2873404696");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_PositiveStartAndNegativeEnd_Error()
+        public void Parse_PositiveStartAndNegativeEnd_Error()
         {
-            var line = TimeLine.CreateFrom(@"2873397496 -2873404696");
+            var line = TimeLine.Parse(@"2873397496 -2873404696");
 
             line.IsError.Should().BeTrue();
         }
 
         [TestMethod]
-        public void CreateFrom_EndBeforeStart_Error()
+        public void Parse_EndBeforeStart_Error()
         {
-            var line = TimeLine.CreateFrom(@"2973397496 2873404696");
+            var line = TimeLine.Parse(@"2973397496 2873404696");
 
             line.IsError.Should().BeTrue();
         }

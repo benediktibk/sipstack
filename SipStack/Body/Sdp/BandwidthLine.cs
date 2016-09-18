@@ -18,7 +18,7 @@ namespace SipStack.Body.Sdp
         public BandwidthType Type => _type;
         public int Bandwidth => _bandwidth;
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var pattern = @"(.*):(.*)";
             var matches = Regex.Matches(data, pattern);

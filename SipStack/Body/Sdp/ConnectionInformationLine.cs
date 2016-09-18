@@ -105,7 +105,7 @@ namespace SipStack.Body.Sdp
 
         #region static functions
 
-        public static ParseResult<ILine> CreateFrom(string data)
+        public static ParseResult<ILine> Parse(string data)
         {
             var pattern = @"^(.*) (.*) ([a-zA-Z\.:0-9]*)\/?([0-9]*)\/?([0-9]*)$";
             var matches = Regex.Matches(data, pattern);
