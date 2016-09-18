@@ -107,12 +107,25 @@ namespace SipStack.Body.Sdp
             if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
                 return new ParseResult<ILine>($"the specified address family '{addressTypeString}' does not match the type of the ip address '{ipAddressString}'");
 
-            switch (addressType)
+            if (MulticastUtils.IsMulticast(ipAddress))
             {
-                case AddressType.Ipv4: return CreateFromIpv4(ipAddress, firstExtensionString, secondExtensionString);
-                case AddressType.Ipv6: return CreateFromIpv6(ipAddress, firstExtensionString, secondExtensionString);
-                default: throw new NotImplementedException();
+                switch (addressType)
+                {
+                    case AddressType.Ipv4: return CreateFromIpv4(ipAddress, firstExtensionString, secondExtensionString);
+                    case AddressType.Ipv6: return CreateFromIpv6(ipAddress, firstExtensionString, secondExtensionString);
+                    default: throw new NotImplementedException();
+                }
             }
+            else
+                return CreateFromUnicast(ipAddress, firstExtensionString, secondExtensionString);
+        }
+
+        public static ParseResult<ILine> CreateFromUnicast(IPAddress ipAddress, string firstExtension, string secondExtension)
+        {
+            if (!string.IsNullOrEmpty(firstExtension) || !string.IsNullOrEmpty(secondExtension))
+                return new ParseResult<ILine>("for unicast addresses the specification of TTL or address count is forbidden");
+
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress));
         }
 
         public static ParseResult<ILine> CreateFromIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
@@ -121,7 +134,6 @@ namespace SipStack.Body.Sdp
             var ttlCountMissing = string.IsNullOrEmpty(firstExtension);
             int multiCastAddressCount = 1;
             var multiCastAddressCountMissing = string.IsNullOrEmpty(secondExtension);
-            ILine result;
 
             if (ttlCountMissing)
                 return new ParseResult<ILine>("for IPv4 multicast addresses the TTL hop count must be specified");
@@ -141,17 +153,7 @@ namespace SipStack.Body.Sdp
                     return new ParseResult<ILine>($"the value for the number of multicast addresses '{multiCastAddressCount}' must be positive");
             }
 
-            if (MulticastUtils.IsMulticast(ipAddress))
-                result = new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress, multiCastAddressCount, ttlCount);
-            else
-            {
-                if (ttlCount > 0 || multiCastAddressCount > 0)
-                    return new ParseResult<ILine>("for unicast addresses the specification of TTL or address count is forbidden");
-
-                result = new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress);
-            }
-
-            return new ParseResult<ILine>(result);
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress, multiCastAddressCount, ttlCount));
         }
 
         public static ParseResult<ILine> CreateFromIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
@@ -161,7 +163,6 @@ namespace SipStack.Body.Sdp
 
             int multiCastAddressCount = 1;
             var multiCastAddressCountMissing = string.IsNullOrEmpty(firstExtension);
-            ILine result;
 
             if (!multiCastAddressCountMissing)
             {
@@ -172,17 +173,7 @@ namespace SipStack.Body.Sdp
                     return new ParseResult<ILine>($"the value for the number of multicast addresses '{multiCastAddressCount}' must be positive");
             }
 
-            if (MulticastUtils.IsMulticast(ipAddress))
-                result = new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, ipAddress, multiCastAddressCount);
-            else
-            {
-                if ( multiCastAddressCount > 0)
-                    return new ParseResult<ILine>("for unicast addresses the specification of address count is forbidden");
-
-                result = new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, ipAddress);
-            }
-
-            return new ParseResult<ILine>(result);
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, ipAddress, multiCastAddressCount));
         }
     }
 }
