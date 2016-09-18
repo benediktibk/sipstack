@@ -7,9 +7,9 @@ namespace SipStack.Utils
     {
         #region privateStaticVariables
 
-        private static readonly string _charactersAllowedForPhoneNumber = @"[0-9\+ \-\/\\]";
-        private static readonly string _charactersAllowedForDomain = @"[^ @]";
-        private static readonly string _charactersAllowedForAlphaNumericUser = @"[^ ()<>]";
+        private static readonly string _charactersAllowedForPhoneNumber = @"[0-9\+\s\-\/\\]";
+        private static readonly string _charactersAllowedForDomain = @"[^\s@]";
+        private static readonly string _charactersAllowedForAlphaNumericUser = @"[^()<>]";
         private static readonly string _patternPhoneNumberOnly;
         private static readonly string _patternPhoneNumberWithDisplayNameAfter;
         private static readonly string _patternPhoneNumberWithDisplayNameBefore;
@@ -40,18 +40,14 @@ namespace SipStack.Utils
             _patternUriWithDisplayNameBefore = $@"^(.*) <({_charactersAllowedForAlphaNumericUser}*)@({_charactersAllowedForDomain}*)>$";
         }
 
-        public PhoneNumber(string user, string domain, string displayName)
-        {
-            _isNumeric = IsNumericUser(user);
-            _user = _isNumeric ? user : ParseNumericUser(user);
-            _domain = domain;
-            _displayName = displayName;
-        }
+        public PhoneNumber(string user, string domain, string displayName) :
+            this(user, domain, displayName, IsNumericUser(user))
+        { }
 
         private PhoneNumber(string user, string domain, string displayName, bool isNumeric)
         {
             _isNumeric = isNumeric;
-            _user = _isNumeric ? user : ParseNumericUser(user);
+            _user = _isNumeric ? ParseNumericUser(user) : user;
             _domain = domain;
             _displayName = displayName;
         }
