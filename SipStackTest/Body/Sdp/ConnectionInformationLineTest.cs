@@ -17,9 +17,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("10.122.69.145"));
-            connectionInformationLine.MulticastTimeToLive.Should().Be(0);
-            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(0);
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("10.122.69.145"));
             connectionInformationLine.IsMulticast.Should().BeFalse();
             connectionInformationLine.IsUnicast.Should().BeTrue();
         }
@@ -32,9 +30,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("0015::101"));
-            connectionInformationLine.MulticastTimeToLive.Should().Be(0);
-            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(0);
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("0015::101"));
             connectionInformationLine.IsMulticast.Should().BeFalse();
             connectionInformationLine.IsUnicast.Should().BeTrue();
         }
@@ -47,9 +43,8 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("FF15::101"));
-            connectionInformationLine.MulticastTimeToLive.Should().Be(0);
-            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(3);
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("FF15::101"));
+            connectionInformationLine.NumberOfMulticastAddresses.Should().Be(1);
             connectionInformationLine.IsMulticast.Should().BeTrue();
             connectionInformationLine.IsUnicast.Should().BeFalse();
         }
@@ -62,8 +57,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("FF15::101"));
-            connectionInformationLine.MulticastTimeToLive.Should().Be(0);
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("FF15::101"));
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(3);
             connectionInformationLine.IsMulticast.Should().BeTrue();
             connectionInformationLine.IsUnicast.Should().BeFalse();
@@ -77,7 +71,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(127);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(1);
             connectionInformationLine.IsMulticast.Should().BeTrue();
@@ -92,7 +86,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.IPAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
+            connectionInformationLine.IpAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
             connectionInformationLine.MulticastTimeToLive.Should().Be(127);
             connectionInformationLine.NumberOfMulticastAddresses.Should().Be(2);
             connectionInformationLine.IsMulticast.Should().BeTrue();

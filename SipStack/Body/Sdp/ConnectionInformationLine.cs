@@ -1,21 +1,23 @@
 ﻿using SipStack.Network;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SipStack.Body.Sdp
 {
     public class ConnectionInformationLine : ILine
     {
+        #region private variables
+
         private readonly NetType _netType;
         private readonly AddressType _addressType;
         private readonly IPAddress _ipAddress;
         private readonly int _multicastTimeToLive;
         private readonly int _numberOfMulticastAddresses;
+
+        #endregion
+
+        #region constructors
 
         public ConnectionInformationLine(NetType netType, AddressType addressType, IPAddress ipAddress, int numberOfMulticastAddresses, int multicastTimeToLive)
         {
@@ -68,13 +70,39 @@ namespace SipStack.Body.Sdp
             _numberOfMulticastAddresses = 0;
         }
 
+        #endregion
+
+        #region properties
+
         public NetType NetType => _netType;
         public AddressType AddressType => _addressType;
-        public IPAddress IPAddress => _ipAddress;
-        public int MulticastTimeToLive => _multicastTimeToLive;
-        public int NumberOfMulticastAddresses => _numberOfMulticastAddresses;
+        public IPAddress IpAddress => _ipAddress;
+        public int MulticastTimeToLive
+        {
+            get
+            {
+                if (IsUnicast || AddressType == AddressType.Ipv6)
+                    throw new InvalidOperationException();
+
+                return _multicastTimeToLive;
+            }
+        }
+        public int NumberOfMulticastAddresses
+        {
+            get
+            {
+                if (IsUnicast)
+                    throw new InvalidOperationException();
+
+                return _numberOfMulticastAddresses;
+            }
+        }
         public bool IsMulticast => _numberOfMulticastAddresses > 0;
         public bool IsUnicast => !IsMulticast;
+
+        #endregion
+
+        #region static functions
 
         public static ParseResult<ILine> CreateFrom(string data)
         {
@@ -117,18 +145,18 @@ namespace SipStack.Body.Sdp
                 }
             }
             else
-                return CreateFromUnicast(ipAddress, firstExtensionString, secondExtensionString);
+                return CreateFromUnicast(addressType, ipAddress, firstExtensionString, secondExtensionString);
         }
 
-        public static ParseResult<ILine> CreateFromUnicast(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> CreateFromUnicast(AddressType addressType, IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(firstExtension) || !string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for unicast addresses the specification of TTL or address count is forbidden");
 
-            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress));
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, addressType, ipAddress));
         }
 
-        public static ParseResult<ILine> CreateFromIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> CreateFromIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             int ttlCount = 0;
             var ttlCountMissing = string.IsNullOrEmpty(firstExtension);
@@ -156,7 +184,7 @@ namespace SipStack.Body.Sdp
             return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress, multiCastAddressCount, ttlCount));
         }
 
-        public static ParseResult<ILine> CreateFromIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> CreateFromIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for IPv6 address there must be at most one extension to the ipaddress");
@@ -166,8 +194,8 @@ namespace SipStack.Body.Sdp
 
             if (!multiCastAddressCountMissing)
             {
-                if (!int.TryParse(secondExtension, out multiCastAddressCount))
-                    return new ParseResult<ILine>($"the value for the number of multicast addresses '{secondExtension}' is not a valid integer");
+                if (!int.TryParse(firstExtension, out multiCastAddressCount))
+                    return new ParseResult<ILine>($"the value for the number of multicast addresses '{firstExtension}' is not a valid integer");
 
                 if (multiCastAddressCount < 1)
                     return new ParseResult<ILine>($"the value for the number of multicast addresses '{multiCastAddressCount}' must be positive");
@@ -175,5 +203,7 @@ namespace SipStack.Body.Sdp
 
             return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, ipAddress, multiCastAddressCount));
         }
+
+        #endregion
     }
 }
