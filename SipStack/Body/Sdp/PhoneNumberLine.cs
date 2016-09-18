@@ -1,17 +1,26 @@
 ﻿using SipStack.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SipStack.Body.Sdp
 {
     public class PhoneNumberLine : ILine
     {
+        private readonly PhoneNumber _phoneNumber;
+
+        public PhoneNumberLine(PhoneNumber phoneNumber)
+        {
+            _phoneNumber = phoneNumber;
+        }
+
+        public PhoneNumber PhoneNumber => _phoneNumber;
+
         public static ParseResult<ILine> CreateFrom(string data)
         {
-            throw new NotImplementedException();
+            var parseResult = PhoneNumber.Parse(data);
+
+            if (parseResult.IsError)
+                return parseResult.ToParseResult<ILine>();
+
+            return new ParseResult<ILine>(new PhoneNumberLine(parseResult.Result));
         }
     }
 }
