@@ -89,6 +89,7 @@
     <Compile Include="Header\RequestMethod.cs" />
     <Compile Include="Body\Sdp\SdpBody.cs" />
     <Compile Include="Body\Sdp\SdpBodyParser.cs" />
+    <Compile Include="Utils\PhoneNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
