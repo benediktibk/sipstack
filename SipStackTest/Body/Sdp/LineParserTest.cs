@@ -52,7 +52,7 @@ namespace SipStackTest.Body.Sdp
         {
             var parseResult = _lineParser.Parse(@"u=http://www.example.com/seminars/sdp.pdf");
 
-            parseResult.Result.Should().BeOfType(typeof(UriLine));
+            parseResult.Result.Should().BeOfType(typeof(SipStack.Body.Sdp.UriLine));
         }
 
         [TestMethod]
