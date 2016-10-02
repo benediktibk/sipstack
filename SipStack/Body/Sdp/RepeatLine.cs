@@ -85,26 +85,15 @@ namespace SipStack.Body.Sdp
             var valueString = match.Groups[1].Value;
             var unit = match.Groups[2].Value;
             long value;
+            long valueWithUnit;
 
             if (!long.TryParse(valueString, out value))
                 return new ParseResult<TimeSpan>($"the value {valueString} for the time span is malformed");
 
-            long muliplicator;
-
-            if (unit == "d")
-                muliplicator = 86400;
-            else if (unit == "h")
-                muliplicator = 3600;
-            else if (unit == "m")
-                muliplicator = 60;
-            else if (string.IsNullOrEmpty(unit) || unit == "s")
-                muliplicator = 1;
-            else
+            if (!TimeUnit.ApplyUnit(value, unit, out valueWithUnit))
                 return new ParseResult<TimeSpan>($"the unit {unit} is invalid");
 
-            value = value * muliplicator;
-
-            return new ParseResult<TimeSpan>(TimeSpan.FromSeconds(value));
+            return new ParseResult<TimeSpan>(TimeSpan.FromSeconds(valueWithUnit));
         }
 
         #endregion

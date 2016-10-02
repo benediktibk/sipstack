@@ -55,6 +55,8 @@
     <Compile Include="Body\Sdp\ILine.cs" />
     <Compile Include="Body\Sdp\LineParser.cs" />
     <Compile Include="Body\Sdp\MediaLine.cs" />
+    <Compile Include="Body\Sdp\TimeUnit.cs" />
+    <Compile Include="Body\Sdp\TimeZoneAdjustment.cs" />
     <Compile Include="Utils\EmailAddress.cs" />
     <Compile Include="Network\AddressType.cs" />
     <Compile Include="Network\MulticastUtils.cs" />
