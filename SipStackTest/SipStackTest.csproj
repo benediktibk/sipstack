@@ -71,6 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Body\Sdp\AttributeLineTest.cs" />
+    <Compile Include="Body\Sdp\EncryptionKeyLineTest.cs" />
     <Compile Include="Body\Sdp\LineParserTest.cs" />
     <Compile Include="Body\Sdp\OriginatorLineTest.cs" />
     <Compile Include="Body\Sdp\BandwidthLineTest.cs" />

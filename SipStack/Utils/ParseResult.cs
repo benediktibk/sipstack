@@ -30,7 +30,7 @@ namespace SipStack.Utils
             get
             {
                 if (IsError)
-                    throw new InvalidOperationException("message couldn't be parsed, result is an error");
+                    throw new InvalidOperationException($"message couldn't be parsed, result is an error: {ErrorMessage}");
 
                 return _result;
             }
