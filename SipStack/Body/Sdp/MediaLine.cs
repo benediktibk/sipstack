@@ -60,10 +60,10 @@ namespace SipStack.Body.Sdp
             if (!int.TryParse(portString, out port))
                 return new ParseResult<ILine>($"invalid value {portString} for port");
 
-            if (!string.IsNullOrEmpty(portCountString) && !int.TryParse(portCountString, out port))
+            if (!string.IsNullOrEmpty(portCountString) && !int.TryParse(portCountString, out portCount))
                 return new ParseResult<ILine>($"invalid value {portCountString} for port count");
 
-            pattern = @"[^ ]*";
+            pattern = @"[^ ]+";
             matches = Regex.Matches(mediaFormatDescriptionsString, pattern);
 
             if (matches.Count < 1)
