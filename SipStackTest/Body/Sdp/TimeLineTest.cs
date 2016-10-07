@@ -51,5 +51,15 @@ namespace SipStackTest.Body.Sdp
 
             line.IsError.Should().BeTrue();
         }
+
+        [TestMethod]
+        public void Parse_ZeroStartAndEnd_AllValuesAreCorrect()
+        {
+            var line = TimeLine.Parse(@"0 0");
+
+            var timeLine = line.Result as TimeLine;
+            timeLine.Start.Ticks.Should().Be(0);
+            timeLine.End.Ticks.Should().Be(DateTime.MaxValue.Ticks);
+        }
     }
 }

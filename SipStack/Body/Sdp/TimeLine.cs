@@ -41,7 +41,7 @@ namespace SipStack.Body.Sdp
             if (!long.TryParse(endString, out endInteger))
                 return new ParseResult<ILine>($"the value '{endInteger}' for start is invalid");
 
-            if (startInteger <= 0)
+            if (startInteger < 0)
                 return new ParseResult<ILine>("the value for start must not be negative");
 
             if (endInteger < 0)
