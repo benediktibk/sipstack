@@ -3,6 +3,7 @@ using FluentAssertions;
 using System.IO;
 using System.Collections.Generic;
 using SipStack.Body.Sdp;
+using System;
 
 namespace SipStackTest.Body
 { 
@@ -29,7 +30,7 @@ namespace SipStackTest.Body
         private static IList<string> ReadFromFile(string file)
         {
             var content = File.ReadAllText($"messages/{file}.txt");
-            return content.Split('\n');
+            return content.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
     }
 }
