@@ -39,12 +39,17 @@ namespace SipStack.Body.Sdp
         public static ParseResult<SdpBody> Parse(IList<ILine> lines)
         {
             var sdpBody = new SdpBody();
-            /*var linesLeftOver = lines.Select(x => new Tuple<bool, >)
+            var linesWithUsage = lines.Select(x => new LineWithUsage(x)).ToList();
 
-            if (originatorNode == null)
-                return new ParseResult<SdpBody>("the originator line is missing");
+            var originatorLines = linesWithUsage.Where(x => x.Line is OriginatorLine).ToList();
 
-            sdpBody.Originator = originatorNodes[0].*/
+            if (originatorLines.Count() != 1)
+                return new ParseResult<SdpBody>("there must be exactly one originator line");
+
+            var originatorLine = originatorLines[0];
+
+            sdpBody.Originator = originatorLine.Line as OriginatorLine;
+            originatorLine.MarkAsUsed();
 
             throw new NotImplementedException();
 
