@@ -15,6 +15,5 @@ namespace SipStack.Body.Sdp
 
         public TimeLine Time { get; }
         public IReadOnlyList<RepeatLine> Repeatings => _repeatings;
-        public int UsedLines => 1 + _repeatings.Count();
     }
 }

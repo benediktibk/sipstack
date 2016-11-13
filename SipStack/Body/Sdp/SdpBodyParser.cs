@@ -21,50 +21,26 @@ namespace SipStack.Body.Sdp
             if (parsedLinesResult.IsError)
                 return parsedLinesResult.ToParseResult<IBody>();
 
-            var parsedLines = parsedLinesResult.Result;
-            int currentIndex = 0;
-            var protocolVersionResult = ParseMandatoryLine<VersionLine>(parsedLines[currentIndex]);
+            var lineQueue = new LineQueue(parsedLinesResult.Result);
+            var protocolVersionResult = lineQueue.ParseMandatoryLine<VersionLine>();
+            var originatorLineResult = lineQueue.ParseMandatoryLine<OriginatorLine>();
+            var sessionNameResult = lineQueue.ParseMandatoryLine<SessionNameLine>();
 
             if (protocolVersionResult.IsError)
-                return protocolVersionResult.ToParseResult<IBody>();
-
-            currentIndex++;
-            var originatorLineResult = ParseMandatoryLine<OriginatorLine>(parsedLines[currentIndex]);
+                return protocolVersionResult.ToParseResult<IBody>();            
 
             if (originatorLineResult.IsError)
-                return originatorLineResult.ToParseResult<IBody>();
-
-            currentIndex++;
-            var sessionNameResult = ParseMandatoryLine<SessionNameLine>(parsedLines[currentIndex]);
+                return originatorLineResult.ToParseResult<IBody>();            
 
             if (sessionNameResult.IsError)
                 return sessionNameResult.ToParseResult<IBody>();
-
-            currentIndex++;
-            var sessionDescription = ParseOptionalLine<DescriptionLine>(parsedLines[currentIndex]);
-
-            if (sessionDescription != null)
-                currentIndex++;
-
-            var emailAddress = ParseOptionalLine<EmailAddressLine>(parsedLines[currentIndex]);
-
-            if (emailAddress != null)
-                currentIndex++;
-
-            var phoneNumberLine = ParseOptionalLine<PhoneNumberLine>(parsedLines[currentIndex]);
-
-            if (phoneNumberLine != null)
-                currentIndex++;
-
-            var connectionInformationLine = ParseOptionalLine<ConnectionInformationLine>(parsedLines[currentIndex]);
-
-            if (connectionInformationLine != null)
-                currentIndex++;
-
-            var bandwidthLines = ParseBandwidths(parsedLines, currentIndex);
-            currentIndex += bandwidthLines.Count();
-            var timeDescriptions = ParseTimeDescriptions(parsedLines, currentIndex);
-            currentIndex += timeDescriptions.Select(x => x.UsedLines).Sum();
+            
+            var sessionDescription = lineQueue.ParseOptionalLine<DescriptionLine>();
+            var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
+            var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
+            var connectionInformationLine = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
+            var bandwidthLines = ParseBandwidths(lineQueue);
+            var timeDescriptions = ParseTimeDescriptions(lineQueue);
 
             throw new NotImplementedException();
         }
@@ -88,59 +64,41 @@ namespace SipStack.Body.Sdp
             return new ParseResult<List<ILine>>(parsedLines);
         }
 
-        private ParseResult<LineType> ParseMandatoryLine<LineType>(ILine currentLine) where LineType : class
-        {
-            var currentLineCasted = currentLine as LineType;
-            if (currentLineCasted == null)
-                return new ParseResult<LineType>($"line type {typeof(LineType).Name} is missing");
-
-            return new ParseResult<LineType>(currentLineCasted);
-        }
-
-        private LineType ParseOptionalLine<LineType>(ILine currentLine) where LineType : class
-        {
-            var currentLineCasted = currentLine as LineType;
-            return currentLineCasted;
-        }
-
-        private List<BandwidthLine> ParseBandwidths(IReadOnlyList<ILine> lines, int currentIndex)
+        private List<BandwidthLine> ParseBandwidths(LineQueue lineQueue)
         {
             var result = new List<BandwidthLine>();
 
             while (true)
             {
-                var bandwidthLine = ParseOptionalLine<BandwidthLine>(lines[currentIndex]);
+                var bandwidthLine = lineQueue.ParseOptionalLine<BandwidthLine>();
 
                 if (bandwidthLine == null)
                     return result;
 
                 result.Add(bandwidthLine);
-                currentIndex++;
             }
         }
 
-        private List<TimeDescription> ParseTimeDescriptions(IReadOnlyList<ILine> lines, int currentIndex)
+        private List<TimeDescription> ParseTimeDescriptions(LineQueue lineQueue)
         {
             var result = new List<TimeDescription>();
 
             while(true)
             {
-                var currentLineParsed = ParseOptionalLine<TimeLine>(lines[currentIndex]);
+                var currentLineParsed = lineQueue.ParseOptionalLine<TimeLine>();
 
                 if (currentLineParsed == null)
                     return result;
-
-                currentIndex++;
+                
                 var repeatings = new List<RepeatLine>();
 
                 while(true)
                 {
-                    var currentRepeatLineParsed = ParseOptionalLine<RepeatLine>(lines[currentIndex]);
+                    var currentRepeatLineParsed = lineQueue.ParseOptionalLine<RepeatLine>();
 
                     if (currentRepeatLineParsed == null)
                         break;
-
-                    currentIndex++;
+                    
                     repeatings.Add(currentRepeatLineParsed);
                 }
 
