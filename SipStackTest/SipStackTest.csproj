@@ -84,7 +84,6 @@
     <Compile Include="Body\Sdp\PhoneNumberLineTest.cs" />
     <Compile Include="Body\Sdp\TimeZoneLineTest.cs" />
     <Compile Include="Body\Sdp\MediaLineTest.cs" />
-    <Compile Include="Body\Sdp\LineWithUsageTest.cs" />
     <Compile Include="Body\Sdp\UriLineTest.cs" />
     <Compile Include="Body\Sdp\VersionLineTest.cs" />
     <Compile Include="MessageParserTest.cs" />

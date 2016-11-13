@@ -22,17 +22,60 @@ namespace SipStack.Body.Sdp
                 return parsedLinesResult.ToParseResult<IBody>();
 
             var parsedLines = parsedLinesResult.Result;
-            var linesWithUsage = parsedLines.Select(x => new LineWithUsage(x)).ToList();
-            var originatorResult = ParseOriginatorLine(linesWithUsage);
-            var uriResult = ParseUriLine(linesWithUsage);
-            var sessionNameResult = ParseSessionNameLine(linesWithUsage);
-            var sessionDescriptionResult = ParseSessionDescriptionLine(linesWithUsage);
+            int currentIndex = 0;
+            var protocolVersionResult = ParseMandatoryLine<VersionLine>(parsedLines[currentIndex]);
 
-            if (originatorResult.IsError)
-                return originatorResult.ToParseResult<IBody>();
+            if (protocolVersionResult.IsError)
+                return protocolVersionResult.ToParseResult<IBody>();
 
-            var body = new SdpBody(originatorResult.Result, sessionNameResult.Result, sessionDescriptionResult.Result, uriResult.Result);       
-            return new ParseResult<IBody>(body);
+            currentIndex++;
+            var originatorLineResult = ParseMandatoryLine<OriginatorLine>(parsedLines[currentIndex]);
+
+            if (originatorLineResult.IsError)
+                return originatorLineResult.ToParseResult<IBody>();
+
+            currentIndex++;
+            var sessionNameResult = ParseMandatoryLine<SessionNameLine>(parsedLines[currentIndex]);
+
+            if (sessionNameResult.IsError)
+                return sessionNameResult.ToParseResult<IBody>();
+
+            currentIndex++;
+            var sessionDescription = ParseOptionalLine<DescriptionLine>(parsedLines[currentIndex]);
+
+            if (sessionDescription != null)
+                currentIndex++;
+
+            var emailAddress = ParseOptionalLine<EmailAddressLine>(parsedLines[currentIndex]);
+
+            if (emailAddress != null)
+                currentIndex++;
+
+            var phoneNumberLine = ParseOptionalLine<PhoneNumberLine>(parsedLines[currentIndex]);
+
+            if (phoneNumberLine != null)
+                currentIndex++;
+
+            var connectionInformationLine = ParseOptionalLine<ConnectionInformationLine>(parsedLines[currentIndex]);
+
+            if (connectionInformationLine != null)
+                currentIndex++;
+
+            var bandwidthLines = new List<BandwidthLine>();
+            var previousIndex = currentIndex;
+
+            while(true)
+            {
+                var bandwidthLine = ParseOptionalLine<BandwidthLine>(parsedLines[currentIndex]);
+
+                if (bandwidthLine == null)
+                    break;
+
+                bandwidthLines.Add(bandwidthLine);
+                currentIndex++;
+            } 
+
+            throw new NotImplementedException();
         }
 
         private ParseResult<List<ILine>> ParseLines(IList<string> lines, int startLine, int endLine)
@@ -54,77 +97,19 @@ namespace SipStack.Body.Sdp
             return new ParseResult<List<ILine>>(parsedLines);
         }
 
-        private ParseResult<OriginatorLine> ParseOriginatorLine(IReadOnlyList<LineWithUsage> lines)
+        private ParseResult<LineType> ParseMandatoryLine<LineType>(ILine currentLine) where LineType : class
         {
-            var linesWithType = lines.Where(x => x.Line is OriginatorLine).ToList();
+            var currentLineCasted = currentLine as LineType;
+            if (currentLineCasted == null)
+                return new ParseResult<LineType>($"line type {typeof(LineType).Name} is missing");
 
-            if (linesWithType.Count() > 1)
-                return new ParseResult<OriginatorLine>($"there must be at most one originator line");
-
-            if (linesWithType.Count() == 0)
-                return new ParseResult<OriginatorLine>(null as OriginatorLine);
-
-            var lineWithUsage = linesWithType[0];
-            lineWithUsage.MarkAsUsed();
-            return new ParseResult<OriginatorLine>(lineWithUsage.Line as OriginatorLine);
+            return new ParseResult<LineType>(currentLineCasted);
         }
 
-        private ParseResult<UriLine> ParseUriLine(IReadOnlyList<LineWithUsage> lines)
+        private LineType ParseOptionalLine<LineType>(ILine currentLine) where LineType : class
         {
-            var linesWithType = lines.Where(x => x.Line is UriLine).ToList();
-
-            if (linesWithType.Count() > 1)
-                return new ParseResult<UriLine>($"there must be at most one uri line");
-
-            if (linesWithType.Count() == 0)
-                return new ParseResult<UriLine>(null as UriLine);
-
-            var lineWithUsage = linesWithType[0];
-            lineWithUsage.MarkAsUsed();
-            return new ParseResult<UriLine>(lineWithUsage.Line as UriLine);
-        }
-
-        private ParseResult<SessionNameLine> ParseSessionNameLine(IReadOnlyList<LineWithUsage> lines)
-        {
-            var linesWithType = lines.Where(x => x.Line is SessionNameLine).ToList();
-
-            if (linesWithType.Count() != 1)
-                return new ParseResult<SessionNameLine>($"there must be at exactly one session name line");
-
-            var lineWithUsage = linesWithType[0];
-            lineWithUsage.MarkAsUsed();
-            return new ParseResult<SessionNameLine>(lineWithUsage.Line as SessionNameLine);
-        }
-
-        private ParseResult<DescriptionLine> ParseSessionDescriptionLine(IReadOnlyList<LineWithUsage> lines)
-        {
-            var linesWithType = lines.Where(x => x.Line is DescriptionLine).ToList();
-
-            if (linesWithType.Count() != 1)
-                return new ParseResult<DescriptionLine>($"there must be at most one general session name line");
-
-            if (linesWithType.Count() == 0)
-                return new ParseResult<DescriptionLine>(null as DescriptionLine);
-
-            var lineWithUsage = linesWithType[0];
-            lineWithUsage.MarkAsUsed();
-            return new ParseResult<DescriptionLine>(lineWithUsage.Line as DescriptionLine);
-        }
-
-        private ParseResult<LineType> ParseSessionGeneralLine<LineType>(IReadOnlyList<LineWithUsage> lines) 
-            where LineType: class, ILine
-        {
-            var linesWithType = lines.Where(x => x.Line is LineType).ToList();
-
-            if (linesWithType.Count() > 1)
-                return new ParseResult<LineType>($"there must be at most one {typeof(LineType).Name}");
-
-            if (linesWithType.Count() == 0)
-                return new ParseResult<LineType>(null as LineType);
-
-            var lineWithUsage = linesWithType[0];
-            lineWithUsage.MarkAsUsed();
-            return new ParseResult<LineType>(lineWithUsage.Line as LineType);
+            var currentLineCasted = currentLine as LineType;
+            return currentLineCasted;
         }
     }
 }
