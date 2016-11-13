@@ -13,16 +13,19 @@ namespace SipStack.Body.Sdp
 
         #region constructors
 
-        public SdpBody()
-        { }
+        public SdpBody(OriginatorLine originator)
+        {
+            Originator = originator;
+        }
+
         #endregion
 
         #region properties
 
-        public OriginatorLine Originator { get; private set; }
-        public SessionNameLine SessionName { get; private set; }
-        public DescriptionLine Description { get; private set; }
-        public UriLine Uri { get; private set; }
+        public OriginatorLine Originator { get; }
+        public SessionNameLine SessionName { get; }
+        public DescriptionLine Description { get; }
+        public UriLine Uri { get; }
 
         public int ContentLength
         {
@@ -35,26 +38,6 @@ namespace SipStack.Body.Sdp
         #endregion
 
         #region public functions
-
-        public static ParseResult<SdpBody> Parse(IList<ILine> lines)
-        {
-            var sdpBody = new SdpBody();
-            var linesWithUsage = lines.Select(x => new LineWithUsage(x)).ToList();
-
-            var originatorLines = linesWithUsage.Where(x => x.Line is OriginatorLine).ToList();
-
-            if (originatorLines.Count() != 1)
-                return new ParseResult<SdpBody>("there must be exactly one originator line");
-
-            var originatorLine = originatorLines[0];
-
-            sdpBody.Originator = originatorLine.Line as OriginatorLine;
-            originatorLine.MarkAsUsed();
-
-            throw new NotImplementedException();
-
-            return new ParseResult<SdpBody>(sdpBody);
-        }
 
         public void AddTo(MessageBuilder messageBuilder)
         {
