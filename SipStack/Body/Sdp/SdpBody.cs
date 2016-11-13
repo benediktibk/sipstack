@@ -13,9 +13,15 @@ namespace SipStack.Body.Sdp
 
         #region constructors
 
-        public SdpBody(OriginatorLine originator)
+        public SdpBody(OriginatorLine originator, SessionNameLine sessionName, DescriptionLine sessionDescription, UriLine uri)
         {
+            if (sessionName == null)
+                throw new ArgumentNullException("sessionName");
+
             Originator = originator;
+            SessionName = sessionName;
+            Description = sessionDescription;
+            Uri = uri;
         }
 
         #endregion

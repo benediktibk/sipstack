@@ -23,12 +23,15 @@ namespace SipStack.Body.Sdp
 
             var parsedLines = parsedLinesResult.Result;
             var linesWithUsage = parsedLines.Select(x => new LineWithUsage(x)).ToList();
-            var originatorLineResult = ParseOriginatorLine(linesWithUsage);
+            var originatorResult = ParseSessionGeneralLine<OriginatorLine>(linesWithUsage);
+            var uriResult = ParseSessionGeneralLine<UriLine>(linesWithUsage);
+            var sessionNameResult = ParseSessionGeneralLine<SessionNameLine>(linesWithUsage);
+            var sessionDescriptionResult = ParseSessionGeneralLine<DescriptionLine>(linesWithUsage);
 
-            if (originatorLineResult.IsError)
-                return originatorLineResult.ToParseResult<IBody>();
+            if (originatorResult.IsError)
+                return originatorResult.ToParseResult<IBody>();
 
-            var body = new SdpBody(originatorLineResult.Result);
+            var body = new SdpBody(originatorResult.Result, sessionNameResult.Result, sessionDescriptionResult.Result, uriResult.Result);
             throw new NotImplementedException();        
             return new ParseResult<IBody>(body);
         }
@@ -52,16 +55,20 @@ namespace SipStack.Body.Sdp
             return new ParseResult<List<ILine>>(parsedLines);
         }
 
-        private ParseResult<OriginatorLine> ParseOriginatorLine(IReadOnlyList<LineWithUsage> lines)
+        private ParseResult<LineType> ParseSessionGeneralLine<LineType>(IReadOnlyList<LineWithUsage> lines) 
+            where LineType: class, ILine
         {
-            var originatorLines = lines.Where(x => x.Line is OriginatorLine).ToList();
+            var linesWithType = lines.Where(x => x.Line is LineType).ToList();
 
-            if (originatorLines.Count() != 1)
-                return new ParseResult<OriginatorLine>("there must be exactly one originator line");
+            if (linesWithType.Count() > 1)
+                return new ParseResult<LineType>($"there must be at most one {typeof(LineType).Name}");
 
-            var originatorLineWithUsage = originatorLines[0];
-            originatorLineWithUsage.MarkAsUsed();
-            return new ParseResult<OriginatorLine>(originatorLineWithUsage.Line as OriginatorLine);
+            if (linesWithType.Count() == 0)
+                return new ParseResult<LineType>(null as LineType);
+
+            var lineWithUsage = linesWithType[0];
+            lineWithUsage.MarkAsUsed();
+            return new ParseResult<LineType>(lineWithUsage.Line as LineType);
         }
     }
 }
