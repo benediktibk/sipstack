@@ -39,10 +39,11 @@ namespace SipStack.Body.Sdp
             var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
             var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
             var connectionInformationLine = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
-            var bandwidthLines = ParseBandwidths(lineQueue);
+            var bandwidthLines = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
             var timeZoneAdjustment = lineQueue.ParseOptionalLine<TimeZoneAdjustment>();
             var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
+            var sessionAttributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
 
             throw new NotImplementedException();
         }
@@ -66,21 +67,6 @@ namespace SipStack.Body.Sdp
             return new ParseResult<List<ILine>>(parsedLines);
         }
 
-        private List<BandwidthLine> ParseBandwidths(LineQueue lineQueue)
-        {
-            var result = new List<BandwidthLine>();
-
-            while (true)
-            {
-                var bandwidthLine = lineQueue.ParseOptionalLine<BandwidthLine>();
-
-                if (bandwidthLine == null)
-                    return result;
-
-                result.Add(bandwidthLine);
-            }
-        }
-
         private List<TimeDescription> ParseTimeDescriptions(LineQueue lineQueue)
         {
             var result = new List<TimeDescription>();
@@ -91,19 +77,8 @@ namespace SipStack.Body.Sdp
 
                 if (currentLineParsed == null)
                     return result;
-                
-                var repeatings = new List<RepeatLine>();
 
-                while(true)
-                {
-                    var currentRepeatLineParsed = lineQueue.ParseOptionalLine<RepeatLine>();
-
-                    if (currentRepeatLineParsed == null)
-                        break;
-                    
-                    repeatings.Add(currentRepeatLineParsed);
-                }
-
+                var repeatings = lineQueue.ParseMultipleOptionalLines<RepeatLine>();
                 result.Add(new TimeDescription(currentLineParsed, repeatings));
             }
         }

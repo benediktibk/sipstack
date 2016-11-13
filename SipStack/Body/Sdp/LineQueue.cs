@@ -42,5 +42,20 @@ namespace SipStack.Body.Sdp
 
             return currentLineCasted;
         }
+
+        public List<LineType> ParseMultipleOptionalLines<LineType>() where LineType : class
+        {
+            var result = new List<LineType>();
+
+            while (true)
+            {
+                var line = ParseOptionalLine<LineType>();
+
+                if (line == null)
+                    return result;
+
+                result.Add(line);
+            }
+        }
     }
 }
