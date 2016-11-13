@@ -61,19 +61,10 @@ namespace SipStack.Body.Sdp
             if (connectionInformationLine != null)
                 currentIndex++;
 
-            var bandwidthLines = new List<BandwidthLine>();
-            var previousIndex = currentIndex;
-
-            while(true)
-            {
-                var bandwidthLine = ParseOptionalLine<BandwidthLine>(parsedLines[currentIndex]);
-
-                if (bandwidthLine == null)
-                    break;
-
-                bandwidthLines.Add(bandwidthLine);
-                currentIndex++;
-            } 
+            var bandwidthLines = ParseBandwidths(parsedLines, currentIndex);
+            currentIndex += bandwidthLines.Count();
+            var timeDescriptions = ParseTimeDescriptions(parsedLines, currentIndex);
+            currentIndex += timeDescriptions.Select(x => x.UsedLines).Sum();
 
             throw new NotImplementedException();
         }
@@ -110,6 +101,51 @@ namespace SipStack.Body.Sdp
         {
             var currentLineCasted = currentLine as LineType;
             return currentLineCasted;
+        }
+
+        private List<BandwidthLine> ParseBandwidths(IReadOnlyList<ILine> lines, int currentIndex)
+        {
+            var result = new List<BandwidthLine>();
+
+            while (true)
+            {
+                var bandwidthLine = ParseOptionalLine<BandwidthLine>(lines[currentIndex]);
+
+                if (bandwidthLine == null)
+                    return result;
+
+                result.Add(bandwidthLine);
+                currentIndex++;
+            }
+        }
+
+        private List<TimeDescription> ParseTimeDescriptions(IReadOnlyList<ILine> lines, int currentIndex)
+        {
+            var result = new List<TimeDescription>();
+
+            while(true)
+            {
+                var currentLineParsed = ParseOptionalLine<TimeLine>(lines[currentIndex]);
+
+                if (currentLineParsed == null)
+                    return result;
+
+                currentIndex++;
+                var repeatings = new List<RepeatLine>();
+
+                while(true)
+                {
+                    var currentRepeatLineParsed = ParseOptionalLine<RepeatLine>(lines[currentIndex]);
+
+                    if (currentRepeatLineParsed == null)
+                        break;
+
+                    currentIndex++;
+                    repeatings.Add(currentRepeatLineParsed);
+                }
+
+                result.Add(new TimeDescription(currentLineParsed, repeatings));
+            }
         }
     }
 }
