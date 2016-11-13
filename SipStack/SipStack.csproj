@@ -55,6 +55,7 @@
     <Compile Include="Body\Sdp\EncryptionKeyType.cs" />
     <Compile Include="Body\Sdp\ILine.cs" />
     <Compile Include="Body\Sdp\LineParser.cs" />
+    <Compile Include="Body\Sdp\LineQueue.cs" />
     <Compile Include="Body\Sdp\MediaLine.cs" />
     <Compile Include="Body\Sdp\MediaTransportProtocol.cs" />
     <Compile Include="Body\Sdp\MediaType.cs" />
