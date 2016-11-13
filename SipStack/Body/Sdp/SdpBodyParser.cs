@@ -41,6 +41,8 @@ namespace SipStack.Body.Sdp
             var connectionInformationLine = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
             var bandwidthLines = ParseBandwidths(lineQueue);
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
+            var timeZoneAdjustment = lineQueue.ParseOptionalLine<TimeZoneAdjustment>();
+            var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
 
             throw new NotImplementedException();
         }
