@@ -1,7 +1,4 @@
-﻿using SipStack.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 
 namespace SipStack.Body.Sdp
 {
@@ -13,8 +10,9 @@ namespace SipStack.Body.Sdp
 
         #region constructors
 
-        public SdpBody()
+        public SdpBody(int protocolVersion, Originator originator)
         {
+            Originator = originator;
         }
 
         #endregion
@@ -22,6 +20,7 @@ namespace SipStack.Body.Sdp
         #region properties
 
         public int ProtocolVersion { get; }
+        public Originator Originator { get; }
 
         public int ContentLength
         {

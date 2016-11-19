@@ -9,20 +9,10 @@ namespace SipStack.Body.Sdp
     {
         public OriginatorLine(string username, long sessionId, long sessionVersion, NetType netType, AddressType addressType, IPAddress ipAddress)
         {
-            Username = username;
-            SessionId = sessionId;
-            SessionVersion = sessionVersion;
-            NetType = netType;
-            AddressType = addressType;
-            IpAddress = ipAddress;
+            Originator = new Originator(username, sessionId, sessionVersion, netType, addressType, ipAddress);
         }
 
-        public string Username { get; }
-        public long SessionId { get; }
-        public long SessionVersion { get; }
-        public NetType NetType { get; }
-        public AddressType AddressType { get; }
-        public IPAddress IpAddress { get; }
+        public Originator Originator { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
