@@ -14,7 +14,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"video 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaType.Should().Be(MediaType.Video);
+            mediaLine.Media.MediaType.Should().Be(MediaType.Video);
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaType.Should().Be(MediaType.Audio);
+            mediaLine.Media.MediaType.Should().Be(MediaType.Audio);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"text 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaType.Should().Be(MediaType.Text);
+            mediaLine.Media.MediaType.Should().Be(MediaType.Text);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"message 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaType.Should().Be(MediaType.Message);
+            mediaLine.Media.MediaType.Should().Be(MediaType.Message);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"application 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaType.Should().Be(MediaType.Application);
+            mediaLine.Media.MediaType.Should().Be(MediaType.Application);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.Port.Should().Be(49170);
+            mediaLine.Media.Port.Should().Be(49170);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.PortCount.Should().Be(2);
+            mediaLine.Media.PortCount.Should().Be(2);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.PortCount.Should().Be(1);
+            mediaLine.Media.PortCount.Should().Be(1);
         }
 
         [TestMethod]
@@ -102,7 +102,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170 RTP/AVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaTransportProtocol.Should().Be(MediaTransportProtocol.RtpAvp);
+            mediaLine.Media.MediaTransportProtocol.Should().Be(MediaTransportProtocol.RtpAvp);
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 RTP/SAVP 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaTransportProtocol.Should().Be(MediaTransportProtocol.RtpSavp);
+            mediaLine.Media.MediaTransportProtocol.Should().Be(MediaTransportProtocol.RtpSavp);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 udp 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaTransportProtocol.Should().Be(MediaTransportProtocol.Udp);
+            mediaLine.Media.MediaTransportProtocol.Should().Be(MediaTransportProtocol.Udp);
         }
 
         [TestMethod]
@@ -129,8 +129,8 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 udp 31");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaFormatDescriptions.Count.Should().Be(1);
-            mediaLine.MediaFormatDescriptions[0].Should().Be("31");
+            mediaLine.Media.MediaFormatDescriptions.Count.Should().Be(1);
+            mediaLine.Media.MediaFormatDescriptions[0].Should().Be("31");
         }
 
         [TestMethod]
@@ -139,10 +139,10 @@ namespace SipStackTest.Body.Sdp
             var line = MediaLine.Parse(@"audio 49170/2 udp 31 34 5");
 
             var mediaLine = line.Result as MediaLine;
-            mediaLine.MediaFormatDescriptions.Count.Should().Be(3);
-            mediaLine.MediaFormatDescriptions[0].Should().Be("31");
-            mediaLine.MediaFormatDescriptions[1].Should().Be("34");
-            mediaLine.MediaFormatDescriptions[2].Should().Be("5");
+            mediaLine.Media.MediaFormatDescriptions.Count.Should().Be(3);
+            mediaLine.Media.MediaFormatDescriptions[0].Should().Be("31");
+            mediaLine.Media.MediaFormatDescriptions[1].Should().Be("34");
+            mediaLine.Media.MediaFormatDescriptions[2].Should().Be("5");
         }
     }
 }

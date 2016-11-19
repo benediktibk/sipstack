@@ -59,6 +59,8 @@
     <Compile Include="Body\Sdp\ILine.cs" />
     <Compile Include="Body\Sdp\LineParser.cs" />
     <Compile Include="Body\Sdp\LineQueue.cs" />
+    <Compile Include="Body\Sdp\Media.cs" />
+    <Compile Include="Body\Sdp\MediaDescription.cs" />
     <Compile Include="Body\Sdp\MediaLine.cs" />
     <Compile Include="Body\Sdp\MediaTransportProtocol.cs" />
     <Compile Include="Body\Sdp\MediaType.cs" />

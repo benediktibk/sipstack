@@ -7,22 +7,12 @@ namespace SipStack.Body.Sdp
 {
     public class MediaLine : ILine
     {
-        private readonly List<string> _mediaFormatDescriptions;
-
         public MediaLine(MediaType mediaType, int port, int portCount, MediaTransportProtocol mediaTransportProtocol, IReadOnlyList<string> mediaFormatDescriptions)
         {
-            MediaType = mediaType;
-            Port = port;
-            PortCount = portCount;
-            MediaTransportProtocol = mediaTransportProtocol;
-            _mediaFormatDescriptions = mediaFormatDescriptions.ToList();
+            Media = new Media(mediaType, port, portCount, mediaTransportProtocol, mediaFormatDescriptions);
         }
 
-        public MediaType MediaType { get; }
-        public int Port { get; }
-        public int PortCount { get; }
-        public MediaTransportProtocol MediaTransportProtocol { get; }
-        public IReadOnlyList<string> MediaFormatDescriptions => _mediaFormatDescriptions;
+        public Media Media { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
