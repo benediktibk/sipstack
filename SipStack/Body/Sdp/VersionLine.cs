@@ -1,22 +1,15 @@
 ﻿using SipStack.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SipStack.Body.Sdp
 {
     public class VersionLine : ILine
     {
-        private readonly int _version;
-
         public VersionLine(int version)
         {
-            _version = version;
+            Version = version;
         }
 
-        public int Version => _version;
+        public int Version { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
