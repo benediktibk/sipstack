@@ -5,23 +5,20 @@ namespace SipStack.Body.Sdp
 {
     public class AttributeLine : ILine
     {
-        private readonly string _name;
-        private readonly string _value;
-
         public AttributeLine(string name)
         {
-            _name = name;
-            _value = "";
+            Name = name;
+            Value = "";
         }
 
         public AttributeLine(string name, string value)
         {
-            _name = name;
-            _value = value;
+            Name = name;
+            Value = value;
         }
         
-        public string Name => _name;
-        public string Value => _value;
+        public string Name { get; }
+        public string Value { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
