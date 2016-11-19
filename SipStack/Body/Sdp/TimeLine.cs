@@ -10,6 +10,9 @@ namespace SipStack.Body.Sdp
         {
             if (DateTime.Compare(start, end) >= 0)
                 throw new ArgumentException("end must be after start");
+
+            Start = start;
+            End = end;
         }
 
         public DateTime Start { get; }
