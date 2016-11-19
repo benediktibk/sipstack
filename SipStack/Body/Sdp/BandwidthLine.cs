@@ -1,22 +1,18 @@
 ﻿using SipStack.Utils;
-using System;
 using System.Text.RegularExpressions;
 
 namespace SipStack.Body.Sdp
 {
     public class BandwidthLine : ILine
     {
-        private readonly BandwidthType _type;
-        private readonly int _bandwidth;
-
         public BandwidthLine(BandwidthType type, int bandwidth)
         {
-            _type = type;
-            _bandwidth = bandwidth;
+            Type = type;
+            Bandwidth = bandwidth;
         }
 
-        public BandwidthType Type => _type;
-        public int Bandwidth => _bandwidth;
+        public BandwidthType Type { get; }
+        public int Bandwidth { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
