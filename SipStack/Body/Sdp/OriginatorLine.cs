@@ -7,29 +7,22 @@ namespace SipStack.Body.Sdp
 {
     public class OriginatorLine : ILine
     {
-        private readonly string _username;
-        private readonly long _sessionId;
-        private readonly long _sessionVersion;
-        private readonly NetType _netType;
-        private readonly AddressType _addressType;
-        private readonly IPAddress _ipAddress;
-
         public OriginatorLine(string username, long sessionId, long sessionVersion, NetType netType, AddressType addressType, IPAddress ipAddress)
         {
-            _username = username;
-            _sessionId = sessionId;
-            _sessionVersion = sessionVersion;
-            _netType = netType;
-            _addressType = addressType;
-            _ipAddress = ipAddress;
+            Username = username;
+            SessionId = sessionId;
+            SessionVersion = sessionVersion;
+            NetType = netType;
+            AddressType = addressType;
+            IpAddress = ipAddress;
         }
 
-        public string Username => _username;
-        public long SessionId => _sessionId;
-        public long SessionVersion => _sessionVersion;
-        public NetType NetType => _netType;
-        public AddressType AddressType => _addressType;
-        public IPAddress IpAddress => _ipAddress;
+        public string Username { get; }
+        public long SessionId { get; }
+        public long SessionVersion { get; }
+        public NetType NetType { get; }
+        public AddressType AddressType { get; }
+        public IPAddress IpAddress { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
