@@ -9,10 +9,7 @@ namespace SipStack.Body.Sdp
     public class ConnectionInformationLine : ILine
     {
         #region private variables
-
-        private readonly NetType _netType;
-        private readonly AddressType _addressType;
-        private readonly IPAddress _ipAddress;
+        
         private readonly int _multicastTimeToLive;
         private readonly int _numberOfMulticastAddresses;
 
@@ -32,9 +29,9 @@ namespace SipStack.Body.Sdp
             if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
                 throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
 
-            _netType = netType;
-            _addressType = addressType;
-            _ipAddress = ipAddress;
+            NetType = netType;
+            AddressType = addressType;
+            IpAddress = ipAddress;
             _multicastTimeToLive = multicastTimeToLive;
             _numberOfMulticastAddresses = numberOfMulticastAddresses;
         }
@@ -49,9 +46,9 @@ namespace SipStack.Body.Sdp
             if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
                 throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
 
-            _netType = netType;
-            _addressType = addressType;
-            _ipAddress = ipAddress;
+            NetType = netType;
+            AddressType = addressType;
+            IpAddress = ipAddress;
             _multicastTimeToLive = 0;
             _numberOfMulticastAddresses = numberOfMulticastAddresses;
         }
@@ -64,9 +61,9 @@ namespace SipStack.Body.Sdp
             if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
                 throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
 
-            _netType = netType;
-            _addressType = addressType;
-            _ipAddress = ipAddress;
+            NetType = netType;
+            AddressType = addressType;
+            IpAddress = ipAddress;
             _multicastTimeToLive = 0;
             _numberOfMulticastAddresses = 0;
         }
@@ -75,9 +72,9 @@ namespace SipStack.Body.Sdp
 
         #region properties
 
-        public NetType NetType => _netType;
-        public AddressType AddressType => _addressType;
-        public IPAddress IpAddress => _ipAddress;
+        public NetType NetType { get; }
+        public AddressType AddressType { get; }
+        public IPAddress IpAddress { get; }
         public int MulticastTimeToLive
         {
             get
