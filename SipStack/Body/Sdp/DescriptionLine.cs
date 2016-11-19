@@ -4,14 +4,12 @@ namespace SipStack.Body.Sdp
 {
     public class DescriptionLine : ILine
     {
-        private readonly string _description;
-
         public DescriptionLine(string description)
         {
-            _description = description;
+            Description = description;
         }
 
-        public string Description => _description;
+        public string Description { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

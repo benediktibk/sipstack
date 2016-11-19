@@ -1,34 +1,27 @@
 ﻿using SipStack.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SipStack.Body.Sdp
 {
     public class MediaLine : ILine
     {
-        private readonly MediaType _mediaType;
-        private readonly int _port;
-        private readonly int _portCount;
-        private readonly MediaTransportProtocol _mediaTransportProtocol;
         private readonly List<string> _mediaFormatDescriptions;
 
         public MediaLine(MediaType mediaType, int port, int portCount, MediaTransportProtocol mediaTransportProtocol, IReadOnlyList<string> mediaFormatDescriptions)
         {
-            _mediaType = mediaType;
-            _port = port;
-            _portCount = portCount;
-            _mediaTransportProtocol = mediaTransportProtocol;
+            MediaType = mediaType;
+            Port = port;
+            PortCount = portCount;
+            MediaTransportProtocol = mediaTransportProtocol;
             _mediaFormatDescriptions = mediaFormatDescriptions.ToList();
         }
 
-        public MediaType MediaType => _mediaType;
-        public int Port => _port;
-        public int PortCount => _portCount;
-        public MediaTransportProtocol MediaTransportProtocol => _mediaTransportProtocol;
+        public MediaType MediaType { get; }
+        public int Port { get; }
+        public int PortCount { get; }
+        public MediaTransportProtocol MediaTransportProtocol { get; }
         public IReadOnlyList<string> MediaFormatDescriptions => _mediaFormatDescriptions;
 
         public static ParseResult<ILine> Parse(string data)

@@ -5,14 +5,12 @@ namespace SipStack.Body.Sdp
 {
     public class EmailAddressLine : ILine
     {
-        private readonly EmailAddress _emailAddress;
-
         public EmailAddressLine(EmailAddress emailAddress)
         {
-            _emailAddress = emailAddress;
+            EmailAddress = emailAddress;
         }
 
-        public EmailAddress EmailAddress => _emailAddress;
+        public EmailAddress EmailAddress { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

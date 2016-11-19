@@ -5,17 +5,14 @@ namespace SipStack.Body.Sdp
 {
     public class EncryptionKeyLine : ILine
     {
-        private readonly EncryptionKeyType _keyType;
-        private readonly string _key;
-
         public EncryptionKeyLine(EncryptionKeyType keyType, string key)
         {
-            _keyType = keyType;
-            _key = key;
+            KeyType = keyType;
+            Key = key;
         }
 
-        public EncryptionKeyType KeyType => _keyType;
-        public string Key => _key;
+        public EncryptionKeyType KeyType { get; }
+        public string Key { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
