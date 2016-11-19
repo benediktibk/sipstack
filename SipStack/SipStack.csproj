@@ -49,6 +49,7 @@
     <Compile Include="Body\Sdp\AttributeLine.cs" />
     <Compile Include="Body\Sdp\BandwidthLine.cs" />
     <Compile Include="Body\Sdp\BandwidthType.cs" />
+    <Compile Include="Body\Sdp\ConnectionInformation.cs" />
     <Compile Include="Body\Sdp\ConnectionInformationLine.cs" />
     <Compile Include="Body\Sdp\EmailAddressLine.cs" />
     <Compile Include="Body\Sdp\EncryptionKeyLine.cs" />
