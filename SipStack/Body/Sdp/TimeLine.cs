@@ -6,20 +6,14 @@ namespace SipStack.Body.Sdp
 {
     public class TimeLine : ILine
     {
-        private readonly DateTime _start;
-        private readonly DateTime _end;
-
         public TimeLine(DateTime start, DateTime end)
         {
             if (DateTime.Compare(start, end) >= 0)
                 throw new ArgumentException("end must be after start");
-
-            _start = start;
-            _end = end;
         }
 
-        public DateTime Start => _start;
-        public DateTime End => _end;
+        public DateTime Start { get; }
+        public DateTime End { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

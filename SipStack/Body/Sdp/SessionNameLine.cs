@@ -5,17 +5,15 @@ namespace SipStack.Body.Sdp
 {
     public class SessionNameLine : ILine
     {
-        private readonly string _name;
-
         public SessionNameLine(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentOutOfRangeException("name");
 
-            _name = name;
+            Name = name;
         }
 
-        public string Name => _name;
+        public string Name { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

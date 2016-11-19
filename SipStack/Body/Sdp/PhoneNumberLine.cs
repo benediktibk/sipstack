@@ -4,14 +4,12 @@ namespace SipStack.Body.Sdp
 {
     public class PhoneNumberLine : ILine
     {
-        private readonly PhoneNumber _phoneNumber;
-
         public PhoneNumberLine(PhoneNumber phoneNumber)
         {
-            _phoneNumber = phoneNumber;
+            PhoneNumber = phoneNumber;
         }
 
-        public PhoneNumber PhoneNumber => _phoneNumber;
+        public PhoneNumber PhoneNumber { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

@@ -5,14 +5,12 @@ namespace SipStack.Body.Sdp
 {
     public class UriLine : ILine
     {
-        private readonly Uri _uri;
-
         public UriLine(Uri uri)
         {
-            _uri = uri;
+            Uri = uri;
         }
 
-        public Uri Uri => _uri;
+        public Uri Uri { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

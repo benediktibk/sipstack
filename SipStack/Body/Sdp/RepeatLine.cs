@@ -6,15 +6,6 @@ namespace SipStack.Body.Sdp
 {
     public class RepeatLine : ILine
     {
-        #region private variables
-
-        private readonly TimeSpan _repeatInterval;
-        private readonly TimeSpan _activeDuration;
-        private readonly TimeSpan _offsetStart;
-        private readonly TimeSpan _offsetEnd;
-
-        #endregion
-
         #region constructors
 
         public RepeatLine(TimeSpan repeatInterval, TimeSpan activeDuration, TimeSpan offsetStart, TimeSpan offsetEnd)
@@ -22,20 +13,20 @@ namespace SipStack.Body.Sdp
             if (TimeSpan.Compare(offsetStart, offsetEnd) > 0)
                 throw new ArgumentException("start must be before end");
 
-            _repeatInterval = repeatInterval;
-            _activeDuration = activeDuration;
-            _offsetStart = offsetStart;
-            _offsetEnd = offsetEnd;
+            RepeatInterval = repeatInterval;
+            ActiveDuration = activeDuration;
+            OffsetStart = offsetStart;
+            OffsetEnd = offsetEnd;
         }
 
         #endregion
 
         #region properties
 
-        public TimeSpan RepeatInterval => _repeatInterval;
-        public TimeSpan ActiveDuration => _activeDuration;
-        public TimeSpan OffsetStart => _offsetStart;
-        public TimeSpan OffsetEnd => _offsetEnd;
+        public TimeSpan RepeatInterval { get; }
+        public TimeSpan ActiveDuration { get; }
+        public TimeSpan OffsetStart { get; }
+        public TimeSpan OffsetEnd { get; }
 
         #endregion
 
