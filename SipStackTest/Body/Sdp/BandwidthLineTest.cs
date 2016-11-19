@@ -14,8 +14,8 @@ namespace SipStackTest.Body.Sdp
             var line = BandwidthLine.Parse("CT:128");
 
             var bandwidthLine = line.Result as BandwidthLine;
-            bandwidthLine.Type.Should().Be(BandwidthType.ConferenceTotal);
-            bandwidthLine.Bandwidth.Should().Be(128);
+            bandwidthLine.Bandwidth.Type.Should().Be(BandwidthType.ConferenceTotal);
+            bandwidthLine.Bandwidth.Amount.Should().Be(128);
         }
 
         [TestMethod]
@@ -24,8 +24,8 @@ namespace SipStackTest.Body.Sdp
             var line = BandwidthLine.Parse("AS:35");
 
             var bandwidthLine = line.Result as BandwidthLine;
-            bandwidthLine.Type.Should().Be(BandwidthType.ApplicationSpecific);
-            bandwidthLine.Bandwidth.Should().Be(35);
+            bandwidthLine.Bandwidth.Type.Should().Be(BandwidthType.ApplicationSpecific);
+            bandwidthLine.Bandwidth.Amount.Should().Be(35);
         }
 
         [TestMethod]
@@ -34,8 +34,8 @@ namespace SipStackTest.Body.Sdp
             var line = BandwidthLine.Parse("X-ASDF:59");
 
             var bandwidthLine = line.Result as BandwidthLine;
-            bandwidthLine.Type.Should().Be(BandwidthType.Unknown);
-            bandwidthLine.Bandwidth.Should().Be(59);
+            bandwidthLine.Bandwidth.Type.Should().Be(BandwidthType.Unknown);
+            bandwidthLine.Bandwidth.Amount.Should().Be(59);
         }
     }
 }

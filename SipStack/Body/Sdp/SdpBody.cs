@@ -1,13 +1,21 @@
 ﻿using SipStack.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SipStack.Body.Sdp
 {
     public class SdpBody : IBody
     {
+        #region private variables
+
+        private readonly List<Bandwidth> _bandwidths;
+
+        #endregion
+
         #region constructors
 
-        public SdpBody(int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, EmailAddress emailAddress, PhoneNumber phoneNumber)
+        public SdpBody(int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, EmailAddress emailAddress, PhoneNumber phoneNumber, ConnectionInformation connectionInformation, IReadOnlyList<Bandwidth> bandwidths)
         {
             Originator = originator;
             SessionName = sessionName;
@@ -15,6 +23,8 @@ namespace SipStack.Body.Sdp
             SessionUri = sessionUri;
             EmailAddress = emailAddress;
             PhoneNumber = phoneNumber;
+            ConnectionInformation = connectionInformation;
+            _bandwidths = bandwidths.ToList();
         }
 
         #endregion
@@ -28,6 +38,8 @@ namespace SipStack.Body.Sdp
         public Uri SessionUri { get; }
         public EmailAddress EmailAddress { get; }
         public PhoneNumber PhoneNumber { get; }
+        public ConnectionInformation ConnectionInformation { get; }
+        public IReadOnlyList<Bandwidth> Bandwidth => _bandwidths;
 
         public int ContentLength
         {

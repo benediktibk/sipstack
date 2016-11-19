@@ -7,12 +7,10 @@ namespace SipStack.Body.Sdp
     {
         public BandwidthLine(BandwidthType type, int bandwidth)
         {
-            Type = type;
-            Bandwidth = bandwidth;
+            Bandwidth = new Bandwidth(type, bandwidth);
         }
 
-        public BandwidthType Type { get; }
-        public int Bandwidth { get; }
+        public Bandwidth Bandwidth { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {
