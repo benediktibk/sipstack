@@ -10,13 +10,18 @@ namespace SipStack.Body.Sdp
         #region private variables
 
         private readonly List<Bandwidth> _bandwidths;
+        private readonly List<TimeDescription> _timeDescriptions;
 
         #endregion
 
         #region constructors
 
-        public SdpBody(int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, EmailAddress emailAddress, PhoneNumber phoneNumber, ConnectionInformation connectionInformation, IReadOnlyList<Bandwidth> bandwidths)
+        public SdpBody(
+            int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, 
+            EmailAddress emailAddress, PhoneNumber phoneNumber, ConnectionInformation connectionInformation, 
+            IReadOnlyList<Bandwidth> bandwidths, IReadOnlyList<TimeDescription> timeDescriptions, TimeZoneAdjustment timeZoneAdjustment)
         {
+            ProtocolVersion = protocolVersion;
             Originator = originator;
             SessionName = sessionName;
             SessionDescription = sessionDescription;
@@ -25,6 +30,8 @@ namespace SipStack.Body.Sdp
             PhoneNumber = phoneNumber;
             ConnectionInformation = connectionInformation;
             _bandwidths = bandwidths.ToList();
+            _timeDescriptions = timeDescriptions.ToList();
+            TimeZoneAdjustment = timeZoneAdjustment;
         }
 
         #endregion
@@ -40,6 +47,9 @@ namespace SipStack.Body.Sdp
         public PhoneNumber PhoneNumber { get; }
         public ConnectionInformation ConnectionInformation { get; }
         public IReadOnlyList<Bandwidth> Bandwidth => _bandwidths;
+        public IReadOnlyList<TimeDescription> TimeDescriptions => _timeDescriptions;
+        public TimeZoneAdjustment TimeZoneAdjustment { get; }
+        
 
         public int ContentLength
         {
