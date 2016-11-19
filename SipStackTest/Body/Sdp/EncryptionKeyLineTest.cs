@@ -13,8 +13,8 @@ namespace SipStackTest.Body.Sdp
             var line = EncryptionKeyLine.Parse("prompt");
 
             var encryptionKeyLine = line.Result as EncryptionKeyLine;
-            encryptionKeyLine.KeyType.Should().Be(EncryptionKeyType.Prompt);
-            encryptionKeyLine.Key.Should().BeNullOrEmpty();
+            encryptionKeyLine.EncryptionKey.KeyType.Should().Be(EncryptionKeyType.Prompt);
+            encryptionKeyLine.EncryptionKey.Key.Should().BeNullOrEmpty();
         }
 
         [TestMethod]
@@ -23,8 +23,8 @@ namespace SipStackTest.Body.Sdp
             var line = EncryptionKeyLine.Parse(@"clear:Adfas23947:adfo/)/=");
 
             var encryptionKeyLine = line.Result as EncryptionKeyLine;
-            encryptionKeyLine.KeyType.Should().Be(EncryptionKeyType.Clear);
-            encryptionKeyLine.Key.Should().Be(@"Adfas23947:adfo/)/=");
+            encryptionKeyLine.EncryptionKey.KeyType.Should().Be(EncryptionKeyType.Clear);
+            encryptionKeyLine.EncryptionKey.Key.Should().Be(@"Adfas23947:adfo/)/=");
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace SipStackTest.Body.Sdp
             var line = EncryptionKeyLine.Parse(@"base64:Y2xlYXI6QWRmYXMyMzk0NzphZGZvLykvPQ==");
 
             var encryptionKeyLine = line.Result as EncryptionKeyLine;
-            encryptionKeyLine.KeyType.Should().Be(EncryptionKeyType.Base64);
-            encryptionKeyLine.Key.Should().Be(@"Y2xlYXI6QWRmYXMyMzk0NzphZGZvLykvPQ==");
+            encryptionKeyLine.EncryptionKey.KeyType.Should().Be(EncryptionKeyType.Base64);
+            encryptionKeyLine.EncryptionKey.Key.Should().Be(@"Y2xlYXI6QWRmYXMyMzk0NzphZGZvLykvPQ==");
         }
 
         [TestMethod]
@@ -43,8 +43,8 @@ namespace SipStackTest.Body.Sdp
             var line = EncryptionKeyLine.Parse(@"uri:http://asdf.asdf.asdf/asdf?asdf=dfad");
 
             var encryptionKeyLine = line.Result as EncryptionKeyLine;
-            encryptionKeyLine.KeyType.Should().Be(EncryptionKeyType.Uri);
-            encryptionKeyLine.Key.Should().Be(@"http://asdf.asdf.asdf/asdf?asdf=dfad");
+            encryptionKeyLine.EncryptionKey.KeyType.Should().Be(EncryptionKeyType.Uri);
+            encryptionKeyLine.EncryptionKey.Key.Should().Be(@"http://asdf.asdf.asdf/asdf?asdf=dfad");
         }
 
         [TestMethod]
@@ -53,8 +53,8 @@ namespace SipStackTest.Body.Sdp
             var line = EncryptionKeyLine.Parse(@"prompt:http://asdf.asdf.asdf/asdf?asdf=dfad");
 
             var encryptionKeyLine = line.Result as EncryptionKeyLine;
-            encryptionKeyLine.KeyType.Should().Be(EncryptionKeyType.Prompt);
-            encryptionKeyLine.Key.Should().Be(@"http://asdf.asdf.asdf/asdf?asdf=dfad");
+            encryptionKeyLine.EncryptionKey.KeyType.Should().Be(EncryptionKeyType.Prompt);
+            encryptionKeyLine.EncryptionKey.Key.Should().Be(@"http://asdf.asdf.asdf/asdf?asdf=dfad");
         }
 
         [TestMethod]

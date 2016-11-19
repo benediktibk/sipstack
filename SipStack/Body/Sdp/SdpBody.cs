@@ -19,7 +19,8 @@ namespace SipStack.Body.Sdp
         public SdpBody(
             int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, 
             EmailAddress emailAddress, PhoneNumber phoneNumber, ConnectionInformation connectionInformation, 
-            IReadOnlyList<Bandwidth> bandwidths, IReadOnlyList<TimeDescription> timeDescriptions, TimeZoneAdjustment timeZoneAdjustment)
+            IReadOnlyList<Bandwidth> bandwidths, IReadOnlyList<TimeDescription> timeDescriptions, TimeZoneAdjustment timeZoneAdjustment,
+            EncryptionKey encryptionKey)
         {
             ProtocolVersion = protocolVersion;
             Originator = originator;
@@ -32,6 +33,7 @@ namespace SipStack.Body.Sdp
             _bandwidths = bandwidths.ToList();
             _timeDescriptions = timeDescriptions.ToList();
             TimeZoneAdjustment = timeZoneAdjustment;
+            EncryptionKey = encryptionKey;
         }
 
         #endregion
@@ -49,6 +51,7 @@ namespace SipStack.Body.Sdp
         public IReadOnlyList<Bandwidth> Bandwidth => _bandwidths;
         public IReadOnlyList<TimeDescription> TimeDescriptions => _timeDescriptions;
         public TimeZoneAdjustment TimeZoneAdjustment { get; }
+        public EncryptionKey EncryptionKey { get; }
         
 
         public int ContentLength

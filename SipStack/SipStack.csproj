@@ -53,6 +53,7 @@
     <Compile Include="Body\Sdp\ConnectionInformation.cs" />
     <Compile Include="Body\Sdp\ConnectionInformationLine.cs" />
     <Compile Include="Body\Sdp\EmailAddressLine.cs" />
+    <Compile Include="Body\Sdp\EncryptionKey.cs" />
     <Compile Include="Body\Sdp\EncryptionKeyLine.cs" />
     <Compile Include="Body\Sdp\EncryptionKeyType.cs" />
     <Compile Include="Body\Sdp\ILine.cs" />

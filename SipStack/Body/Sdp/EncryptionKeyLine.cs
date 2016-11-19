@@ -7,13 +7,11 @@ namespace SipStack.Body.Sdp
     {
         public EncryptionKeyLine(EncryptionKeyType keyType, string key)
         {
-            KeyType = keyType;
-            Key = key;
+            EncryptionKey = new EncryptionKey(keyType, key);
         }
 
-        public EncryptionKeyType KeyType { get; }
-        public string Key { get; }
-
+        public EncryptionKey EncryptionKey { get; }
+        
         public static ParseResult<ILine> Parse(string data)
         {
             if (data == "prompt")
