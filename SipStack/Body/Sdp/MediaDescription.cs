@@ -11,7 +11,7 @@ namespace SipStack.Body.Sdp
         private readonly List<Bandwidth> _bandwidths;
         private readonly List<Attribute> _attributes;
 
-        public MediaDescription(Media media, string title, ConnectionInformation connectionInformation, IReadOnlyList<Bandwidth> bandwidths, EncryptionKey encryptionKey, IReadOnlyList<Attribute> attributes)
+        public MediaDescription(Media media, string title, ConnectionInformation connectionInformation, IEnumerable<Bandwidth> bandwidths, EncryptionKey encryptionKey, IEnumerable<Attribute> attributes)
         {
             Media = media;
             Title = title;

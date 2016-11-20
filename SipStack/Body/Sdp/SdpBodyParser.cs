@@ -36,16 +36,34 @@ namespace SipStack.Body.Sdp
                 return sessionNameResult.ToParseResult<IBody>();
             
             var sessionDescription = lineQueue.ParseOptionalLine<DescriptionLine>();
+            var uri = lineQueue.ParseOptionalLine<UriLine>();
             var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
             var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
             var connectionInformationLine = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
             var bandwidthLines = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
-            var timeZoneAdjustment = lineQueue.ParseOptionalLine<TimeZoneAdjustment>();
+            var timeZoneLine = lineQueue.ParseOptionalLine<TimeZoneLine>();
             var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
             var sessionAttributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
+            var mediaDescriptions = ParseMediaDescriptions(lineQueue);
 
-            throw new NotImplementedException();
+            var sdpBody = new SdpBody(
+                protocolVersionResult.Result.Version,
+                originatorLineResult.Result.Originator,
+                sessionNameResult.Result.Name,
+                sessionDescription?.Description,
+                uri?.Uri,
+                emailAddress?.EmailAddress,
+                phoneNumberLine?.PhoneNumber,
+                connectionInformationLine?.ConnectionInformation,
+                bandwidthLines.Select(x => x.Bandwidth),
+                timeDescriptions,
+                timeZoneLine != null ? timeZoneLine.TimeZoneAdjustments : new List<TimeZoneAdjustment>(),
+                encryptionKey?.EncryptionKey,
+                sessionAttributes.Select(x => x.Attribute),
+                mediaDescriptions);
+
+            return new ParseResult<IBody>(sdpBody);
         }
 
         private ParseResult<List<ILine>> ParseLines(IList<string> lines, int startLine, int endLine)
@@ -80,6 +98,35 @@ namespace SipStack.Body.Sdp
 
                 var repeatings = lineQueue.ParseMultipleOptionalLines<RepeatLine>();
                 result.Add(new TimeDescription(currentLineParsed, repeatings));
+            }
+        }
+
+        private List<MediaDescription> ParseMediaDescriptions(LineQueue lineQueue)
+        {
+            var result = new List<MediaDescription>();
+
+            while (true)
+            {
+                var mediaLine = lineQueue.ParseOptionalLine<MediaLine>();
+
+                if (mediaLine == null)
+                    return result;
+
+                var mediaTitle = lineQueue.ParseOptionalLine<DescriptionLine>();
+                var connectionInformation = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
+                var bandwidths = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
+                var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
+                var attributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
+
+                var mediaDescription = new MediaDescription(
+                    mediaLine.Media,
+                    mediaTitle?.Description,
+                    connectionInformation?.ConnectionInformation,
+                    bandwidths.Select(x => x.Bandwidth),
+                    encryptionKey?.EncryptionKey,
+                    attributes.Select(x => x.Attribute));
+
+                result.Add(mediaDescription);
             }
         }
     }
