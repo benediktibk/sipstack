@@ -7,18 +7,15 @@ namespace SipStack.Body.Sdp
     {
         public AttributeLine(string name)
         {
-            Name = name;
-            Value = "";
+            Attribute = new Attribute(name);
         }
 
         public AttributeLine(string name, string value)
         {
-            Name = name;
-            Value = value;
+            Attribute = new Attribute(name, value);
         }
         
-        public string Name { get; }
-        public string Value { get; }
+        public Attribute Attribute { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

@@ -15,8 +15,8 @@ namespace SipStackTest.Body.Sdp
             var line = AttributeLine.Parse(@"recvonly");
 
             var attributeLine = line.Result as AttributeLine;
-            attributeLine.Name.Should().Be("recvonly");
-            attributeLine.Value.Should().Be("");
+            attributeLine.Attribute.Name.Should().Be("recvonly");
+            attributeLine.Attribute.Value.Should().Be("");
         }
 
         [TestMethod]
@@ -25,8 +25,8 @@ namespace SipStackTest.Body.Sdp
             var line = AttributeLine.Parse(@"rtpmap:8 PCMA/8000/1");
 
             var attributeLine = line.Result as AttributeLine;
-            attributeLine.Name.Should().Be("rtpmap");
-            attributeLine.Value.Should().Be("8 PCMA/8000/1");
+            attributeLine.Attribute.Name.Should().Be("rtpmap");
+            attributeLine.Attribute.Value.Should().Be("8 PCMA/8000/1");
         }
     }
 }

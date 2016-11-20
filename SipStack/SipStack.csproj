@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Body\BodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
+    <Compile Include="Body\Sdp\Attribute.cs" />
     <Compile Include="Body\Sdp\AttributeLine.cs" />
     <Compile Include="Body\Sdp\Bandwidth.cs" />
     <Compile Include="Body\Sdp\BandwidthLine.cs" />
