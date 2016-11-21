@@ -16,6 +16,15 @@ namespace SipStack.Body.Sdp
 
         public ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine)
         {
+            if (endLine < startLine)
+                throw new ArgumentException("startLine must be less or equal than endLine");
+
+            if (startLine < 0 || endLine < 0)
+                throw new ArgumentException("startLine and endLine must not be negative");
+
+            if (lines.Count() <= endLine)
+                throw new ArgumentException("endLine is greater than the element count in lines");
+
             var parsedLinesResult = ParseLines(lines, startLine, endLine);
 
             if (parsedLinesResult.IsError)
@@ -46,6 +55,9 @@ namespace SipStack.Body.Sdp
             var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
             var sessionAttributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
             var mediaDescriptions = ParseMediaDescriptions(lineQueue);
+
+            if (!lineQueue.IsEmpty)
+                return new ParseResult<IBody>("there are invalid lines in the SDP-Body");
 
             var sdpBody = new SdpBody(
                 protocolVersionResult.Result.Version,

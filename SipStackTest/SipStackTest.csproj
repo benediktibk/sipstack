@@ -85,6 +85,7 @@
     <Compile Include="Body\Sdp\TimeZoneLineTest.cs" />
     <Compile Include="Body\Sdp\MediaLineTest.cs" />
     <Compile Include="Body\Sdp\LineQueueTest.cs" />
+    <Compile Include="Body\Sdp\SdpBodyParserTest.cs" />
     <Compile Include="Body\Sdp\UriLineTest.cs" />
     <Compile Include="Body\Sdp\VersionLineTest.cs" />
     <Compile Include="MessageParserTest.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Header\HeaderFieldNameTest.cs" />
     <Compile Include="Header\HeaderTest.cs" />
     <Compile Include="Body\BodyParserFactoryTest.cs" />
-    <Compile Include="Body\SdpBodyParserTest.cs" />
     <Compile Include="Utils\EmailAddressTest.cs" />
     <Compile Include="Utils\PhoneNumberTest.cs" />
   </ItemGroup>
