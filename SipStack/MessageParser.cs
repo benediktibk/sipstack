@@ -4,20 +4,17 @@ using SipStack.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace SipStack
 {
     public class MessageParser
     {
-        private RequestLineParser _requestLineParser;
-        private HeaderFieldParser _headerFieldParser;
-        private BodyParserFactory _bodyParserFactory;
+        private readonly HeaderParser _headerParser;
+        private readonly BodyParserFactory _bodyParserFactory;
 
-        public MessageParser(RequestLineParser requestLineParser, HeaderFieldParser headerFieldParser, BodyParserFactory bodyParserFactory) 
+        public MessageParser(HeaderParser headerParser, BodyParserFactory bodyParserFactory) 
         {
-            _requestLineParser = requestLineParser;
-            _headerFieldParser = headerFieldParser;
+            _headerParser = headerParser;
             _bodyParserFactory = bodyParserFactory;
         }
 
@@ -53,37 +50,23 @@ namespace SipStack
             return new ParseResult<Message>(new Message(header, bodyResult.Result));
         }
 
-        private ParseResult<Header.Header> ParseHeader(IList<string> lines, out int lastHeaderLine)
+        private ParseResult<Header.Header> ParseHeader(IReadOnlyList<string> lines, out int lastHeaderLine)
         {
             lastHeaderLine = -1;
-            var headerFields = new List<HeaderField>();
-
-            var requestLineResult = _requestLineParser.Parse(lines[0]);
-            if (requestLineResult.IsError)
-                return requestLineResult.ToParseResult<Header.Header>();
 
             for (var i = 1; i < lines.Count(); ++i)
             {
-                var currentLine = lines[i];
+                if (!string.IsNullOrEmpty(lines[i]))
+                    continue;
 
-                if (string.IsNullOrEmpty(currentLine))
-                {
-                    lastHeaderLine = i - 1;
-                    break;
-                }
-
-                int end;
-                var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
-
-                if (headerFieldResult.IsError)
-                    return headerFieldResult.ToParseResult<Header.Header>();
-
-                var headerField = headerFieldResult.Result;
-                headerFields.Add(headerField);
-                i = end;
+                lastHeaderLine = i - 1;
+                break;
             }
 
-            return Header.Header.Parse(requestLineResult.Result, headerFields);
+            if (lastHeaderLine < 0)
+                return new ParseResult<Header.Header>("couldn't find empty line after header");
+
+            return _headerParser.Parse(lines, lastHeaderLine);
         }
     }
 }

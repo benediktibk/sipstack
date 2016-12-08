@@ -4,7 +4,7 @@ namespace SipStack
 {
     public class Message
     {
-        public Message(IHeader header, IBody body)
+        public Message(Header.Header header, IBody body)
         {
             if (header == null)
                 throw new ArgumentNullException("header");
@@ -19,8 +19,8 @@ namespace SipStack
                 throw new ArgumentException("header", "value of field content length doesn't match the real content length");
         }
 
-        public IHeader Header { get; private set; }
-        public IBody Body { get; private set; }
+        public Header.Header Header { get; }
+        public IBody Body { get; }
 
         public override string ToString()
         {

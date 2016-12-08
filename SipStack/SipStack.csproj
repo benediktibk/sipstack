@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Body\BodyParser.cs" />
+    <Compile Include="Body\IBodyParser.cs" />
     <Compile Include="Body\BodyParserFactory.cs" />
     <Compile Include="Body\Sdp\Attribute.cs" />
     <Compile Include="Body\Sdp\AttributeLine.cs" />
@@ -69,6 +69,8 @@
     <Compile Include="Body\Sdp\TimeDescription.cs" />
     <Compile Include="Body\Sdp\TimeUnit.cs" />
     <Compile Include="Body\Sdp\TimeZoneAdjustment.cs" />
+    <Compile Include="Header\HeaderDto.cs" />
+    <Compile Include="Header\HeaderParser.cs" />
     <Compile Include="Utils\EmailAddress.cs" />
     <Compile Include="Network\AddressType.cs" />
     <Compile Include="Network\MulticastUtils.cs" />
@@ -89,7 +91,6 @@
     <Compile Include="Header\HeaderFieldParser.cs" />
     <Compile Include="Header\HeaderFieldType.cs" />
     <Compile Include="IBody.cs" />
-    <Compile Include="IHeader.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="MessageBuilder.cs" />

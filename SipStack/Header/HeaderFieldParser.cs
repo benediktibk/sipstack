@@ -8,7 +8,7 @@ namespace SipStack.Header
 {
     public class HeaderFieldParser
     {
-        public ParseResult<HeaderField> Parse(IList<string> lines, int start, out int end)
+        public ParseResult<HeaderField> Parse(IReadOnlyList<string> lines, int start, out int end)
         {
             var startLine = lines[start];
             end = start;
