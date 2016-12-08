@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack.Utils;
 using SipStack;
+using SipStack.Header;
 using FluentAssertions;
 using Moq;
 using System;
@@ -17,9 +18,8 @@ namespace SipStackTest.Utils
         public void SetUp()
         {
             _errorResult = new ParseResult<Message>("asdfg");
-            var header = new Mock<SipStack.Header.Header>();
             var body = new Mock<IBody>();
-            var message = new Mock<Message>(header.Object, body.Object);
+            var message = new Mock<Message>(new SipStack.Header.Header(new HeaderDto()), body.Object);
             _successResult = new ParseResult<Message>(message.Object);
         }
 
