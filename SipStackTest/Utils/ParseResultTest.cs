@@ -17,7 +17,7 @@ namespace SipStackTest.Utils
         public void SetUp()
         {
             _errorResult = new ParseResult<Message>("asdfg");
-            var header = new Mock<IHeader>();
+            var header = new Mock<SipStack.Header.Header>();
             var body = new Mock<IBody>();
             var message = new Mock<Message>(header.Object, body.Object);
             _successResult = new ParseResult<Message>(message.Object);
