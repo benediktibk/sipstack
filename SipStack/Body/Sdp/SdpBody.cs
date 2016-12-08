@@ -60,7 +60,6 @@ namespace SipStack.Body.Sdp
         public IReadOnlyList<Attribute> Attributes => _attributes;
         public IReadOnlyList<MediaDescription> MediaDescriptions => _mediaDescriptions;
 
-
         public int ContentLength
         {
             get
