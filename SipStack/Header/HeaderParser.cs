@@ -1,4 +1,5 @@
 ﻿using SipStack.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,19 +18,35 @@ namespace SipStack.Header
 
         public ParseResult<Header> Parse(IReadOnlyList<string> lines, int headerEnd)
         {
-            var fields = new List<HeaderField>();
-
             var requestLineResult = _requestLineParser.Parse(lines[0]);
             if (requestLineResult.IsError)
                 return requestLineResult.ToParseResult<Header>();
 
+            var fieldsResult = ParseHeaderFields(lines, headerEnd);
+
+            if (fieldsResult.IsError)
+                return fieldsResult.ToParseResult<Header>();
+
+            var fields = fieldsResult.Result;
+            var fieldsCombined = CombineHeaderFieldsWithSameType(fields);
+
+            var header = new HeaderDto();
+
+            throw new NotImplementedException();
+
+            return new ParseResult<Header>(new Header(header));
+        }
+
+        private ParseResult<List<HeaderField>> ParseHeaderFields(IReadOnlyList<string> lines, int headerEnd)
+        {
+            var fields = new List<HeaderField>();
             for (var i = 1; i < headerEnd; ++i)
             {
                 var end = 0;
                 var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
 
                 if (headerFieldResult.IsError)
-                    return headerFieldResult.ToParseResult<Header>();
+                    return headerFieldResult.ToParseResult<List<HeaderField>>();
 
                 var headerField = headerFieldResult.Result;
                 fields.Add(headerField);
@@ -37,41 +54,29 @@ namespace SipStack.Header
                 i = end;
             }
 
-            var fieldsByType = new Dictionary<HeaderFieldName, HeaderField>();
-            var fieldsListByType = new Dictionary<HeaderFieldName, List<HeaderField>>();
-            var fieldTypes = new HashSet<HeaderFieldName>();
+            return new ParseResult<List<HeaderField>>(fields);
+        }
+
+        private static List<HeaderField> CombineHeaderFieldsWithSameType(List<HeaderField> fields)
+        {
+            var fieldsByType = new Dictionary<HeaderFieldName, List<string>>();
 
             foreach (var field in fields)
-                fieldTypes.Add(field.Name);
-
-            if (!fieldTypes.Contains(new HeaderFieldName(HeaderFieldType.ContentLength)))
-                return new ParseResult<Header>("required field Content-Length is missing");
-
-            foreach (var fieldType in fieldTypes)
-                fieldsListByType[fieldType] = new List<HeaderField>();
-
-            foreach (var field in fields)
-                fieldsListByType[field.Name].Add(field);
-
-            foreach (var fieldsList in fieldsListByType)
             {
-                var type = fieldsList.Key;
-                var currentFields = fieldsList.Value;
+                var type = field.Name;
+                List<string> values;
 
-                if (!type.CanHaveMultipleValues && currentFields.Count > 1)
-                    return new ParseResult<Header>("a header field has multiple values, although it is not allowed to have multiple values");
+                if (!fieldsByType.TryGetValue(type, out values))
+                {
+                    values = new List<string>(1);
+                    fieldsByType.Add(type, values);
+                }
 
-                var values = new List<string>();
 
-                foreach (var currentField in currentFields)
-                    values.AddRange(currentField.Values);
-
-                fieldsByType[type] = new HeaderField(type, values);
+                values.AddRange(field.Values);
             }
 
-            var header = new HeaderDto();
-
-            return new ParseResult<Header>(new Header(header));
+            return fieldsByType.Select(x => new HeaderField(x.Key, x.Value)).ToList();
         }
     }
 }
