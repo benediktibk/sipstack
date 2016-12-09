@@ -92,7 +92,6 @@
     <Compile Include="Header\HeaderFieldType.cs" />
     <Compile Include="IBody.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="IMethod.cs" />
     <Compile Include="MessageBuilder.cs" />
     <Compile Include="Body\NoBodyParser.cs" />
     <Compile Include="MessageParser.cs" />
