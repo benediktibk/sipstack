@@ -4,19 +4,19 @@ To: <sip:+436646671086435288633008057@ims.mnc001.mcc232.3gppnetwork.org;user=pho
 Call-ID: DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
 CSeq: 1 INVITE
 Contact: <sip:10.122.40.21:5060>
-Max-Forwards: 68
-Supported: 100rel, precondition, timer
-Allow: INVITE, PRACK, ACK, UPDATE, CANCEL, BYE, OPTIONS, INFO, SUBSCRIBE, REFER, NOTIFY
-Privacy: none
-P-Asserted-Identity: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
-Min-SE: 90
-P-Early-Media: supported
-Accept: application/sdp, application/isup, multipart/mixed, application/dtmf, application/dtmf-relay
 Via: SIP/2.0/UDP 10.122.38.6:5062;branch=z9hG4bK*1-6-16648-3697-12-908*hc5ebZri6bbigdjdei.1, SIP/2.0/UDP 10.122.36.5:5061;received=10.122.36.5;branch=z9hG4bK*1-5-16648-4360-12-908*dfROrNG-VkdUyp55ddffjeae.1, SIP/2.0/UDP 10.122.40.21:5060;received=10.122.40.21;branch=z9hG4bK9c5kp4Vyez
-X-ZTE-Cookie: 7zs4rm2;id=DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
+Max-Forwards: 68
+Route: <sip:lnz-isbc-103.ims.mnc001.mcc232.3gppnetwork.org:5060;lr>
 Record-Route: <sip:10.122.38.6:5062;lr;zte-did=1-6-16648-3697-12-908>, <sip:10.122.36.5:5061;lr;zte-did=1-5-16648-4360-12-908>
+Accept: application/sdp, application/isup, multipart/mixed, application/dtmf, application/dtmf-relay
+Allow: INVITE, PRACK, ACK, UPDATE, CANCEL, BYE, OPTIONS, INFO, SUBSCRIBE, REFER, NOTIFY
+Min-SE: 90
+P-Asserted-Identity: <sip:+43664809028009@ims.mnc001.mcc232.3gppnetwork.org;user=phone>
 P-Charging-Function-Addresses: ccf=rf.default.lxmemapn02.at.inside
 P-Charging-Vector: icid-value=C31F3C720F48600AE01054D5602VIEICSCF
+P-Early-Media: supported
+Privacy: none
 Session-Expires: 3600
-Route: <sip:lnz-isbc-103.ims.mnc001.mcc232.3gppnetwork.org:5060;lr>
+Supported: 100rel, precondition, timer
+X-ZTE-Cookie: 7zs4rm2;id=DCiddZhLJ.U42sr.XzWs@vie-mgcf-101.ims.mnc001.mcc232.3gppnetwork.org
 Content-Length: 0
