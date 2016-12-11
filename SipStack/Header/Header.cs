@@ -266,6 +266,9 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.To, To);
             AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
             AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
+            AddToMessage(messageBuilder, HeaderFieldType.CallId, CallId);
+            AddToMessage(messageBuilder, HeaderFieldType.Cseq, Cseq);
+            AddToMessage(messageBuilder, HeaderFieldType.Contact, Contact);
             AddToMessage(messageBuilder, HeaderFieldType.Route, Route);
             AddToMessage(messageBuilder, HeaderFieldType.RecordRoute, RecordRoute);
             AddToMessage(messageBuilder, HeaderFieldType.Accept, Accept);
@@ -279,13 +282,10 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.AnswerMode, AnswerMode);
             AddToMessage(messageBuilder, HeaderFieldType.AuthenticationInfo, AuthenticationInfo);
             AddToMessage(messageBuilder, HeaderFieldType.Authorization, Authorization);
-            AddToMessage(messageBuilder, HeaderFieldType.CallId, CallId);
             AddToMessage(messageBuilder, HeaderFieldType.CallInfo, CallInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.Contact, Contact);
             AddToMessage(messageBuilder, HeaderFieldType.ContentDisposition, ContentDisposition);
             AddToMessage(messageBuilder, HeaderFieldType.ContentEncoding, ContentEncoding);
             AddToMessage(messageBuilder, HeaderFieldType.ContentLanguage, ContentLanguage);
-            AddToMessage(messageBuilder, HeaderFieldType.Cseq, Cseq);
             AddToMessage(messageBuilder, HeaderFieldType.Date, Date);
             AddToMessage(messageBuilder, HeaderFieldType.Encryption, Encryption);
             AddToMessage(messageBuilder, HeaderFieldType.ErrorInfo, ErrorInfo);
