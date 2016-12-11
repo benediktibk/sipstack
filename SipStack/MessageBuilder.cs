@@ -44,7 +44,7 @@ namespace SipStack
             _stringBuilder.Append(headerName);
             _stringBuilder.Append(": ");
 
-            for (var i = 0; i < values.Count; ++i)
+            for (var i = 0; i < values.Count - 1; ++i)
             {
                 _stringBuilder.Append(values[i]);
                 _stringBuilder.Append(", ");

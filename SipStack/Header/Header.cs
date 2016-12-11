@@ -400,12 +400,12 @@ namespace SipStack.Header
             if (value == null)
                 return;
 
-            messageBuilder.AddLineFormat("$1: $2", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value);
+            messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value);
         }
 
         private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, int value)
         {
-            messageBuilder.AddLineFormat("$1: $2", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value.ToString());
+            messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value.ToString());
         }
 
         #endregion
