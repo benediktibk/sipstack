@@ -395,7 +395,7 @@ namespace SipStack.Header
             if (values == null || values.Count == 0)
                 return;
 
-            messageBuilder.AddHeaderLineWithMultipleValues(HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), values);
+            messageBuilder.AddSipHeaderLineWithMultipleValues(HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), values);
         }
 
         private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, string value)
@@ -422,7 +422,7 @@ namespace SipStack.Header
 
         private static void AddToMessage(MessageBuilder messageBuilder, HeaderField field)
         {
-            messageBuilder.AddHeaderLineWithMultipleValues(field.Name.ToString(), field.Values);
+            messageBuilder.AddSipHeaderLineWithMultipleValues(field.Name.ToString(), field.Values);
         }
 
         #endregion

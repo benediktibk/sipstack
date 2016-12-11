@@ -35,7 +35,7 @@ namespace SipStack
             _lines.Add(_stringBuilder.ToString());
         }
 
-        public void AddHeaderLineWithMultipleValues(string headerName, IReadOnlyList<string> values)
+        public void AddSipHeaderLineWithMultipleValues(string headerName, IReadOnlyList<string> values)
         {
             if (values.Count < 1)
                 throw new ArgumentException("values", "must contain at least one value");
