@@ -7,14 +7,12 @@ namespace SipStack.Body.Sdp
 {
     public class TimeZoneLine : ILine
     {
-        private readonly List<TimeZoneAdjustment> _timeZoneAdjustments;
-
-        public TimeZoneLine(IReadOnlyList<TimeZoneAdjustment> timeZoneAdjustments)
+        public TimeZoneLine(IEnumerable<TimeZoneAdjustment> timeZoneAdjustments)
         {
-            _timeZoneAdjustments = timeZoneAdjustments.ToList();
+            TimeZoneAdjustments = timeZoneAdjustments.ToList();
         }
 
-        public IReadOnlyList<TimeZoneAdjustment> TimeZoneAdjustments => _timeZoneAdjustments;
+        public IReadOnlyList<TimeZoneAdjustment> TimeZoneAdjustments { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

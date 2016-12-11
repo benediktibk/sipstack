@@ -7,16 +7,6 @@ namespace SipStack.Body.Sdp
 {
     public class SdpBody : IBody
     {
-        #region private variables
-
-        private readonly List<Bandwidth> _bandwidths;
-        private readonly List<TimeDescription> _timeDescriptions;
-        private readonly List<Attribute> _attributes;
-        private readonly List<MediaDescription> _mediaDescriptions;
-        private readonly List<TimeZoneAdjustment> _timeZoneAdjustments;
-
-        #endregion
-
         #region constructors
 
         public SdpBody(
@@ -25,6 +15,21 @@ namespace SipStack.Body.Sdp
             IEnumerable<Bandwidth> bandwidths, IEnumerable<TimeDescription> timeDescriptions, IEnumerable<TimeZoneAdjustment> timeZoneAdjustments,
             EncryptionKey encryptionKey, IEnumerable<Attribute> attributes, IEnumerable<MediaDescription> mediaDescriptions)
         {
+            if (originator == null)
+                throw new ArgumentNullException("originator");
+            if (sessionName == null)
+                throw new ArgumentNullException("sessionName");
+            if (bandwidths == null)
+                throw new ArgumentNullException("bandwidths");
+            if (timeDescriptions == null)
+                throw new ArgumentNullException("timeDescriptions");
+            if (timeZoneAdjustments == null)
+                throw new ArgumentNullException("timeZoneAdjustments");
+            if (attributes == null)
+                throw new ArgumentNullException("attributes");
+            if (mediaDescriptions == null)
+                throw new ArgumentNullException("mediaDescriptions");
+
             ProtocolVersion = protocolVersion;
             Originator = originator;
             SessionName = sessionName;
@@ -33,12 +38,12 @@ namespace SipStack.Body.Sdp
             EmailAddress = emailAddress;
             PhoneNumber = phoneNumber;
             ConnectionInformation = connectionInformation;
-            _bandwidths = bandwidths.ToList();
-            _timeDescriptions = timeDescriptions.ToList();
-            _timeZoneAdjustments = timeZoneAdjustments.ToList();
+            Bandwidths = bandwidths.ToList();
+            TimeDescriptions = timeDescriptions.ToList();
+            TimeZoneAdjustments = timeZoneAdjustments.ToList();
             EncryptionKey = encryptionKey;
-            _attributes = attributes.ToList();
-            _mediaDescriptions = mediaDescriptions.ToList();
+            Attributes = attributes.ToList();
+            MediaDescriptions = mediaDescriptions.ToList();
         }
 
         #endregion
@@ -53,12 +58,12 @@ namespace SipStack.Body.Sdp
         public EmailAddress EmailAddress { get; }
         public PhoneNumber PhoneNumber { get; }
         public ConnectionInformation ConnectionInformation { get; }
-        public IReadOnlyList<Bandwidth> Bandwidth => _bandwidths;
-        public IReadOnlyList<TimeDescription> TimeDescriptions => _timeDescriptions;
-        public IReadOnlyList<TimeZoneAdjustment> TimeZoneAdjustments => _timeZoneAdjustments;
+        public IReadOnlyList<Bandwidth> Bandwidths { get; }
+        public IReadOnlyList<TimeDescription> TimeDescriptions { get; }
+        public IReadOnlyList<TimeZoneAdjustment> TimeZoneAdjustments { get; }
         public EncryptionKey EncryptionKey { get; }
-        public IReadOnlyList<Attribute> Attributes => _attributes;
-        public IReadOnlyList<MediaDescription> MediaDescriptions => _mediaDescriptions;
+        public IReadOnlyList<Attribute> Attributes { get; }
+        public IReadOnlyList<MediaDescription> MediaDescriptions { get; }
 
         #endregion
 
@@ -66,7 +71,66 @@ namespace SipStack.Body.Sdp
 
         public void AddTo(MessageBuilder messageBuilder)
         {
-            throw new NotImplementedException();
+            var sdpMessageBuilder = new SdpMessageBuilder(messageBuilder);
+
+            sdpMessageBuilder.AddProtocolVersion(ProtocolVersion);
+            sdpMessageBuilder.AddOriginator(Originator);
+            sdpMessageBuilder.AddSessionName(SessionName);
+
+            if (SessionDescription != null)
+                sdpMessageBuilder.AddSessionDescription(SessionDescription);
+
+            if (SessionUri != null)
+                sdpMessageBuilder.AddSessionUri(SessionUri);
+
+            if (EmailAddress != null)
+                sdpMessageBuilder.AddEmailAddress(EmailAddress);
+
+            if (PhoneNumber != null)
+                sdpMessageBuilder.AddPhoneNumber(PhoneNumber);
+
+            if (ConnectionInformation != null)
+                sdpMessageBuilder.AddConnectionInformation(ConnectionInformation);
+
+            foreach (var bandwidth in Bandwidths)
+                sdpMessageBuilder.AddBandwidth(bandwidth);
+
+            foreach (var timeDescription in TimeDescriptions)
+            {
+                sdpMessageBuilder.AddTiming(timeDescription.Time);
+
+                foreach (var repeat in timeDescription.Repeatings)
+                    sdpMessageBuilder.AddRepeat(repeat);
+            }
+
+            if (TimeZoneAdjustments.Count() > 0)
+                sdpMessageBuilder.AddTimeZoneAdjustment(TimeZoneAdjustments);
+
+            if (EncryptionKey != null)
+                sdpMessageBuilder.AddEncryptionKey(EncryptionKey);
+
+            foreach (var attribute in Attributes)
+                sdpMessageBuilder.AddAttribute(attribute);
+
+            foreach (var mediaDescription in MediaDescriptions)
+            {
+                sdpMessageBuilder.AddMedia(mediaDescription.Media);
+
+                if (mediaDescription.Title != null)
+                    sdpMessageBuilder.AddSessionDescription(mediaDescription.Title);
+
+                if (mediaDescription.ConnectionInformation != null)
+                    sdpMessageBuilder.AddConnectionInformation(mediaDescription.ConnectionInformation);
+
+                foreach (var bandwidth in mediaDescription.Bandwidths)
+                    sdpMessageBuilder.AddBandwidth(bandwidth);
+
+                if (mediaDescription.EncryptionKey != null)
+                    sdpMessageBuilder.AddEncryptionKey(mediaDescription.EncryptionKey);
+
+                foreach (var attribute in mediaDescription.Attributes)
+                    sdpMessageBuilder.AddAttribute(attribute);
+            }
         }
 
         #endregion

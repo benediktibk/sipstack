@@ -66,9 +66,12 @@
     <Compile Include="Body\Sdp\MediaTransportProtocol.cs" />
     <Compile Include="Body\Sdp\MediaType.cs" />
     <Compile Include="Body\Sdp\Originator.cs" />
+    <Compile Include="Body\Sdp\Repeat.cs" />
+    <Compile Include="Body\Sdp\SdpMessageBuilder.cs" />
     <Compile Include="Body\Sdp\TimeDescription.cs" />
     <Compile Include="Body\Sdp\TimeUnit.cs" />
     <Compile Include="Body\Sdp\TimeZoneAdjustment.cs" />
+    <Compile Include="Body\Sdp\Timing.cs" />
     <Compile Include="Header\HeaderDto.cs" />
     <Compile Include="Header\HeaderParser.cs" />
     <Compile Include="Header\IMethod.cs" />

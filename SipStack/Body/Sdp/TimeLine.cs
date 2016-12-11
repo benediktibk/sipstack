@@ -8,15 +8,10 @@ namespace SipStack.Body.Sdp
     {
         public TimeLine(DateTime start, DateTime end)
         {
-            if (DateTime.Compare(start, end) >= 0)
-                throw new ArgumentException("end must be after start");
-
-            Start = start;
-            End = end;
+            Timing = new Timing(start, end);
         }
 
-        public DateTime Start { get; }
-        public DateTime End { get; }
+        public Timing Timing { get; }
 
         public static ParseResult<ILine> Parse(string data)
         {

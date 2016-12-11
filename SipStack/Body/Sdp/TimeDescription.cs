@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SipStack.Body.Sdp
 {
     public class TimeDescription
     {
-        private readonly List<RepeatLine> _repeatings;
-
-        public TimeDescription(TimeLine time, IReadOnlyList<RepeatLine> repeatings)
+        public TimeDescription(Timing time, IEnumerable<Repeat> repeatings)
         {
+            if (time == null)
+                throw new ArgumentNullException("time");
+            if (repeatings == null)
+                throw new ArgumentNullException("repeatings");
+
             Time = time;
-            _repeatings = repeatings.ToList();
+            Repeatings = repeatings.ToList();
         }
 
-        public TimeLine Time { get; }
-        public IReadOnlyList<RepeatLine> Repeatings => _repeatings;
+        public Timing Time { get; }
+        public IReadOnlyList<Repeat> Repeatings { get; }
     }
 }

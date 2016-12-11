@@ -14,8 +14,8 @@ namespace SipStackTest.Body.Sdp
             var line = TimeLine.Parse(@"2873397496 2873404696");
 
             var timeLine = line.Result as TimeLine;
-            timeLine.Start.Ticks.Should().Be(2873397496L);
-            timeLine.End.Ticks.Should().Be(2873404696L);
+            timeLine.Timing.Start.Ticks.Should().Be(2873397496L);
+            timeLine.Timing.End.Ticks.Should().Be(2873404696L);
         }
 
         [TestMethod]
@@ -24,8 +24,8 @@ namespace SipStackTest.Body.Sdp
             var line = TimeLine.Parse(@"2873397496 0");
 
             var timeLine = line.Result as TimeLine;
-            timeLine.Start.Ticks.Should().Be(2873397496L);
-            timeLine.End.Ticks.Should().Be(DateTime.MaxValue.Ticks);
+            timeLine.Timing.Start.Ticks.Should().Be(2873397496L);
+            timeLine.Timing.End.Ticks.Should().Be(DateTime.MaxValue.Ticks);
         }
 
         [TestMethod]
@@ -58,8 +58,8 @@ namespace SipStackTest.Body.Sdp
             var line = TimeLine.Parse(@"0 0");
 
             var timeLine = line.Result as TimeLine;
-            timeLine.Start.Ticks.Should().Be(0);
-            timeLine.End.Ticks.Should().Be(DateTime.MaxValue.Ticks);
+            timeLine.Timing.Start.Ticks.Should().Be(0);
+            timeLine.Timing.End.Ticks.Should().Be(DateTime.MaxValue.Ticks);
         }
     }
 }

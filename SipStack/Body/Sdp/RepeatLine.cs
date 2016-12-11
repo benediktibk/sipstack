@@ -10,23 +10,14 @@ namespace SipStack.Body.Sdp
 
         public RepeatLine(TimeSpan repeatInterval, TimeSpan activeDuration, TimeSpan offsetStart, TimeSpan offsetEnd)
         {
-            if (TimeSpan.Compare(offsetStart, offsetEnd) > 0)
-                throw new ArgumentException("start must be before end");
-
-            RepeatInterval = repeatInterval;
-            ActiveDuration = activeDuration;
-            OffsetStart = offsetStart;
-            OffsetEnd = offsetEnd;
+            Repeat = new Repeat(repeatInterval, activeDuration, offsetStart, offsetEnd);
         }
 
         #endregion
 
         #region properties
 
-        public TimeSpan RepeatInterval { get; }
-        public TimeSpan ActiveDuration { get; }
-        public TimeSpan OffsetStart { get; }
-        public TimeSpan OffsetEnd { get; }
+        public Repeat Repeat { get; }
 
         #endregion
 

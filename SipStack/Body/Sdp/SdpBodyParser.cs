@@ -70,7 +70,7 @@ namespace SipStack.Body.Sdp
                 connectionInformationLine?.ConnectionInformation,
                 bandwidthLines.Select(x => x.Bandwidth),
                 timeDescriptions,
-                timeZoneLine != null ? timeZoneLine.TimeZoneAdjustments : new List<TimeZoneAdjustment>(),
+                timeZoneLine == null ? new List<TimeZoneAdjustment>() : timeZoneLine.TimeZoneAdjustments,
                 encryptionKey?.EncryptionKey,
                 sessionAttributes.Select(x => x.Attribute),
                 mediaDescriptions);
@@ -109,7 +109,7 @@ namespace SipStack.Body.Sdp
                     return result;
 
                 var repeatings = lineQueue.ParseMultipleOptionalLines<RepeatLine>();
-                result.Add(new TimeDescription(currentLineParsed, repeatings));
+                result.Add(new TimeDescription(currentLineParsed.Timing, repeatings.Select(x => x.Repeat)));
             }
         }
 
