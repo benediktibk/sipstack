@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SipStack.Header
 {
@@ -8,6 +9,9 @@ namespace SipStack.Header
 
         public HeaderField(HeaderFieldName name, IList<string> values)
         {
+            if (values == null || values.Count < 1)
+                throw new ArgumentException("values", "there must be at least one value");
+
             Name = name;
             _values = new List<string>(values);
         }

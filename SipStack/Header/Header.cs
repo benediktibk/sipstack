@@ -128,6 +128,7 @@ namespace SipStack.Header
             UserToUser = header.UserToUser;
             Via = header.Via;
             Warning = header.Warning;
+            CustomHeaders = header.CustomHeaders;
         }
 
         #endregion
@@ -254,6 +255,7 @@ namespace SipStack.Header
         public IReadOnlyList<string> Via { get; }
         public IReadOnlyList<string> Warning { get; }
         public IReadOnlyList<string> WwwAuthenticate { get; }
+        public IReadOnlyList<HeaderField> CustomHeaders { get; }
 
         #endregion
 
@@ -379,6 +381,7 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.UserToUser, UserToUser);
             AddToMessage(messageBuilder, HeaderFieldType.Warning, Warning);
             AddToMessage(messageBuilder, HeaderFieldType.WwwAuthenticate, WwwAuthenticate);
+            AddToMessage(messageBuilder, CustomHeaders);
             AddToMessage(messageBuilder, HeaderFieldType.ContentType, ContentType);
             AddToMessage(messageBuilder, HeaderFieldType.ContentLength, ContentLength);
         }
@@ -406,6 +409,20 @@ namespace SipStack.Header
         private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, int value)
         {
             messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value.ToString());
+        }
+
+        private static void AddToMessage(MessageBuilder messageBuilder, IReadOnlyList<HeaderField> fields)
+        {
+            if (fields == null)
+                return;
+
+            foreach (var field in fields)
+                AddToMessage(messageBuilder, field);
+        }
+
+        private static void AddToMessage(MessageBuilder messageBuilder, HeaderField field)
+        {
+            messageBuilder.AddHeaderLineWithMultipleValues(field.Name.ToString(), field.Values);
         }
 
         #endregion
