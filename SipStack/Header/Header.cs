@@ -262,6 +262,12 @@ namespace SipStack.Header
         public void AddTo(MessageBuilder messageBuilder)
         {
             Method.AddTo(messageBuilder);
+            AddToMessage(messageBuilder, HeaderFieldType.From, From);
+            AddToMessage(messageBuilder, HeaderFieldType.To, To);
+            AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
+            AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
+            AddToMessage(messageBuilder, HeaderFieldType.Route, Route);
+            AddToMessage(messageBuilder, HeaderFieldType.RecordRoute, RecordRoute);
             AddToMessage(messageBuilder, HeaderFieldType.Accept, Accept);
             AddToMessage(messageBuilder, HeaderFieldType.AcceptContact, AcceptContact);
             AddToMessage(messageBuilder, HeaderFieldType.AcceptEncoding, AcceptEncoding);
@@ -287,7 +293,6 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.Expires, Expires);
             AddToMessage(messageBuilder, HeaderFieldType.FeatureCaps, FeatureCaps);
             AddToMessage(messageBuilder, HeaderFieldType.FlowTimer, FlowTimer);
-            AddToMessage(messageBuilder, HeaderFieldType.From, From);
             AddToMessage(messageBuilder, HeaderFieldType.Geolocation, Geolocation);
             AddToMessage(messageBuilder, HeaderFieldType.GeolocationError, GeolocationError);
             AddToMessage(messageBuilder, HeaderFieldType.GeolocationRouting, GeolocationRouting);
@@ -299,7 +304,6 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.InReplyTo, InReplyTo);
             AddToMessage(messageBuilder, HeaderFieldType.Join, Join);
             AddToMessage(messageBuilder, HeaderFieldType.MaxBreadth, MaxBreadth);
-            AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
             AddToMessage(messageBuilder, HeaderFieldType.MimeVersion, MimeVersion);
             AddToMessage(messageBuilder, HeaderFieldType.MinExpires, MinExpires);
             AddToMessage(messageBuilder, HeaderFieldType.MinSe, MinSe);
@@ -340,7 +344,6 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.Rack, Rack);
             AddToMessage(messageBuilder, HeaderFieldType.Reason, Reason);
             AddToMessage(messageBuilder, HeaderFieldType.ReasonPhrase, ReasonPhrase);
-            AddToMessage(messageBuilder, HeaderFieldType.RecordRoute, RecordRoute);
             AddToMessage(messageBuilder, HeaderFieldType.RecvInfo, RecvInfo);
             AddToMessage(messageBuilder, HeaderFieldType.ReferEventsAt, ReferEventsAt);
             AddToMessage(messageBuilder, HeaderFieldType.ReferStub, ReferStub);
@@ -354,7 +357,6 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.ResourcePriority, ResourcePriority);
             AddToMessage(messageBuilder, HeaderFieldType.ResponseKey, ResponseKey);
             AddToMessage(messageBuilder, HeaderFieldType.RetryAfter, RetryAfter);
-            AddToMessage(messageBuilder, HeaderFieldType.Route, Route);
             AddToMessage(messageBuilder, HeaderFieldType.Rseq, Rseq);
             AddToMessage(messageBuilder, HeaderFieldType.SecurityClient, SecurityClient);
             AddToMessage(messageBuilder, HeaderFieldType.SecurityServer, SecurityServer);
@@ -371,12 +373,10 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, HeaderFieldType.SuppressIfMatch, SuppressIfMatch);
             AddToMessage(messageBuilder, HeaderFieldType.TargetDialog, TargetDialog);
             AddToMessage(messageBuilder, HeaderFieldType.Timestamp, Timestamp);
-            AddToMessage(messageBuilder, HeaderFieldType.To, To);
             AddToMessage(messageBuilder, HeaderFieldType.TriggerConstant, TriggerConstant);
             AddToMessage(messageBuilder, HeaderFieldType.Unsupported, Unsupported);
             AddToMessage(messageBuilder, HeaderFieldType.UserAgent, UserAgent);
             AddToMessage(messageBuilder, HeaderFieldType.UserToUser, UserToUser);
-            AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
             AddToMessage(messageBuilder, HeaderFieldType.Warning, Warning);
             AddToMessage(messageBuilder, HeaderFieldType.WwwAuthenticate, WwwAuthenticate);
             AddToMessage(messageBuilder, HeaderFieldType.ContentType, ContentType);
