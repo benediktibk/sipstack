@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
@@ -31,6 +32,25 @@ namespace SipStack
         {
             _stringBuilder.Clear();
             _stringBuilder.AppendFormat(format, paramOne, paramTwo);
+            _lines.Add(_stringBuilder.ToString());
+        }
+
+        public void AddHeaderLineWithMultipleValues(string headerName, IReadOnlyList<string> values)
+        {
+            if (values.Count < 1)
+                throw new ArgumentException("values", "must contain at least one value");
+
+            _stringBuilder.Clear();
+            _stringBuilder.Append(headerName);
+            _stringBuilder.Append(": ");
+
+            for (var i = 0; i < values.Count; ++i)
+            {
+                _stringBuilder.Append(values[i]);
+                _stringBuilder.Append(", ");
+            }
+
+            _stringBuilder.Append(values[values.Count - 1]);
             _lines.Add(_stringBuilder.ToString());
         }
 
