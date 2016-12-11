@@ -14,9 +14,6 @@ namespace SipStack
 
             Header = header;
             Body = body;
-
-            if (Header.ContentLength != body.ContentLength)
-                throw new ArgumentException("header", "value of field content length doesn't match the real content length");
         }
 
         public Header.Header Header { get; }
