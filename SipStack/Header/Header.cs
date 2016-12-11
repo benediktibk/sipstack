@@ -264,11 +264,11 @@ namespace SipStack.Header
             Method.AddTo(messageBuilder);
             AddToMessage(messageBuilder, HeaderFieldType.From, From);
             AddToMessage(messageBuilder, HeaderFieldType.To, To);
-            AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
-            AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
             AddToMessage(messageBuilder, HeaderFieldType.CallId, CallId);
             AddToMessage(messageBuilder, HeaderFieldType.Cseq, Cseq);
             AddToMessage(messageBuilder, HeaderFieldType.Contact, Contact);
+            AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
+            AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
             AddToMessage(messageBuilder, HeaderFieldType.Route, Route);
             AddToMessage(messageBuilder, HeaderFieldType.RecordRoute, RecordRoute);
             AddToMessage(messageBuilder, HeaderFieldType.Accept, Accept);

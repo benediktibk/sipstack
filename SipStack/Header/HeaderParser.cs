@@ -52,7 +52,7 @@ namespace SipStack.Header
         private ParseResult<List<HeaderField>> ParseHeaderFields(IReadOnlyList<string> lines, int headerEnd)
         {
             var fields = new List<HeaderField>();
-            for (var i = 1; i < headerEnd; ++i)
+            for (var i = 1; i <= headerEnd; ++i)
             {
                 var end = 0;
                 var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);

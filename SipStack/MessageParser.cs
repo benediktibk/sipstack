@@ -52,21 +52,25 @@ namespace SipStack
 
         private ParseResult<Header.Header> ParseHeader(IReadOnlyList<string> lines, out int lastHeaderLine)
         {
-            lastHeaderLine = -1;
-
-            for (var i = 1; i < lines.Count(); ++i)
-            {
-                if (!string.IsNullOrEmpty(lines[i]))
-                    continue;
-
-                lastHeaderLine = i - 1;
-                break;
-            }
+            lastHeaderLine = FindLastHeaderLine(lines);
 
             if (lastHeaderLine < 0)
                 return new ParseResult<Header.Header>("couldn't find empty line after header");
 
             return _headerParser.Parse(lines, lastHeaderLine);
+        }
+
+        private static int FindLastHeaderLine(IReadOnlyList<string> lines)
+        {
+            for (var i = 1; i < lines.Count(); ++i)
+            {
+                if (!string.IsNullOrEmpty(lines[i]))
+                    continue;
+
+                return i - 1;
+            }
+
+            return -1;
         }
     }
 }
