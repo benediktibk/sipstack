@@ -132,7 +132,7 @@ namespace SipStack.Header
 
         #region properties
 
-        public RequestMethod Method { get; set; }
+        public IMethod Method { get; set; }
         public List<string> Accept { get; set; }
         public List<string> AcceptContact { get; set; }
         public List<string> AcceptEncoding { get; set; }

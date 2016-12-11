@@ -25,6 +25,7 @@ namespace SipStackTest
             _headerFieldParser = new Mock<HeaderFieldParser>();
             _requestLineParser = new Mock<RequestLineParser>();
             _bodyParserFactory = new Mock<BodyParserFactory>();
+            _headerParser = new Mock<HeaderParser>();
             _messageParserWithMocks = new MessageParser(_headerParser.Object, _bodyParserFactory.Object);
         }
 

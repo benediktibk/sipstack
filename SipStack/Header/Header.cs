@@ -134,7 +134,7 @@ namespace SipStack.Header
 
         #region properties
 
-        public RequestMethod Method { get; }
+        public IMethod Method { get; }
         public IReadOnlyList<string> Accept { get; }
         public IReadOnlyList<string> AcceptContact { get; }
         public IReadOnlyList<string> AcceptEncoding { get; }

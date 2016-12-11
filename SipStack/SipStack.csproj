@@ -71,6 +71,7 @@
     <Compile Include="Body\Sdp\TimeZoneAdjustment.cs" />
     <Compile Include="Header\HeaderDto.cs" />
     <Compile Include="Header\HeaderParser.cs" />
+    <Compile Include="Header\IMethod.cs" />
     <Compile Include="Utils\EmailAddress.cs" />
     <Compile Include="Network\AddressType.cs" />
     <Compile Include="Network\MulticastUtils.cs" />
