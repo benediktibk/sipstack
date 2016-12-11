@@ -389,7 +389,7 @@ namespace SipStack.Header
 
         private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, IReadOnlyList<string> values)
         {
-            if (values == null)
+            if (values == null || values.Count == 0)
                 return;
 
             messageBuilder.AddHeaderLineWithMultipleValues(HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), values);
