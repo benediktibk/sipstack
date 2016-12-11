@@ -15,6 +15,14 @@ namespace SipStack.Utils
             _result = result;
         }
 
+        // only necessary if ResultType is string
+        public ParseResult(ResultType result, bool isSuccess) : 
+            this(result)
+        {
+            if (!isSuccess)
+                throw new ArgumentOutOfRangeException("isSuccess", "must be true");
+        }
+
         public ParseResult(string errorMessage)
         {
             _isError = true;

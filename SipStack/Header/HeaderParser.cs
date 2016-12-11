@@ -497,7 +497,7 @@ namespace SipStack.Header
             if (values.Count > 1)
                 return new ParseResult<string>("there is more than one value for a header field, which should have only one value");
 
-            return new ParseResult<string>(values[0]);
+            return new ParseResult<string>(values[0], true);
         }
     }
 }
