@@ -25,7 +25,7 @@ namespace SipStack.Body.Sdp
 
         public void AddProtocolVersion(int value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("v={0}", value.ToString());
         }
 
         public void AddOriginator(Originator value)
