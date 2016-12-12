@@ -19,12 +19,23 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void AddProtocolVersion_6_CorrectLineAdded()
+        public void AddProtocolVersion_ValidInput_CorrectLineAdded()
         {
             _sdpMessageBuilder.AddProtocolVersion(6);
 
             var result = _messageBuilder.ToString();
             result.Should().Be("v=6\r\n");
+        }
+
+        [TestMethod]
+        public void AddOriginator_ValidInput_CorrectLineAdded()
+        {
+            var originator = new Originator("alice", 2890844526, 2890844526, SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, System.Net.IPAddress.Parse("1.2.4.5"));
+
+            _sdpMessageBuilder.AddOriginator(originator);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("o=alice 2890844526 2890844526 IN IP4 1.2.4.5\r\n");
         }
     }
 }

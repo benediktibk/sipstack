@@ -21,17 +21,10 @@ namespace SipStack
             _lines.Add(line);
         }
 
-        public void AddLineFormat(string format, string paramOne)
+        public void AddLineFormat(string format, params string[] paramList)
         {
             _stringBuilder.Clear();
-            _stringBuilder.AppendFormat(format, paramOne);
-            _lines.Add(_stringBuilder.ToString());
-        }
-
-        public void AddLineFormat(string format, string paramOne, string paramTwo)
-        {
-            _stringBuilder.Clear();
-            _stringBuilder.AppendFormat(format, paramOne, paramTwo);
+            _stringBuilder.AppendFormat(format, paramList);
             _lines.Add(_stringBuilder.ToString());
         }
 

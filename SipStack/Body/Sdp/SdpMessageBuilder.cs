@@ -1,4 +1,5 @@
-﻿using SipStack.Utils;
+﻿using SipStack.Network;
+using SipStack.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +31,11 @@ namespace SipStack.Body.Sdp
 
         public void AddOriginator(Originator value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat(
+                "o={0} {1} {2} {3} {4} {5}",
+                value.Username, value.SessionId.ToString(), value.SessionVersion.ToString(),
+                NetTypeUtils.ToFriendlyString(value.NetType), AddressTypeUtils.ToFriendlyString(value.AddressType),
+                value.IpAddress.ToString());
         }
 
         public void AddSessionName(string value)
