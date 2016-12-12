@@ -188,5 +188,14 @@ namespace SipStackTest.Body.Sdp
         {
             _sdpMessageBuilder.AddBandwidth(new Bandwidth(BandwidthType.Unknown, 123));
         }
+
+        [TestMethod]
+        public void AddTiming_ValidInput_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddTiming(new Timing(new DateTime(1998, 12, 13, 14, 50, 0), new DateTime(1998, 12, 13, 15, 00, 0)));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("t=3122545800 3122546400\r\n");
+        }
     }
 }

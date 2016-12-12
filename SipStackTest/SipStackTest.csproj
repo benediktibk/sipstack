@@ -102,6 +102,7 @@
     <Compile Include="Body\BodyParserFactoryTest.cs" />
     <Compile Include="Utils\EmailAddressTest.cs" />
     <Compile Include="Utils\PhoneNumberTest.cs" />
+    <Compile Include="Utils\DateTimeHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="messages\005_sdp.txt">
