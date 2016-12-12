@@ -5,14 +5,6 @@ namespace SipStack.Utils
 {
     public class EmailAddress
     {
-        #region private variables
-
-        private readonly string _localPart;
-        private readonly string _domain;
-        private readonly string _displayName;
-
-        #endregion
-
         #region constructors
 
         public EmailAddress(string localPart, string domain, string displayName)
@@ -26,18 +18,20 @@ namespace SipStack.Utils
             if (!IsValidDisplayName(displayName))
                 throw new ArgumentOutOfRangeException("displayName");
 
-            _localPart = localPart;
-            _domain = domain;
-            _displayName = displayName;
+            LocalPart = localPart;
+            Domain = domain;
+            DisplayName = displayName;
         }
 
         #endregion
 
         #region properties
 
-        public string LocalPart => _localPart;
-        public string Domain => _domain;
-        public string DisplayName => _displayName;
+        public string LocalPart { get; }
+        public string Domain { get; }
+        public string DisplayName { get; }
+        public bool HasDomain => !string.IsNullOrEmpty(Domain);
+        public bool HasDisplayName => !string.IsNullOrEmpty(DisplayName);
 
         #endregion
 
@@ -91,6 +85,28 @@ namespace SipStack.Utils
             }
 
             return new ParseResult<EmailAddress>($"email address '{data}' is malformed");
+        }
+
+        #endregion
+
+        #region public functions
+
+        public override string ToString()
+        {
+            if (HasDomain)
+            {
+                if (HasDisplayName)
+                    return $"{DisplayName} <{LocalPart}@{Domain}>";
+                else
+                    return $"{LocalPart}@{Domain}";
+            }
+            else
+            {
+                if (HasDisplayName)
+                    return $"{DisplayName} <{LocalPart}>";
+                else
+                    return $"{LocalPart}";
+            }
         }
 
         #endregion

@@ -19,15 +19,6 @@ namespace SipStack.Utils
 
         #endregion
 
-        #region private variables
-
-        private readonly string _displayName;
-        private readonly string _user;
-        private readonly string _domain;
-        private readonly bool _isNumeric;
-
-        #endregion
-
         #region constructors
 
         static PhoneNumber()
@@ -46,22 +37,45 @@ namespace SipStack.Utils
 
         private PhoneNumber(string user, string domain, string displayName, bool isNumeric)
         {
-            _isNumeric = isNumeric;
-            _user = _isNumeric ? ParseNumericUser(user) : user;
-            _domain = domain;
-            _displayName = displayName;
+            IsNumeric = isNumeric;
+            User = IsNumeric ? ParseNumericUser(user) : user;
+            Domain = domain;
+            DisplayName = displayName;
         }
 
         #endregion
 
         #region properties
 
-        public string DisplayName => _displayName;
-        public string User => _user;
-        public string Domain => _domain;
+        public string DisplayName { get; }
+        public string User { get; }
+        public string Domain { get; }
         public bool IsAlphaNumeric => !IsNumeric;
-        public bool IsNumeric => _isNumeric;
-        public bool HasDomain => !string.IsNullOrEmpty(_domain);
+        public bool IsNumeric { get; }
+        public bool HasDomain => !string.IsNullOrEmpty(Domain);
+        public bool HasDisplayName => !string.IsNullOrEmpty(DisplayName);
+
+        #endregion
+
+        #region public functions
+
+        public override string ToString()
+        {
+            if (HasDomain)
+            {
+                if (HasDisplayName)
+                    return $"{DisplayName} <{User}@{Domain}>";
+                else
+                    return $"{User}@{Domain}";
+            }
+            else
+            {
+                if (HasDisplayName)
+                    return $"{DisplayName} <{User}>";
+                else
+                    return $"{User}";
+            }
+        }
 
         #endregion
 

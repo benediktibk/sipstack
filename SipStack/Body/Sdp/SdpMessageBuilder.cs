@@ -40,27 +40,27 @@ namespace SipStack.Body.Sdp
 
         public void AddSessionName(string value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("s={0}", value);
         }
 
         public void AddSessionDescription(string value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("i={0}", value);
         }
 
         public void AddSessionUri(Uri value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("u={0}", value.ToString());
         }
 
         public void AddEmailAddress(EmailAddress value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("e={0}", value.ToString());
         }
 
         public void AddPhoneNumber(PhoneNumber value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat("p={0}", value.ToString());
         }
 
         public void AddConnectionInformation(ConnectionInformation value)
