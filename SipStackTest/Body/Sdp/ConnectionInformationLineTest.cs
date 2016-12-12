@@ -17,7 +17,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("10.122.69.145"));
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("10.122.69.145");
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeFalse();
             connectionInformationLine.ConnectionInformation.IsUnicast.Should().BeTrue();
         }
@@ -30,7 +30,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("0015::101"));
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("0015::101");
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeFalse();
             connectionInformationLine.ConnectionInformation.IsUnicast.Should().BeTrue();
         }
@@ -38,13 +38,13 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void Parse_Ipv6Multicast_AllValuesAreCorrect()
         {
-            var line = ConnectionInformationLine.Parse("IN IP6 FF15::101");
+            var line = ConnectionInformationLine.Parse("IN IP6 FF15::101/23");
 
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("FF15::101"));
-            connectionInformationLine.ConnectionInformation.NumberOfMulticastAddresses.Should().Be(1);
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("FF15::101");
+            connectionInformationLine.ConnectionInformation.NumberOfMulticastAddresses.Should().Be(23);
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeTrue();
             connectionInformationLine.ConnectionInformation.IsUnicast.Should().BeFalse();
         }
@@ -57,7 +57,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv6);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("FF15::101"));
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("FF15::101");
             connectionInformationLine.ConnectionInformation.NumberOfMulticastAddresses.Should().Be(3);
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeTrue();
             connectionInformationLine.ConnectionInformation.IsUnicast.Should().BeFalse();
@@ -71,7 +71,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("224.2.36.42");
             connectionInformationLine.ConnectionInformation.MulticastTimeToLive.Should().Be(127);
             connectionInformationLine.ConnectionInformation.NumberOfMulticastAddresses.Should().Be(1);
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeTrue();
@@ -86,7 +86,7 @@ namespace SipStackTest.Body.Sdp
             var connectionInformationLine = line.Result as ConnectionInformationLine;
             connectionInformationLine.ConnectionInformation.NetType.Should().Be(NetType.Internet);
             connectionInformationLine.ConnectionInformation.AddressType.Should().Be(AddressType.Ipv4);
-            connectionInformationLine.ConnectionInformation.IpAddress.Should().Be(IPAddress.Parse("224.2.36.42"));
+            connectionInformationLine.ConnectionInformation.Host.Should().Be("224.2.36.42");
             connectionInformationLine.ConnectionInformation.MulticastTimeToLive.Should().Be(127);
             connectionInformationLine.ConnectionInformation.NumberOfMulticastAddresses.Should().Be(2);
             connectionInformationLine.ConnectionInformation.IsMulticast.Should().BeTrue();
@@ -102,11 +102,12 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void Parse_AddressTypeIpv6WithIpv4Address_Error()
+        public void Parse_AddressTypeIpv6WithIpv4Address_Success()
         {
             var line = ConnectionInformationLine.Parse("IN IP6 224.2.36.42");
 
-            line.IsError.Should().BeTrue();
+            //will be considered as fqdn in this case
+            line.IsSuccess.Should().BeTrue();
         }
 
         [TestMethod]
@@ -142,11 +143,12 @@ namespace SipStackTest.Body.Sdp
         }
 
         [TestMethod]
-        public void Parse_Ipv4MulticastWithoutTtl_Error()
+        public void Parse_Ipv4MulticastWithoutTtl_Success()
         {
             var line = ConnectionInformationLine.Parse("IN IP4 224.2.36.42");
-
-            line.IsError.Should().BeTrue();
+            
+            //not absolutely correct, but for the sake of compatibily allowed
+            line.IsSuccess.Should().BeTrue();
         }
 
         [TestMethod]

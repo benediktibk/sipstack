@@ -10,19 +10,19 @@ namespace SipStack.Body.Sdp
     {
         #region constructors
 
-        public ConnectionInformationLine(NetType netType, AddressType addressType, IPAddress ipAddress, int numberOfMulticastAddresses, int multicastTimeToLive)
+        public ConnectionInformationLine(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses, int multicastTimeToLive)
         {
-            ConnectionInformation = new ConnectionInformation(netType, addressType, ipAddress, numberOfMulticastAddresses, multicastTimeToLive);
+            ConnectionInformation = new ConnectionInformation(netType, addressType, host, numberOfMulticastAddresses, multicastTimeToLive);
         }
 
-        public ConnectionInformationLine(NetType netType, AddressType addressType, IPAddress ipAddress, int numberOfMulticastAddresses)
+        public ConnectionInformationLine(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses)
         {
-            ConnectionInformation = new ConnectionInformation(netType, addressType, ipAddress, numberOfMulticastAddresses);
+            ConnectionInformation = new ConnectionInformation(netType, addressType, host, numberOfMulticastAddresses);
         }
 
-        public ConnectionInformationLine(NetType netType, AddressType addressType, IPAddress ipAddress)
+        public ConnectionInformationLine(NetType netType, AddressType addressType, string host)
         {
-            ConnectionInformation = new ConnectionInformation(netType, addressType, ipAddress);
+            ConnectionInformation = new ConnectionInformation(netType, addressType, host);
         }
 
         #endregion
@@ -52,7 +52,7 @@ namespace SipStack.Body.Sdp
 
             NetType netType;
             AddressType addressType;
-            IPAddress ipAddress;
+            string host = ipAddressString;
 
             if (!NetTypeUtils.TryParse(netTypeString, out netType))
                 return new ParseResult<ILine>($"invalid net type '{netTypeString}' for connection information");
@@ -60,34 +60,31 @@ namespace SipStack.Body.Sdp
             if (!AddressTypeUtils.TryParse(addressTypeString, out addressType))
                 return new ParseResult<ILine>($"invalid address type '{addressTypeString}' for connection information");
 
-            if (!IPAddress.TryParse(ipAddressString, out ipAddress))
-                return new ParseResult<ILine>($"invalid IP address '{ipAddressString}' for connection information");
 
-            if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
-                return new ParseResult<ILine>($"the specified address family '{addressTypeString}' does not match the type of the ip address '{ipAddressString}'");
-
-            if (MulticastUtils.IsMulticast(ipAddress))
+            if (!string.IsNullOrEmpty(firstExtensionString))
             {
                 switch (addressType)
                 {
-                    case AddressType.Ipv4: return ParseFromMulticastIpv4(ipAddress, firstExtensionString, secondExtensionString);
-                    case AddressType.Ipv6: return ParseFromMulticastIpv6(ipAddress, firstExtensionString, secondExtensionString);
+                    case AddressType.Ipv4:
+                        return ParseFromMulticastIpv4(host, firstExtensionString, secondExtensionString);
+                    case AddressType.Ipv6:
+                        return ParseFromMulticastIpv6(host, firstExtensionString, secondExtensionString);
                     default: throw new NotImplementedException();
                 }
             }
             else
-                return ParseFromUnicast(addressType, ipAddress, firstExtensionString, secondExtensionString);
+                return ParseFromUnicast(addressType, host, firstExtensionString, secondExtensionString);
         }
 
-        private static ParseResult<ILine> ParseFromUnicast(AddressType addressType, IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromUnicast(AddressType addressType, string host, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(firstExtension) || !string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for unicast addresses the specification of TTL or address count is forbidden");
 
-            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, addressType, ipAddress));
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, addressType, host));
         }
 
-        private static ParseResult<ILine> ParseFromMulticastIpv4(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromMulticastIpv4(string host, string firstExtension, string secondExtension)
         {
             int ttlCount = 0;
             var ttlCountMissing = string.IsNullOrEmpty(firstExtension);
@@ -112,10 +109,10 @@ namespace SipStack.Body.Sdp
                     return new ParseResult<ILine>($"the value for the number of multicast addresses '{multiCastAddressCount}' must be positive");
             }
 
-            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, ipAddress, multiCastAddressCount, ttlCount));
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv4, host, multiCastAddressCount, ttlCount));
         }
 
-        private static ParseResult<ILine> ParseFromMulticastIpv6(IPAddress ipAddress, string firstExtension, string secondExtension)
+        private static ParseResult<ILine> ParseFromMulticastIpv6(string host, string firstExtension, string secondExtension)
         {
             if (!string.IsNullOrEmpty(secondExtension))
                 return new ParseResult<ILine>("for IPv6 address there must be at most one extension to the ipaddress");
@@ -132,7 +129,7 @@ namespace SipStack.Body.Sdp
                     return new ParseResult<ILine>($"the value for the number of multicast addresses '{multiCastAddressCount}' must be positive");
             }
 
-            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, ipAddress, multiCastAddressCount));
+            return new ParseResult<ILine>(new ConnectionInformationLine(NetType.Internet, AddressType.Ipv6, host, multiCastAddressCount));
         }
 
         #endregion

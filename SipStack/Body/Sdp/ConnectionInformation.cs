@@ -15,55 +15,33 @@ namespace SipStack.Body.Sdp
 
         #region constructors
 
-        public ConnectionInformation(NetType netType, AddressType addressType, IPAddress ipAddress, int numberOfMulticastAddresses, int multicastTimeToLive)
+        public ConnectionInformation(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses, int multicastTimeToLive) :
+            this(netType, addressType, host, numberOfMulticastAddresses, multicastTimeToLive, true)
         {
             if (multicastTimeToLive < 1)
                 throw new ArgumentOutOfRangeException("multicastTimeToLive");
             if (numberOfMulticastAddresses < 1)
                 throw new ArgumentOutOfRangeException("numberOfMulticastAddresses");
-            if (ipAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork ||
-                !MulticastUtils.IsMulticast(ipAddress))
-                throw new ArgumentOutOfRangeException("ipAddress", "this constructor can be used only for multicast IPv4 addresses");
-            if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
-                throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
-
-            NetType = netType;
-            AddressType = addressType;
-            IpAddress = ipAddress;
-            _multicastTimeToLive = multicastTimeToLive;
-            _numberOfMulticastAddresses = numberOfMulticastAddresses;
         }
 
-        public ConnectionInformation(NetType netType, AddressType addressType, IPAddress ipAddress, int numberOfMulticastAddresses)
+        public ConnectionInformation(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses) :
+            this(netType, addressType, host, numberOfMulticastAddresses, 0, true)
         {
             if (numberOfMulticastAddresses < 1)
                 throw new ArgumentOutOfRangeException("numberOfMulticastAddresses");
-            if (ipAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetworkV6 ||
-                !MulticastUtils.IsMulticast(ipAddress))
-                throw new ArgumentOutOfRangeException("ipAddress", "this constructor can be used only for multicast IPv6 addresses");
-            if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
-                throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
-
-            NetType = netType;
-            AddressType = addressType;
-            IpAddress = ipAddress;
-            _multicastTimeToLive = 0;
-            _numberOfMulticastAddresses = numberOfMulticastAddresses;
         }
 
-        public ConnectionInformation(NetType netType, AddressType addressType, IPAddress ipAddress)
-        {
-            if ((ipAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork && ipAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetworkV6) ||
-                MulticastUtils.IsMulticast(ipAddress))
-                throw new ArgumentOutOfRangeException("ipAddress", "this constructor can be used only for unicast IPv4 and IPv6 addresses");
-            if (!AddressTypeUtils.Match(addressType, ipAddress.AddressFamily))
-                throw new ArgumentOutOfRangeException("ipAddress", "the specified address family does not match the ip address");
+        public ConnectionInformation(NetType netType, AddressType addressType, string host) :
+            this(netType, addressType, host, 0, 0, true)
+        { }
 
+        private ConnectionInformation(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses, int multicastTimeToLive, bool isPrivateVersion)
+        {
             NetType = netType;
             AddressType = addressType;
-            IpAddress = ipAddress;
-            _multicastTimeToLive = 0;
-            _numberOfMulticastAddresses = 0;
+            Host = host;
+            _multicastTimeToLive = multicastTimeToLive;
+            _numberOfMulticastAddresses = numberOfMulticastAddresses;
         }
 
         #endregion
@@ -72,7 +50,7 @@ namespace SipStack.Body.Sdp
 
         public NetType NetType { get; }
         public AddressType AddressType { get; }
-        public IPAddress IpAddress { get; }
+        public string Host { get; }
         public int MulticastTimeToLive
         {
             get
