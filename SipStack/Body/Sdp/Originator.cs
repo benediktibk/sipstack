@@ -5,14 +5,14 @@ namespace SipStack.Body.Sdp
 {
     public class Originator
     {
-        public Originator(string username, long sessionId, long sessionVersion, NetType netType, AddressType addressType, IPAddress ipAddress)
+        public Originator(string username, long sessionId, long sessionVersion, NetType netType, AddressType addressType, string host)
         {
             Username = username;
             SessionId = sessionId;
             SessionVersion = sessionVersion;
             NetType = netType;
             AddressType = addressType;
-            IpAddress = ipAddress;
+            Host = host;
         }
 
         public string Username { get; }
@@ -20,6 +20,6 @@ namespace SipStack.Body.Sdp
         public long SessionVersion { get; }
         public NetType NetType { get; }
         public AddressType AddressType { get; }
-        public IPAddress IpAddress { get; }
+        public string Host { get; }
     }
 }

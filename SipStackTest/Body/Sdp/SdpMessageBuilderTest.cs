@@ -30,7 +30,10 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void AddOriginator_ValidInput_CorrectLineAdded()
         {
-            var originator = new Originator("alice", 2890844526, 2890844526, SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, System.Net.IPAddress.Parse("1.2.4.5"));
+            var originator = 
+                new Originator(
+                    "alice", 2890844526, 2890844526, SipStack.Network.NetType.Internet, 
+                    SipStack.Network.AddressType.Ipv4,"1.2.4.5");
 
             _sdpMessageBuilder.AddOriginator(originator);
 

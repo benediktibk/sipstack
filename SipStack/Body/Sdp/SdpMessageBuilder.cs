@@ -35,7 +35,7 @@ namespace SipStack.Body.Sdp
                 "o={0} {1} {2} {3} {4} {5}",
                 value.Username, value.SessionId.ToString(), value.SessionVersion.ToString(),
                 NetTypeUtils.ToFriendlyString(value.NetType), AddressTypeUtils.ToFriendlyString(value.AddressType),
-                value.IpAddress.ToString());
+                value.Host.ToString());
         }
 
         public void AddSessionName(string value)

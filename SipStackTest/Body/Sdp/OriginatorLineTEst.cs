@@ -20,8 +20,7 @@ namespace SipStackTest.Body.Sdp
             originatorLine.Originator.SessionVersion.Should().Be(2890842807);
             originatorLine.Originator.NetType.Should().Be(NetType.Internet);
             originatorLine.Originator.AddressType.Should().Be(AddressType.Ipv4);
-            var ipAddress = IPAddress.Parse("10.47.16.5");
-            originatorLine.Originator.IpAddress.Should().Be(ipAddress);
+            originatorLine.Originator.Host.Should().Be("10.47.16.5");
         }
 
         [TestMethod]
@@ -31,8 +30,17 @@ namespace SipStackTest.Body.Sdp
 
             var originatorLine = line.Result as OriginatorLine;
             originatorLine.Originator.AddressType.Should().Be(AddressType.Ipv6);
-            var ipAddress = IPAddress.Parse("2001:db8::ff00:42:8329");
-            originatorLine.Originator.IpAddress.Should().Be(ipAddress);
+            originatorLine.Originator.Host.Should().Be("2001:0db8:0000:0000:0000:ff00:0042:8329");
+        }
+
+        [TestMethod]
+        public void Parse_ValidExampleWithHostName_HostNameIsCorrect()
+        {
+            var line = OriginatorLine.Parse(@"jdoe 2890844526 2890842807 IN IP6 asdf.blub.at");
+
+            var originatorLine = line.Result as OriginatorLine;
+            originatorLine.Originator.AddressType.Should().Be(AddressType.Ipv6);
+            originatorLine.Originator.Host.Should().Be("asdf.blub.at");
         }
     }
 }
