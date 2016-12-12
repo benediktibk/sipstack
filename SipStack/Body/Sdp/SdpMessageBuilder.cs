@@ -65,7 +65,25 @@ namespace SipStack.Body.Sdp
 
         public void AddConnectionInformation(ConnectionInformation value)
         {
-            throw new NotImplementedException();
+            var netType = NetTypeUtils.ToFriendlyString(value.NetType);
+            var addressType = AddressTypeUtils.ToFriendlyString(value.AddressType);
+
+            if (value.IsUnicast)
+                _messageBuilder.AddLineFormat("c={0} {1} {2}", netType, addressType, value.Host);
+            else if (value.AddressType == AddressType.Ipv4)
+            {
+                if (value.NumberOfMulticastAddresses == 1)
+                    _messageBuilder.AddLineFormat("c={0} {1} {2}/{3}", netType, addressType, value.Host, value.MulticastTimeToLive.ToString());
+                else
+                    _messageBuilder.AddLineFormat("c={0} {1} {2}/{3}/{4}", netType, addressType, value.Host, value.MulticastTimeToLive.ToString(), value.NumberOfMulticastAddresses.ToString());
+            }
+            else
+            {
+                if (value.NumberOfMulticastAddresses == 1)
+                    _messageBuilder.AddLineFormat("c={0} {1} {2}", netType, addressType, value.Host);
+                else
+                    _messageBuilder.AddLineFormat("c={0} {1} {2}/{3}", netType, addressType, value.Host, value.NumberOfMulticastAddresses.ToString());
+            }
         }
 
         public void AddBandwidth(Bandwidth value)

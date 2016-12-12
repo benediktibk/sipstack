@@ -22,6 +22,8 @@ namespace SipStack.Body.Sdp
                 throw new ArgumentOutOfRangeException("multicastTimeToLive");
             if (numberOfMulticastAddresses < 1)
                 throw new ArgumentOutOfRangeException("numberOfMulticastAddresses");
+            if (addressType == AddressType.Ipv6)
+                throw new ArgumentException("multicastTimeToLive", "for IPv6 multicast it is forbidden to specify a TTL");
         }
 
         public ConnectionInformation(NetType netType, AddressType addressType, string host, int numberOfMulticastAddresses) :
@@ -29,6 +31,8 @@ namespace SipStack.Body.Sdp
         {
             if (numberOfMulticastAddresses < 1)
                 throw new ArgumentOutOfRangeException("numberOfMulticastAddresses");
+            if (addressType == AddressType.Ipv4)
+                throw new ArgumentException("addressType", "for IPv4 multicast a TTL must be specified");
         }
 
         public ConnectionInformation(NetType netType, AddressType addressType, string host) :

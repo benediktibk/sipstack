@@ -121,5 +121,55 @@ namespace SipStackTest.Body.Sdp
             var result = _messageBuilder.ToString();
             result.Should().Be("p=Jane White <+16175556011>\r\n");
         }
+
+        [TestMethod]
+        public void AddConnectionInformation_ValidInputWithUnicast_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddConnectionInformation(
+                new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("c=IN IP4 15.6.4.9\r\n");
+        }
+
+        [TestMethod]
+        public void AddConnectionInformation_ValidInputWithIpv4MulticastAndMultipleAddresses_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddConnectionInformation(
+                new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9", 6, 123));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("c=IN IP4 15.6.4.9/123/6\r\n");
+        }
+
+        [TestMethod]
+        public void AddConnectionInformation_ValidInputWithIpv4Multicast_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddConnectionInformation(
+                new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9", 1, 123));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("c=IN IP4 15.6.4.9/123\r\n");
+        }
+
+        [TestMethod]
+        public void AddConnectionInformation_ValidInputWithIpv6Multicast_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddConnectionInformation(
+                new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv6, "FF15::101"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("c=IN IP6 FF15::101\r\n");
+        }
+
+        [TestMethod]
+        public void AddConnectionInformation_ValidInputWithIpv6MulticastAndMultipleAddresses_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddConnectionInformation(
+                new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv6, "FF15::101", 6));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("c=IN IP6 FF15::101/6\r\n");
+        }
     }
 }
