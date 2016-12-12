@@ -96,9 +96,9 @@ namespace SipStack.Body.Sdp
 
         public void AddTiming(Timing value)
         {
-            _messageBuilder.AddLineFormat("t={0} {1}", 
-                DateTimeHelper.DateTimeToNtpTimeStamp(value.Start).ToString(), 
-                DateTimeHelper.DateTimeToNtpTimeStamp(value.End).ToString());
+            var start = DateTimeHelper.DateTimeToNtpTimeStamp(value.Start).ToString();
+            var end = value.End == DateTime.MaxValue ? "0"  : DateTimeHelper.DateTimeToNtpTimeStamp(value.End).ToString();
+            _messageBuilder.AddLineFormat("t={0} {1}", start, end);
         }
 
         public void AddRepeat(Repeat value)

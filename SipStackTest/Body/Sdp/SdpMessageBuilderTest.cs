@@ -197,5 +197,14 @@ namespace SipStackTest.Body.Sdp
             var result = _messageBuilder.ToString();
             result.Should().Be("t=3122549400 3122550000\r\n");
         }
+
+        [TestMethod]
+        public void AddTiming_ValidInputUnbounded_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddTiming(new Timing(new DateTime(1998, 12, 13, 14, 50, 0), DateTime.MaxValue));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("t=3122549400 0\r\n");
+        }
     }
 }
