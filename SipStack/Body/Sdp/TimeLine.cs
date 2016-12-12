@@ -42,11 +42,11 @@ namespace SipStack.Body.Sdp
             if (endInteger > 0 && startInteger > endInteger)
                 return new ParseResult<ILine>("the value for start must be less or equal than end");
 
-            var start = new DateTime(startInteger);
+            var start = DateTimeHelper.NtpTimeStampToDateTime(startInteger);
             var end = DateTime.MaxValue;
 
             if (endInteger > 0)
-                end = new DateTime(endInteger);
+                end = DateTimeHelper.NtpTimeStampToDateTime(endInteger);
 
             return new ParseResult<ILine>(new TimeLine(start, end));
         }
