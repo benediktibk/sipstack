@@ -88,7 +88,10 @@ namespace SipStack.Body.Sdp
 
         public void AddBandwidth(Bandwidth value)
         {
-            throw new NotImplementedException();
+            if (value.Type == BandwidthType.Unknown)
+                throw new ArgumentOutOfRangeException("value", "the bandwidth type must not be unkown");
+
+            _messageBuilder.AddLineFormat("b={0}:{1}", BandwidthTypeUtils.ToFriendlyString(value.Type), value.Amount.ToString());
         }
 
         public void AddTiming(Timing value)

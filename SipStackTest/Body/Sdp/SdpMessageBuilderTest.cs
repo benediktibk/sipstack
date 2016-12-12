@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack;
 using SipStack.Body.Sdp;
+using System;
 
 namespace SipStackTest.Body.Sdp
 {
@@ -170,6 +171,22 @@ namespace SipStackTest.Body.Sdp
 
             var result = _messageBuilder.ToString();
             result.Should().Be("c=IN IP6 FF15::101/6\r\n");
+        }
+
+        [TestMethod]
+        public void AddBandwidth_ValidInput_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddBandwidth(new Bandwidth(BandwidthType.ApplicationSpecific, 123));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("b=AS:123\r\n");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddBandwidth_TypeUnkown_Exception()
+        {
+            _sdpMessageBuilder.AddBandwidth(new Bandwidth(BandwidthType.Unknown, 123));
         }
     }
 }
