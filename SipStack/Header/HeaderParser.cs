@@ -97,377 +97,384 @@ namespace SipStack.Header
             {
                 case FieldType.Accept:
                     header.Accept = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AcceptContact:
                     header.AcceptContact = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AcceptEncoding:
                     header.AcceptEncoding = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AcceptLanguage:
                     header.AcceptLanguage = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AcceptResourcePriority:
                     header.AcceptResourcePriority = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AlertInfo:
                     header.AlertInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Allow:
-                    header.Allow = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    var allow = ParseMultipleValues(field.Values, RequestMethodUtils.Parse);
+
+                    if (allow.IsError)
+                        return allow.ToParseResult<HeaderDto>();
+
+                    header.Allow = allow.Result;
+                    break;
                 case FieldType.AllowEvents:
                     header.AllowEvents = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AnswerMode:
                     header.AnswerMode = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.AuthenticationInfo:
                     header.AuthenticationInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Authorization:
                     header.Authorization = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.CallId:
                     header.CallId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.CallInfo:
                     header.CallInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Contact:
                     header.Contact = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ContentDisposition:
                     header.ContentDisposition = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ContentEncoding:
                     header.ContentEncoding = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ContentLanguage:
                     header.ContentLanguage = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ContentLength:
-                    var contentLength = ParseSingleValue(field.Values, ConvertStringToInt);
+                    var contentLength = ParseMandatorySingleValue(field.Values, ConvertStringToInt);
 
                     if (contentLength.IsError)
                         return contentLength.ToParseResult<HeaderDto>();
 
                     header.ContentLength = contentLength.Result;
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ContentType:
-                    var contentType = ParseSingleValue(field.Values, (x) => { return new ParseResult<string>(x, true); });
+                    var contentType = ParseMandatorySingleValue(field.Values, (x) => { return new ParseResult<string>(x, true); });
 
                     if (contentType.IsError)
                         return contentType.ToParseResult<HeaderDto>();
 
                     header.ContentType = contentType.Result;
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Cseq:
                     header.Cseq = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Date:
                     header.Date = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Encryption:
                     header.Encryption = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ErrorInfo:
                     header.ErrorInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Event:
                     header.Event = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Expires:
                     header.Expires = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.FeatureCaps:
                     header.FeatureCaps = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.FlowTimer:
                     header.FlowTimer = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.From:
                     header.From = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Geolocation:
                     header.Geolocation = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.GeolocationError:
                     header.GeolocationError = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.GeolocationRouting:
                     header.GeolocationRouting = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Hide:
                     header.Hide = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.HistoryInfo:
                     header.HistoryInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Identity:
                     header.Identity = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.IdentityInfo:
                     header.IdentityInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.InfoPackage:
                     header.InfoPackage = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.InReplyTo:
                     header.InReplyTo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Join:
                     header.Join = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.MaxBreadth:
                     header.MaxBreadth = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.MaxForwards:
                     header.MaxForwards = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.MimeVersion:
                     header.MimeVersion = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.MinExpires:
                     header.MinExpires = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.MinSe:
                     header.MinSe = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Organization:
                     header.Organization = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PaccessNetworkInfo:
                     header.PaccessNetworkInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PanswerState:
                     header.PanswerState = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PassertedIdentity:
                     header.PassertedIdentity = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PassertedService:
                     header.PassertedService = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PassociatedUri:
                     header.PassociatedUri = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PcalledPartyId:
                     header.PcalledPartyId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PchargingFunctionAddresses:
                     header.PchargingFunctionAddresses = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PchargingVector:
                     header.PchargingVector = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PdcsTracePartyId:
                     header.PdcsTracePartyId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PdcsOsps:
                     header.PdcsOsps = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PdcsBillingInfo:
                     header.PdcsBillingInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PdcsLaes:
                     header.PdcsLaes = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PdcsRedirect:
                     header.PdcsRedirect = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PearlyMedia:
                     header.PearlyMedia = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PmediaAuthorization:
                     header.PmediaAuthorization = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PpreferredIdentity:
                     header.PpreferredIdentity = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PpreferredService:
                     header.PpreferredService = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PprivateNetworkIndication:
                     header.PprivateNetworkIndication = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PprofileKey:
                     header.PprofileKey = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PrefusedUriList:
                     header.PrefusedUriList = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PservedUser:
                     header.PservedUser = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PuserDatabase:
                     header.PuserDatabase = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PvisitedNetworkId:
                     header.PvisitedNetworkId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Path:
                     header.Path = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PermissionMissing:
                     header.PermissionMissing = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PolicyContact:
                     header.PolicyContact = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PolicyId:
                     header.PolicyId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Priority:
                     header.Priority = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.PrivAnswerMode:
                     header.PrivAnswerMode = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Privacy:
                     header.Privacy = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ProxyAuthenticate:
                     header.ProxyAuthenticate = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ProxyAuthorization:
                     header.ProxyAuthorization = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ProxyRequire:
                     header.ProxyRequire = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Rack:
                     header.Rack = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Reason:
                     header.Reason = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReasonPhrase:
                     header.ReasonPhrase = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.RecordRoute:
                     header.RecordRoute = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.RecvInfo:
                     header.RecvInfo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReferEventsAt:
                     header.ReferEventsAt = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReferStub:
                     header.ReferStub = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReferTo:
                     header.ReferTo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReferredBy:
                     header.ReferredBy = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.RejectContact:
                     header.RejectContact = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Replaces:
                     header.Replaces = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ReplyTo:
                     header.ReplyTo = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.RequestDisposition:
                     header.RequestDisposition = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Require:
                     header.Require = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ResourcePriority:
                     header.ResourcePriority = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ResponseKey:
                     header.ResponseKey = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.RetryAfter:
                     header.RetryAfter = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Route:
                     header.Route = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Rseq:
                     header.Rseq = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SecurityClient:
                     header.SecurityClient = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SecurityServer:
                     header.SecurityServer = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SecurityVerify:
                     header.SecurityVerify = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Server:
                     header.Server = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.ServiceRoute:
                     header.ServiceRoute = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SessionExpires:
                     header.SessionExpires = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SessionId:
                     header.SessionId = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SipEtag:
                     header.SipEtag = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SipIfMatch:
                     header.SipIfMatch = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Subject:
                     header.Subject = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SubscriptionState:
                     header.SubscriptionState = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Supported:
                     header.Supported = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.SuppressIfMatch:
                     header.SuppressIfMatch = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.TargetDialog:
                     header.TargetDialog = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Timestamp:
                     header.Timestamp = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.To:
                     header.To = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.TriggerConstant:
                     header.TriggerConstant = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Unsupported:
                     header.Unsupported = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.UserAgent:
                     header.UserAgent = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.UserToUser:
                     header.UserToUser = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Via:
                     header.Via = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.Warning:
                     header.Warning = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 case FieldType.WwwAuthenticate:
                     header.WwwAuthenticate = field.Values.ToList();
-                    return new ParseResult<HeaderDto>(header);
+                    break;
                 default:
                     throw new NotImplementedException($"header field type {field.Name} is not implemented");
             }
+
+            return new ParseResult<HeaderDto>(header);
         }
 
-        private static ParseResult<T> ParseSingleValue<T>(IReadOnlyList<string> values, Func<string, ParseResult<T>> convert)
+        private static ParseResult<T> ParseMandatorySingleValue<T>(IReadOnlyList<string> values, Func<string, ParseResult<T>> convert)
         {
             if (values.Count < 1)
                 return new ParseResult<T>("the value for a header field is missing");
@@ -476,6 +483,23 @@ namespace SipStack.Header
                 return new ParseResult<T>("there is more than one value for a header field, which should have only one value");
 
             return convert(values.First());
+        }
+
+        private static ParseResult<List<T>> ParseMultipleValues<T>(IReadOnlyList<string> values, Func<string, ParseResult<T>> convert)
+        {
+            var result = new List<T>(values.Count);
+
+            foreach (var value in values)
+            {
+                var parseResult = convert(value);
+
+                if (parseResult.IsError)
+                    return parseResult.ToParseResult<List<T>>();
+
+                result.Add(parseResult.Result);
+            }
+
+            return new ParseResult<List<T>>(result);
         }
 
         private static ParseResult<int> ConvertStringToInt(string value)

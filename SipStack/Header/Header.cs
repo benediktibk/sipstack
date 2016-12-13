@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SipStack.Header
 {
@@ -142,7 +143,7 @@ namespace SipStack.Header
         public IReadOnlyList<string> AcceptLanguage { get; }
         public IReadOnlyList<string> AcceptResourcePriority { get; }
         public IReadOnlyList<string> AlertInfo { get; }
-        public IReadOnlyList<string> Allow { get; }
+        public IReadOnlyList<RequestMethod> Allow { get; }
         public IReadOnlyList<string> AllowEvents { get; }
         public IReadOnlyList<string> AnswerMode { get; }
         public IReadOnlyList<string> AuthenticationInfo { get; }
@@ -279,7 +280,7 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, FieldType.AcceptLanguage, AcceptLanguage);
             AddToMessage(messageBuilder, FieldType.AcceptResourcePriority, AcceptResourcePriority);
             AddToMessage(messageBuilder, FieldType.AlertInfo, AlertInfo);
-            AddToMessage(messageBuilder, FieldType.Allow, Allow);
+            AddToMessage(messageBuilder, FieldType.Allow, Allow.Select(x => x.ToFriendlyString()));
             AddToMessage(messageBuilder, FieldType.AllowEvents, AllowEvents);
             AddToMessage(messageBuilder, FieldType.AnswerMode, AnswerMode);
             AddToMessage(messageBuilder, FieldType.AuthenticationInfo, AuthenticationInfo);
@@ -397,6 +398,11 @@ namespace SipStack.Header
                 return;
 
             messageBuilder.AddSipHeaderLineWithMultipleValues(HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), values);
+        }
+
+        private static void AddToMessage(MessageBuilder messageBuilder, FieldType headerFieldType, IEnumerable<string> values)
+        {
+            AddToMessage(messageBuilder, headerFieldType, values.ToList());
         }
 
         private static void AddToMessage(MessageBuilder messageBuilder, FieldType headerFieldType, string value)

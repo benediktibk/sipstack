@@ -14,7 +14,7 @@ namespace SipStack.Header
             AcceptLanguage = new List<string>();
             AcceptResourcePriority = new List<string>();
             AlertInfo = new List<string>();
-            Allow = new List<string>();
+            Allow = new List<RequestMethod>();
             AllowEvents = new List<string>();
             AnswerMode = new List<string>();
             AuthenticationInfo = new List<string>();
@@ -139,7 +139,7 @@ namespace SipStack.Header
         public List<string> AcceptLanguage { get; set; }
         public List<string> AcceptResourcePriority { get; set; }
         public List<string> AlertInfo { get; set; }
-        public List<string> Allow { get; set; }
+        public List<RequestMethod> Allow { get; set; }
         public List<string> AllowEvents { get; set; }
         public List<string> AnswerMode { get; set; }
         public List<string> AuthenticationInfo { get; set; }
