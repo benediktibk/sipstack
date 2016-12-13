@@ -2,6 +2,8 @@
 using SipStack.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SipStack.Body.Sdp
 {
@@ -103,12 +105,27 @@ namespace SipStack.Body.Sdp
 
         public void AddRepeat(Repeat value)
         {
-            throw new NotImplementedException();
+            _messageBuilder.AddLineFormat(
+                "r={0} {1} {2} {3}", 
+                value.RepeatInterval.TotalSeconds.ToString(), 
+                value.ActiveDuration.TotalSeconds.ToString(), 
+                value.OffsetStart.TotalSeconds.ToString(), 
+                value.OffsetEnd.TotalSeconds.ToString());
         }
 
         public void AddTimeZoneAdjustment(IReadOnlyList<TimeZoneAdjustment> values)
         {
-            throw new NotImplementedException();
+            if (values.Count == 0)
+                return;
+
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendFormat("{0} {1}", values[0].Time.ToString(), values[0].Offset.ToString());
+
+            foreach (var value in values.Skip(1))
+                stringBuilder.AppendFormat(" {0} {1}", value.Time.ToString(), value.Offset.ToString());
+
+            _messageBuilder.AddLineFormat("z={0}", stringBuilder.ToString());
         }
 
         public void AddEncryptionKey(EncryptionKey value)

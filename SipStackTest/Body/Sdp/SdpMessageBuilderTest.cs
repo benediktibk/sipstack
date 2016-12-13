@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack;
 using SipStack.Body.Sdp;
 using System;
+using System.Collections.Generic;
 
 namespace SipStackTest.Body.Sdp
 {
@@ -205,6 +206,56 @@ namespace SipStackTest.Body.Sdp
 
             var result = _messageBuilder.ToString();
             result.Should().Be("t=3122549400 0\r\n");
+        }
+
+        [TestMethod]
+        public void AddRepeat_ValidInput_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddRepeat(new Repeat(new TimeSpan(7*24, 0, 0), new TimeSpan(1, 30, 0), new TimeSpan(0, 0, 45), new TimeSpan(0, 0, 90)));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("r=604800 5400 45 90\r\n");
+        }
+
+        [TestMethod]
+        public void AddTimeZoneAdjustment_NoAdjustments_CorrectLineAdded()
+        {
+            var adjustments = new List<TimeZoneAdjustment>();
+
+            _sdpMessageBuilder.AddTimeZoneAdjustment(adjustments);
+
+            var result = _messageBuilder.ToString();
+            result.Should().BeNullOrEmpty();
+        }
+
+        [TestMethod]
+        public void AddTimeZoneAdjustment_OneAdjustment_CorrectLineAdded()
+        {
+            var adjustments = new List<TimeZoneAdjustment>()
+            {
+                new TimeZoneAdjustment(123123, 123)
+            };
+
+            _sdpMessageBuilder.AddTimeZoneAdjustment(adjustments);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("z=123123 123\r\n");
+        }
+
+        [TestMethod]
+        public void AddTimeZoneAdjustment_ThreeAdjustments_CorrectLineAdded()
+        {
+            var adjustments = new List<TimeZoneAdjustment>()
+            {
+                new TimeZoneAdjustment(123123, 123),
+                new TimeZoneAdjustment(45645, 987),
+                new TimeZoneAdjustment(16987913, 16546)
+            };
+
+            _sdpMessageBuilder.AddTimeZoneAdjustment(adjustments);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("z=123123 123 45645 987 16987913 16546\r\n");
         }
     }
 }
