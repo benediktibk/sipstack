@@ -7,14 +7,55 @@ namespace SipStack.Header
 {
     public class HeaderParser
     {
+        #region variables
+
         private readonly RequestLineParser _requestLineParser;
         private readonly HeaderFieldParser _headerFieldParser;
+
+        #endregion
+
+        #region constructors
 
         public HeaderParser(RequestLineParser requestLineParser, HeaderFieldParser headerFieldParser)
         {
             _requestLineParser = requestLineParser;
             _headerFieldParser = headerFieldParser;
         }
+
+        #endregion
+
+        #region public static functions
+
+        public static ParseResult<int> ParseSingleInt(IReadOnlyList<string> values)
+        {
+            if (values.Count < 1)
+                return new ParseResult<int>("the value for a header field is missing");
+
+            if (values.Count > 1)
+                return new ParseResult<int>("there is more than one value for a header field, which should have only one value");
+
+            int value;
+
+            if (!int.TryParse(values[0], out value))
+                return new ParseResult<int>($"could not parse the string {values[0]} as int");
+
+            return new ParseResult<int>(value);
+        }
+
+        public static ParseResult<string> ParseSingleString(IReadOnlyList<string> values)
+        {
+            if (values.Count < 1)
+                return new ParseResult<string>("the value for a header field is missing");
+
+            if (values.Count > 1)
+                return new ParseResult<string>("there is more than one value for a header field, which should have only one value");
+
+            return new ParseResult<string>(values[0], true);
+        }
+
+        #endregion
+
+        #region public functions
 
         public ParseResult<Header> Parse(IReadOnlyList<string> lines, int headerEnd)
         {
@@ -49,25 +90,9 @@ namespace SipStack.Header
             return new ParseResult<Header>(new Header(header));
         }
 
-        private ParseResult<List<HeaderField>> ParseHeaderFields(IReadOnlyList<string> lines, int headerEnd)
-        {
-            var fields = new List<HeaderField>();
-            for (var i = 1; i <= headerEnd; ++i)
-            {
-                var end = 0;
-                var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
+        #endregion
 
-                if (headerFieldResult.IsError)
-                    return headerFieldResult.ToParseResult<List<HeaderField>>();
-
-                var headerField = headerFieldResult.Result;
-                fields.Add(headerField);
-
-                i = end;
-            }
-
-            return new ParseResult<List<HeaderField>>(fields);
-        }
+        #region private static functions
 
         private static List<HeaderField> CombineHeaderFieldsWithSameType(List<HeaderField> fields)
         {
@@ -99,7 +124,7 @@ namespace SipStack.Header
                 return new ParseResult<HeaderDto>(header);
             }
 
-            switch(field.Name.Type)
+            switch (field.Name.Type)
             {
                 case HeaderFieldType.Accept:
                     header.Accept = field.Values.ToList();
@@ -473,31 +498,30 @@ namespace SipStack.Header
             }
         }
 
-        public static ParseResult<int> ParseSingleInt(IReadOnlyList<string> values)
+        #endregion
+
+        #region private functions
+
+        private ParseResult<List<HeaderField>> ParseHeaderFields(IReadOnlyList<string> lines, int headerEnd)
         {
-            if (values.Count < 1)
-                return new ParseResult<int>("the value for a header field is missing");
+            var fields = new List<HeaderField>();
+            for (var i = 1; i <= headerEnd; ++i)
+            {
+                var end = 0;
+                var headerFieldResult = _headerFieldParser.Parse(lines, i, out end);
 
-            if (values.Count > 1)
-                return new ParseResult<int>("there is more than one value for a header field, which should have only one value");
-            
-            int value;
+                if (headerFieldResult.IsError)
+                    return headerFieldResult.ToParseResult<List<HeaderField>>();
 
-            if (!int.TryParse(values[0], out value))
-                return new ParseResult<int>($"could not parse the string {values[0]} as int");
+                var headerField = headerFieldResult.Result;
+                fields.Add(headerField);
 
-            return new ParseResult<int>(value);
+                i = end;
+            }
+
+            return new ParseResult<List<HeaderField>>(fields);
         }
 
-        public static ParseResult<string> ParseSingleString(IReadOnlyList<string> values)
-        {
-            if (values.Count < 1)
-                return new ParseResult<string>("the value for a header field is missing");
-
-            if (values.Count > 1)
-                return new ParseResult<string>("there is more than one value for a header field, which should have only one value");
-
-            return new ParseResult<string>(values[0], true);
-        }
+        #endregion
     }
 }
