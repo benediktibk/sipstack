@@ -94,7 +94,7 @@ namespace SipStack.Body.Sdp
             foreach (var connectionInformation in ConnectionInformation)
                 sdpMessageBuilder.AddConnectionInformation(connectionInformation);
 
-            foreach (var bandwidth in Bandwidths)
+            foreach (var bandwidth in Bandwidths.Where(x => x.Type != BandwidthType.Unknown))
                 sdpMessageBuilder.AddBandwidth(bandwidth);
 
             foreach (var timeDescription in TimeDescriptions)

@@ -14,6 +14,12 @@ namespace SipStackTest.Body.Sdp
     {
         private MessageBuilder _messageBuilder;
 
+        [TestInitialize]
+        public void SetUp()
+        {
+            _messageBuilder = new MessageBuilder();
+        }
+
         [TestMethod]
         public void AddTo_BandwidthTypeUnknown_UnknownBandwidthIsNotInMessage()
         {
@@ -42,8 +48,8 @@ namespace SipStackTest.Body.Sdp
                 {
                     new MediaDescription(
                         new Media(MediaType.Audio, 12345, 5, MediaTransportProtocol.Udp, new List<string> { "8" }), 
-                        "media title", 
-                        null, 
+                        "media title",
+                        new List<ConnectionInformation>(), 
                         new List<Bandwidth>(), 
                         null, 
                         new List<SipStack.Body.Sdp.Attribute>())
@@ -52,7 +58,7 @@ namespace SipStackTest.Body.Sdp
             body.AddTo(_messageBuilder);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("i do not yet know");
+            result.Should().Be("v=0\r\no=jane.doe 23 35 IN IP4 originator.host\r\ns=session title\r\ni=session description\r\nu=http://uri.org/\r\ne=Jane Doe <email@domain.org>\r\np=Jane Doe 2 <+13546546@sub.domain.org>\r\nc=IN IP4 master.host.org\r\nb=AS:234\r\nk=clear:THISISTHEKEYTOTHEUNIVERSE\r\nm=audio 12345/5 udp 8\r\ni=media title");
         }
     }
 }
