@@ -140,7 +140,10 @@ namespace SipStack.Body.Sdp
 
         public void AddAttribute(Attribute value)
         {
-            throw new NotImplementedException();
+            if (value.IsFlag)
+                _messageBuilder.AddLineFormat("a={0}", value.Name);
+            else
+                _messageBuilder.AddLineFormat("a={0}:{1}", value.Name, value.Value);
         }
 
         public void AddMedia(Media value)

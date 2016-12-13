@@ -5,7 +5,7 @@
         public Attribute(string name)
         {
             Name = name;
-            Value = "";
+            Value = string.Empty;
         }
 
         public Attribute(string name, string value)
@@ -16,5 +16,6 @@
 
         public string Name { get; }
         public string Value { get; }
+        public bool IsFlag => string.IsNullOrEmpty(Value);
     }
 }

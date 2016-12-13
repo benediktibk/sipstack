@@ -293,5 +293,23 @@ namespace SipStackTest.Body.Sdp
             var result = _messageBuilder.ToString();
             result.Should().Be("k=uri:http://this.is.the.magic.domain.org/keyForMe\r\n");
         }
+
+        [TestMethod]
+        public void AddAttribute_Flag_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddAttribute(new SipStack.Body.Sdp.Attribute("recvonly"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("a=recvonly\r\n");
+        }
+
+        [TestMethod]
+        public void AddAttribute_Value_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddAttribute(new SipStack.Body.Sdp.Attribute("orient", "landscape"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("a=orient:landscape\r\n");
+        }
     }
 }
