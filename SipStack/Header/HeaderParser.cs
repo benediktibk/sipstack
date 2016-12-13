@@ -24,37 +24,6 @@ namespace SipStack.Header
 
         #endregion
 
-        #region public static functions
-
-        public static ParseResult<int> ParseSingleInt(IReadOnlyList<string> values)
-        {
-            if (values.Count < 1)
-                return new ParseResult<int>("the value for a header field is missing");
-
-            if (values.Count > 1)
-                return new ParseResult<int>("there is more than one value for a header field, which should have only one value");
-
-            int value;
-
-            if (!int.TryParse(values[0], out value))
-                return new ParseResult<int>($"could not parse the string {values[0]} as int");
-
-            return new ParseResult<int>(value);
-        }
-
-        public static ParseResult<string> ParseSingleString(IReadOnlyList<string> values)
-        {
-            if (values.Count < 1)
-                return new ParseResult<string>("the value for a header field is missing");
-
-            if (values.Count > 1)
-                return new ParseResult<string>("there is more than one value for a header field, which should have only one value");
-
-            return new ParseResult<string>(values[0], true);
-        }
-
-        #endregion
-
         #region public functions
 
         public ParseResult<Header> Parse(IReadOnlyList<string> lines, int headerEnd)
@@ -178,7 +147,7 @@ namespace SipStack.Header
                     header.ContentLanguage = field.Values.ToList();
                     return new ParseResult<HeaderDto>(header);
                 case HeaderFieldType.ContentLength:
-                    var contentLength = ParseSingleInt(field.Values);
+                    var contentLength = ParseSingleValue(field.Values, ConvertStringToInt);
 
                     if (contentLength.IsError)
                         return contentLength.ToParseResult<HeaderDto>();
@@ -186,7 +155,7 @@ namespace SipStack.Header
                     header.ContentLength = contentLength.Result;
                     return new ParseResult<HeaderDto>(header);
                 case HeaderFieldType.ContentType:
-                    var contentType = ParseSingleString(field.Values);
+                    var contentType = ParseSingleValue(field.Values, (x) => { return new ParseResult<string>(x, true); });
 
                     if (contentType.IsError)
                         return contentType.ToParseResult<HeaderDto>();
@@ -496,6 +465,27 @@ namespace SipStack.Header
                 default:
                     throw new NotImplementedException($"header field type {field.Name} is not implemented");
             }
+        }
+
+        private static ParseResult<T> ParseSingleValue<T>(IReadOnlyList<string> values, Func<string, ParseResult<T>> convert)
+        {
+            if (values.Count < 1)
+                return new ParseResult<T>("the value for a header field is missing");
+
+            if (values.Count > 1)
+                return new ParseResult<T>("there is more than one value for a header field, which should have only one value");
+
+            return convert(values.First());
+        }
+
+        private static ParseResult<int> ConvertStringToInt(string value)
+        {
+            int valueConverted;
+
+            if (!int.TryParse(value, out valueConverted))
+                return new ParseResult<int>($"could not convert the {value} into a string");
+
+            return new ParseResult<int>(valueConverted);
         }
 
         #endregion
