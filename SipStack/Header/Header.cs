@@ -384,6 +384,7 @@ namespace SipStack.Header
             AddToMessage(messageBuilder, CustomHeaders);
             AddToMessage(messageBuilder, HeaderFieldType.ContentType, ContentType);
             AddToMessage(messageBuilder, HeaderFieldType.ContentLength, ContentLength);
+            messageBuilder.AddLine(string.Empty);
         }
 
         #endregion
