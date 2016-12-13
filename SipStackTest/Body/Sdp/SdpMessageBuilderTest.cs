@@ -257,5 +257,41 @@ namespace SipStackTest.Body.Sdp
             var result = _messageBuilder.ToString();
             result.Should().Be("z=123123 123 45645 987 16987913 16546\r\n");
         }
+
+        [TestMethod]
+        public void AddEncryptionKey_Prompt_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Prompt, ""));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("k=prompt\r\n");
+        }
+
+        [TestMethod]
+        public void AddEncryptionKey_Clear_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Clear, "asdf465das4"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("k=clear:asdf465das4\r\n");
+        }
+
+        [TestMethod]
+        public void AddEncryptionKey_Base64_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Base64, "YXNkZjQ2NWRhczQ="));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("k=base64:YXNkZjQ2NWRhczQ=\r\n");
+        }
+
+        [TestMethod]
+        public void AddEncryptionKey_Uri_CorrectLineAdded()
+        {
+            _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Uri, "http://this.is.the.magic.domain.org/keyForMe"));
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("k=uri:http://this.is.the.magic.domain.org/keyForMe\r\n");
+        }
     }
 }

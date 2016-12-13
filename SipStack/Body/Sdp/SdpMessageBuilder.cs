@@ -130,7 +130,12 @@ namespace SipStack.Body.Sdp
 
         public void AddEncryptionKey(EncryptionKey value)
         {
-            throw new NotImplementedException();
+            var keyTypeString = EncryptionKeyTypeUtils.ToFriendlyString(value.KeyType);
+
+            if (value.KeyType == EncryptionKeyType.Prompt)
+                _messageBuilder.AddLineFormat("k={0}", keyTypeString);
+            else
+                _messageBuilder.AddLineFormat("k={0}:{1}", keyTypeString, value.Key);
         }
 
         public void AddAttribute(Attribute value)
