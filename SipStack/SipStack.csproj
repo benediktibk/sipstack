@@ -91,10 +91,10 @@
     <Compile Include="Body\Sdp\UriLine.cs" />
     <Compile Include="Body\Sdp\VersionLine.cs" />
     <Compile Include="Header\Header.cs" />
-    <Compile Include="Header\HeaderField.cs" />
-    <Compile Include="Header\HeaderFieldName.cs" />
-    <Compile Include="Header\HeaderFieldParser.cs" />
-    <Compile Include="Header\HeaderFieldType.cs" />
+    <Compile Include="Header\Field.cs" />
+    <Compile Include="Header\FieldName.cs" />
+    <Compile Include="Header\FieldParser.cs" />
+    <Compile Include="Header\FieldType.cs" />
     <Compile Include="IBody.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageBuilder.cs" />

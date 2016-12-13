@@ -5,15 +5,15 @@ using SipStack.Header;
 namespace SipStackTest.Header
 {
     [TestClass]
-    public class HeaderFieldParserTest
+    public class FieldParserTest
     {
-        private HeaderFieldParser _headerFieldParser;
+        private FieldParser _headerFieldParser;
         private int _end;
 
         [TestInitialize]
         public void SetUp()
         {
-            _headerFieldParser = new HeaderFieldParser();
+            _headerFieldParser = new FieldParser();
         }
 
         [TestMethod]

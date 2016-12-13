@@ -14,15 +14,15 @@ namespace SipStackTest
         private MessageParser _messageParser;
         private MessageParser _messageParserWithMocks;
         private Mock<RequestLineParser> _requestLineParser;
-        private Mock<HeaderFieldParser> _headerFieldParser;
+        private Mock<FieldParser> _headerFieldParser;
         private HeaderParser _headerParser;
         private Mock<BodyParserFactory> _bodyParserFactory;
 
         [TestInitialize]
         public void SetUp()
         {
-            _messageParser = new MessageParser(new HeaderParser(new RequestLineParser(), new HeaderFieldParser()), new BodyParserFactory());
-            _headerFieldParser = new Mock<HeaderFieldParser>();
+            _messageParser = new MessageParser(new HeaderParser(new RequestLineParser(), new FieldParser()), new BodyParserFactory());
+            _headerFieldParser = new Mock<FieldParser>();
             _requestLineParser = new Mock<RequestLineParser>();
             _bodyParserFactory = new Mock<BodyParserFactory>();
             _headerParser = new HeaderParser(_requestLineParser.Object, _headerFieldParser.Object);

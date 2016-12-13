@@ -97,8 +97,8 @@
     <Compile Include="MessageBuilderTest.cs" />
     <Compile Include="Utils\ParseResultTest.cs" />
     <Compile Include="Header\RequestLineParserTest.cs" />
-    <Compile Include="Header\HeaderFieldParserTest.cs" />
-    <Compile Include="Header\HeaderFieldNameTest.cs" />
+    <Compile Include="Header\FieldParserTest.cs" />
+    <Compile Include="Header\FieldNameTest.cs" />
     <Compile Include="Header\HeaderTest.cs" />
     <Compile Include="Body\BodyParserFactoryTest.cs" />
     <Compile Include="Utils\EmailAddressTest.cs" />

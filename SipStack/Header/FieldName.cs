@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace SipStack.Header
 {
-    public class HeaderFieldName
+    public class FieldName
     {
-        private HeaderFieldType _type;
+        private FieldType _type;
         private bool _isCustomField;
         private string _customFieldName;
 
-        public HeaderFieldName(string fieldName)
+        public FieldName(string fieldName)
         {
             _isCustomField = !HeaderFieldTypeUtils.TryParse(fieldName, out _type);
             _customFieldName = fieldName;
         }
 
-        public HeaderFieldName(HeaderFieldType type)
+        public FieldName(FieldType type)
         {
             _isCustomField = false;
             _type = type;
@@ -23,7 +23,7 @@ namespace SipStack.Header
 
         public bool IsCustomField => _isCustomField;
 
-        public HeaderFieldType Type
+        public FieldType Type
         {
             get
             {
@@ -53,7 +53,7 @@ namespace SipStack.Header
             }
         }
 
-        public bool IsOfType(HeaderFieldType type)
+        public bool IsOfType(FieldType type)
         {
             if (IsCustomField)
                 return false;
@@ -61,7 +61,7 @@ namespace SipStack.Header
             return _type == type;
         }
 
-        public bool IsContainedIn(HashSet<HeaderFieldType> types)
+        public bool IsContainedIn(HashSet<FieldType> types)
         {
             if (IsCustomField)
                 return false;
@@ -74,14 +74,14 @@ namespace SipStack.Header
             if (obj == null)
                 return false;
 
-            if (!(obj is HeaderFieldName))
+            if (!(obj is FieldName))
                 return false;
 
-            var rhs = obj as HeaderFieldName;
+            var rhs = obj as FieldName;
             return EqualsInternal(rhs);
         }
 
-        public bool Equals(HeaderFieldName rhs)
+        public bool Equals(FieldName rhs)
         {
             if (rhs == null)
                 return false;
@@ -97,7 +97,7 @@ namespace SipStack.Header
                 return _type.GetHashCode();
         }
 
-        private bool EqualsInternal(HeaderFieldName rhs)
+        private bool EqualsInternal(FieldName rhs)
         {
             if (IsCustomField != rhs.IsCustomField)
                 return false;

@@ -264,126 +264,126 @@ namespace SipStack.Header
         public void AddTo(MessageBuilder messageBuilder)
         {
             Method.AddTo(messageBuilder);
-            AddToMessage(messageBuilder, HeaderFieldType.From, From);
-            AddToMessage(messageBuilder, HeaderFieldType.To, To);
-            AddToMessage(messageBuilder, HeaderFieldType.CallId, CallId);
-            AddToMessage(messageBuilder, HeaderFieldType.Cseq, Cseq);
-            AddToMessage(messageBuilder, HeaderFieldType.Contact, Contact);
-            AddToMessage(messageBuilder, HeaderFieldType.Via, Via);
-            AddToMessage(messageBuilder, HeaderFieldType.MaxForwards, MaxForwards);
-            AddToMessage(messageBuilder, HeaderFieldType.Route, Route);
-            AddToMessage(messageBuilder, HeaderFieldType.RecordRoute, RecordRoute);
-            AddToMessage(messageBuilder, HeaderFieldType.Accept, Accept);
-            AddToMessage(messageBuilder, HeaderFieldType.AcceptContact, AcceptContact);
-            AddToMessage(messageBuilder, HeaderFieldType.AcceptEncoding, AcceptEncoding);
-            AddToMessage(messageBuilder, HeaderFieldType.AcceptLanguage, AcceptLanguage);
-            AddToMessage(messageBuilder, HeaderFieldType.AcceptResourcePriority, AcceptResourcePriority);
-            AddToMessage(messageBuilder, HeaderFieldType.AlertInfo, AlertInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.Allow, Allow);
-            AddToMessage(messageBuilder, HeaderFieldType.AllowEvents, AllowEvents);
-            AddToMessage(messageBuilder, HeaderFieldType.AnswerMode, AnswerMode);
-            AddToMessage(messageBuilder, HeaderFieldType.AuthenticationInfo, AuthenticationInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.Authorization, Authorization);
-            AddToMessage(messageBuilder, HeaderFieldType.CallInfo, CallInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.ContentDisposition, ContentDisposition);
-            AddToMessage(messageBuilder, HeaderFieldType.ContentEncoding, ContentEncoding);
-            AddToMessage(messageBuilder, HeaderFieldType.ContentLanguage, ContentLanguage);
-            AddToMessage(messageBuilder, HeaderFieldType.Date, Date);
-            AddToMessage(messageBuilder, HeaderFieldType.Encryption, Encryption);
-            AddToMessage(messageBuilder, HeaderFieldType.ErrorInfo, ErrorInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.Event, Event);
-            AddToMessage(messageBuilder, HeaderFieldType.Expires, Expires);
-            AddToMessage(messageBuilder, HeaderFieldType.FeatureCaps, FeatureCaps);
-            AddToMessage(messageBuilder, HeaderFieldType.FlowTimer, FlowTimer);
-            AddToMessage(messageBuilder, HeaderFieldType.Geolocation, Geolocation);
-            AddToMessage(messageBuilder, HeaderFieldType.GeolocationError, GeolocationError);
-            AddToMessage(messageBuilder, HeaderFieldType.GeolocationRouting, GeolocationRouting);
-            AddToMessage(messageBuilder, HeaderFieldType.Hide, Hide);
-            AddToMessage(messageBuilder, HeaderFieldType.HistoryInfo, HistoryInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.Identity, Identity);
-            AddToMessage(messageBuilder, HeaderFieldType.IdentityInfo, IdentityInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.InfoPackage, InfoPackage);
-            AddToMessage(messageBuilder, HeaderFieldType.InReplyTo, InReplyTo);
-            AddToMessage(messageBuilder, HeaderFieldType.Join, Join);
-            AddToMessage(messageBuilder, HeaderFieldType.MaxBreadth, MaxBreadth);
-            AddToMessage(messageBuilder, HeaderFieldType.MimeVersion, MimeVersion);
-            AddToMessage(messageBuilder, HeaderFieldType.MinExpires, MinExpires);
-            AddToMessage(messageBuilder, HeaderFieldType.MinSe, MinSe);
-            AddToMessage(messageBuilder, HeaderFieldType.Organization, Organization);
-            AddToMessage(messageBuilder, HeaderFieldType.PaccessNetworkInfo, PaccessNetworkInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.PanswerState, PanswerState);
-            AddToMessage(messageBuilder, HeaderFieldType.PassertedIdentity, PassertedIdentity);
-            AddToMessage(messageBuilder, HeaderFieldType.PassertedService, PassertedService);
-            AddToMessage(messageBuilder, HeaderFieldType.PassociatedUri, PassociatedUri);
-            AddToMessage(messageBuilder, HeaderFieldType.PcalledPartyId, PcalledPartyId);
-            AddToMessage(messageBuilder, HeaderFieldType.PchargingFunctionAddresses, PchargingFunctionAddresses);
-            AddToMessage(messageBuilder, HeaderFieldType.PchargingVector, PchargingVector);
-            AddToMessage(messageBuilder, HeaderFieldType.PdcsTracePartyId, PdcsTracePartyId);
-            AddToMessage(messageBuilder, HeaderFieldType.PdcsOsps, PdcsOsps);
-            AddToMessage(messageBuilder, HeaderFieldType.PdcsBillingInfo, PdcsBillingInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.PdcsLaes, PdcsLaes);
-            AddToMessage(messageBuilder, HeaderFieldType.PdcsRedirect, PdcsRedirect);
-            AddToMessage(messageBuilder, HeaderFieldType.PearlyMedia, PearlyMedia);
-            AddToMessage(messageBuilder, HeaderFieldType.PmediaAuthorization, PmediaAuthorization);
-            AddToMessage(messageBuilder, HeaderFieldType.PpreferredIdentity, PpreferredIdentity);
-            AddToMessage(messageBuilder, HeaderFieldType.PpreferredService, PpreferredService);
-            AddToMessage(messageBuilder, HeaderFieldType.PprivateNetworkIndication, PprivateNetworkIndication);
-            AddToMessage(messageBuilder, HeaderFieldType.PprofileKey, PprofileKey);
-            AddToMessage(messageBuilder, HeaderFieldType.PrefusedUriList, PrefusedUriList);
-            AddToMessage(messageBuilder, HeaderFieldType.PservedUser, PservedUser);
-            AddToMessage(messageBuilder, HeaderFieldType.PuserDatabase, PuserDatabase);
-            AddToMessage(messageBuilder, HeaderFieldType.PvisitedNetworkId, PvisitedNetworkId);
-            AddToMessage(messageBuilder, HeaderFieldType.Path, Path);
-            AddToMessage(messageBuilder, HeaderFieldType.PermissionMissing, PermissionMissing);
-            AddToMessage(messageBuilder, HeaderFieldType.PolicyContact, PolicyContact);
-            AddToMessage(messageBuilder, HeaderFieldType.PolicyId, PolicyId);
-            AddToMessage(messageBuilder, HeaderFieldType.Priority, Priority);
-            AddToMessage(messageBuilder, HeaderFieldType.PrivAnswerMode, PrivAnswerMode);
-            AddToMessage(messageBuilder, HeaderFieldType.Privacy, Privacy);
-            AddToMessage(messageBuilder, HeaderFieldType.ProxyAuthenticate, ProxyAuthenticate);
-            AddToMessage(messageBuilder, HeaderFieldType.ProxyAuthorization, ProxyAuthorization);
-            AddToMessage(messageBuilder, HeaderFieldType.ProxyRequire, ProxyRequire);
-            AddToMessage(messageBuilder, HeaderFieldType.Rack, Rack);
-            AddToMessage(messageBuilder, HeaderFieldType.Reason, Reason);
-            AddToMessage(messageBuilder, HeaderFieldType.ReasonPhrase, ReasonPhrase);
-            AddToMessage(messageBuilder, HeaderFieldType.RecvInfo, RecvInfo);
-            AddToMessage(messageBuilder, HeaderFieldType.ReferEventsAt, ReferEventsAt);
-            AddToMessage(messageBuilder, HeaderFieldType.ReferStub, ReferStub);
-            AddToMessage(messageBuilder, HeaderFieldType.ReferTo, ReferTo);
-            AddToMessage(messageBuilder, HeaderFieldType.ReferredBy, ReferredBy);
-            AddToMessage(messageBuilder, HeaderFieldType.RejectContact, RejectContact);
-            AddToMessage(messageBuilder, HeaderFieldType.Replaces, Replaces);
-            AddToMessage(messageBuilder, HeaderFieldType.ReplyTo, ReplyTo);
-            AddToMessage(messageBuilder, HeaderFieldType.RequestDisposition, RequestDisposition);
-            AddToMessage(messageBuilder, HeaderFieldType.Require, Require);
-            AddToMessage(messageBuilder, HeaderFieldType.ResourcePriority, ResourcePriority);
-            AddToMessage(messageBuilder, HeaderFieldType.ResponseKey, ResponseKey);
-            AddToMessage(messageBuilder, HeaderFieldType.RetryAfter, RetryAfter);
-            AddToMessage(messageBuilder, HeaderFieldType.Rseq, Rseq);
-            AddToMessage(messageBuilder, HeaderFieldType.SecurityClient, SecurityClient);
-            AddToMessage(messageBuilder, HeaderFieldType.SecurityServer, SecurityServer);
-            AddToMessage(messageBuilder, HeaderFieldType.SecurityVerify, SecurityVerify);
-            AddToMessage(messageBuilder, HeaderFieldType.Server, Server);
-            AddToMessage(messageBuilder, HeaderFieldType.ServiceRoute, ServiceRoute);
-            AddToMessage(messageBuilder, HeaderFieldType.SessionExpires, SessionExpires);
-            AddToMessage(messageBuilder, HeaderFieldType.SessionId, SessionId);
-            AddToMessage(messageBuilder, HeaderFieldType.SipEtag, SipEtag);
-            AddToMessage(messageBuilder, HeaderFieldType.SipIfMatch, SipIfMatch);
-            AddToMessage(messageBuilder, HeaderFieldType.Subject, Subject);
-            AddToMessage(messageBuilder, HeaderFieldType.SubscriptionState, SubscriptionState);
-            AddToMessage(messageBuilder, HeaderFieldType.Supported, Supported);
-            AddToMessage(messageBuilder, HeaderFieldType.SuppressIfMatch, SuppressIfMatch);
-            AddToMessage(messageBuilder, HeaderFieldType.TargetDialog, TargetDialog);
-            AddToMessage(messageBuilder, HeaderFieldType.Timestamp, Timestamp);
-            AddToMessage(messageBuilder, HeaderFieldType.TriggerConstant, TriggerConstant);
-            AddToMessage(messageBuilder, HeaderFieldType.Unsupported, Unsupported);
-            AddToMessage(messageBuilder, HeaderFieldType.UserAgent, UserAgent);
-            AddToMessage(messageBuilder, HeaderFieldType.UserToUser, UserToUser);
-            AddToMessage(messageBuilder, HeaderFieldType.Warning, Warning);
-            AddToMessage(messageBuilder, HeaderFieldType.WwwAuthenticate, WwwAuthenticate);
+            AddToMessage(messageBuilder, FieldType.From, From);
+            AddToMessage(messageBuilder, FieldType.To, To);
+            AddToMessage(messageBuilder, FieldType.CallId, CallId);
+            AddToMessage(messageBuilder, FieldType.Cseq, Cseq);
+            AddToMessage(messageBuilder, FieldType.Contact, Contact);
+            AddToMessage(messageBuilder, FieldType.Via, Via);
+            AddToMessage(messageBuilder, FieldType.MaxForwards, MaxForwards);
+            AddToMessage(messageBuilder, FieldType.Route, Route);
+            AddToMessage(messageBuilder, FieldType.RecordRoute, RecordRoute);
+            AddToMessage(messageBuilder, FieldType.Accept, Accept);
+            AddToMessage(messageBuilder, FieldType.AcceptContact, AcceptContact);
+            AddToMessage(messageBuilder, FieldType.AcceptEncoding, AcceptEncoding);
+            AddToMessage(messageBuilder, FieldType.AcceptLanguage, AcceptLanguage);
+            AddToMessage(messageBuilder, FieldType.AcceptResourcePriority, AcceptResourcePriority);
+            AddToMessage(messageBuilder, FieldType.AlertInfo, AlertInfo);
+            AddToMessage(messageBuilder, FieldType.Allow, Allow);
+            AddToMessage(messageBuilder, FieldType.AllowEvents, AllowEvents);
+            AddToMessage(messageBuilder, FieldType.AnswerMode, AnswerMode);
+            AddToMessage(messageBuilder, FieldType.AuthenticationInfo, AuthenticationInfo);
+            AddToMessage(messageBuilder, FieldType.Authorization, Authorization);
+            AddToMessage(messageBuilder, FieldType.CallInfo, CallInfo);
+            AddToMessage(messageBuilder, FieldType.ContentDisposition, ContentDisposition);
+            AddToMessage(messageBuilder, FieldType.ContentEncoding, ContentEncoding);
+            AddToMessage(messageBuilder, FieldType.ContentLanguage, ContentLanguage);
+            AddToMessage(messageBuilder, FieldType.Date, Date);
+            AddToMessage(messageBuilder, FieldType.Encryption, Encryption);
+            AddToMessage(messageBuilder, FieldType.ErrorInfo, ErrorInfo);
+            AddToMessage(messageBuilder, FieldType.Event, Event);
+            AddToMessage(messageBuilder, FieldType.Expires, Expires);
+            AddToMessage(messageBuilder, FieldType.FeatureCaps, FeatureCaps);
+            AddToMessage(messageBuilder, FieldType.FlowTimer, FlowTimer);
+            AddToMessage(messageBuilder, FieldType.Geolocation, Geolocation);
+            AddToMessage(messageBuilder, FieldType.GeolocationError, GeolocationError);
+            AddToMessage(messageBuilder, FieldType.GeolocationRouting, GeolocationRouting);
+            AddToMessage(messageBuilder, FieldType.Hide, Hide);
+            AddToMessage(messageBuilder, FieldType.HistoryInfo, HistoryInfo);
+            AddToMessage(messageBuilder, FieldType.Identity, Identity);
+            AddToMessage(messageBuilder, FieldType.IdentityInfo, IdentityInfo);
+            AddToMessage(messageBuilder, FieldType.InfoPackage, InfoPackage);
+            AddToMessage(messageBuilder, FieldType.InReplyTo, InReplyTo);
+            AddToMessage(messageBuilder, FieldType.Join, Join);
+            AddToMessage(messageBuilder, FieldType.MaxBreadth, MaxBreadth);
+            AddToMessage(messageBuilder, FieldType.MimeVersion, MimeVersion);
+            AddToMessage(messageBuilder, FieldType.MinExpires, MinExpires);
+            AddToMessage(messageBuilder, FieldType.MinSe, MinSe);
+            AddToMessage(messageBuilder, FieldType.Organization, Organization);
+            AddToMessage(messageBuilder, FieldType.PaccessNetworkInfo, PaccessNetworkInfo);
+            AddToMessage(messageBuilder, FieldType.PanswerState, PanswerState);
+            AddToMessage(messageBuilder, FieldType.PassertedIdentity, PassertedIdentity);
+            AddToMessage(messageBuilder, FieldType.PassertedService, PassertedService);
+            AddToMessage(messageBuilder, FieldType.PassociatedUri, PassociatedUri);
+            AddToMessage(messageBuilder, FieldType.PcalledPartyId, PcalledPartyId);
+            AddToMessage(messageBuilder, FieldType.PchargingFunctionAddresses, PchargingFunctionAddresses);
+            AddToMessage(messageBuilder, FieldType.PchargingVector, PchargingVector);
+            AddToMessage(messageBuilder, FieldType.PdcsTracePartyId, PdcsTracePartyId);
+            AddToMessage(messageBuilder, FieldType.PdcsOsps, PdcsOsps);
+            AddToMessage(messageBuilder, FieldType.PdcsBillingInfo, PdcsBillingInfo);
+            AddToMessage(messageBuilder, FieldType.PdcsLaes, PdcsLaes);
+            AddToMessage(messageBuilder, FieldType.PdcsRedirect, PdcsRedirect);
+            AddToMessage(messageBuilder, FieldType.PearlyMedia, PearlyMedia);
+            AddToMessage(messageBuilder, FieldType.PmediaAuthorization, PmediaAuthorization);
+            AddToMessage(messageBuilder, FieldType.PpreferredIdentity, PpreferredIdentity);
+            AddToMessage(messageBuilder, FieldType.PpreferredService, PpreferredService);
+            AddToMessage(messageBuilder, FieldType.PprivateNetworkIndication, PprivateNetworkIndication);
+            AddToMessage(messageBuilder, FieldType.PprofileKey, PprofileKey);
+            AddToMessage(messageBuilder, FieldType.PrefusedUriList, PrefusedUriList);
+            AddToMessage(messageBuilder, FieldType.PservedUser, PservedUser);
+            AddToMessage(messageBuilder, FieldType.PuserDatabase, PuserDatabase);
+            AddToMessage(messageBuilder, FieldType.PvisitedNetworkId, PvisitedNetworkId);
+            AddToMessage(messageBuilder, FieldType.Path, Path);
+            AddToMessage(messageBuilder, FieldType.PermissionMissing, PermissionMissing);
+            AddToMessage(messageBuilder, FieldType.PolicyContact, PolicyContact);
+            AddToMessage(messageBuilder, FieldType.PolicyId, PolicyId);
+            AddToMessage(messageBuilder, FieldType.Priority, Priority);
+            AddToMessage(messageBuilder, FieldType.PrivAnswerMode, PrivAnswerMode);
+            AddToMessage(messageBuilder, FieldType.Privacy, Privacy);
+            AddToMessage(messageBuilder, FieldType.ProxyAuthenticate, ProxyAuthenticate);
+            AddToMessage(messageBuilder, FieldType.ProxyAuthorization, ProxyAuthorization);
+            AddToMessage(messageBuilder, FieldType.ProxyRequire, ProxyRequire);
+            AddToMessage(messageBuilder, FieldType.Rack, Rack);
+            AddToMessage(messageBuilder, FieldType.Reason, Reason);
+            AddToMessage(messageBuilder, FieldType.ReasonPhrase, ReasonPhrase);
+            AddToMessage(messageBuilder, FieldType.RecvInfo, RecvInfo);
+            AddToMessage(messageBuilder, FieldType.ReferEventsAt, ReferEventsAt);
+            AddToMessage(messageBuilder, FieldType.ReferStub, ReferStub);
+            AddToMessage(messageBuilder, FieldType.ReferTo, ReferTo);
+            AddToMessage(messageBuilder, FieldType.ReferredBy, ReferredBy);
+            AddToMessage(messageBuilder, FieldType.RejectContact, RejectContact);
+            AddToMessage(messageBuilder, FieldType.Replaces, Replaces);
+            AddToMessage(messageBuilder, FieldType.ReplyTo, ReplyTo);
+            AddToMessage(messageBuilder, FieldType.RequestDisposition, RequestDisposition);
+            AddToMessage(messageBuilder, FieldType.Require, Require);
+            AddToMessage(messageBuilder, FieldType.ResourcePriority, ResourcePriority);
+            AddToMessage(messageBuilder, FieldType.ResponseKey, ResponseKey);
+            AddToMessage(messageBuilder, FieldType.RetryAfter, RetryAfter);
+            AddToMessage(messageBuilder, FieldType.Rseq, Rseq);
+            AddToMessage(messageBuilder, FieldType.SecurityClient, SecurityClient);
+            AddToMessage(messageBuilder, FieldType.SecurityServer, SecurityServer);
+            AddToMessage(messageBuilder, FieldType.SecurityVerify, SecurityVerify);
+            AddToMessage(messageBuilder, FieldType.Server, Server);
+            AddToMessage(messageBuilder, FieldType.ServiceRoute, ServiceRoute);
+            AddToMessage(messageBuilder, FieldType.SessionExpires, SessionExpires);
+            AddToMessage(messageBuilder, FieldType.SessionId, SessionId);
+            AddToMessage(messageBuilder, FieldType.SipEtag, SipEtag);
+            AddToMessage(messageBuilder, FieldType.SipIfMatch, SipIfMatch);
+            AddToMessage(messageBuilder, FieldType.Subject, Subject);
+            AddToMessage(messageBuilder, FieldType.SubscriptionState, SubscriptionState);
+            AddToMessage(messageBuilder, FieldType.Supported, Supported);
+            AddToMessage(messageBuilder, FieldType.SuppressIfMatch, SuppressIfMatch);
+            AddToMessage(messageBuilder, FieldType.TargetDialog, TargetDialog);
+            AddToMessage(messageBuilder, FieldType.Timestamp, Timestamp);
+            AddToMessage(messageBuilder, FieldType.TriggerConstant, TriggerConstant);
+            AddToMessage(messageBuilder, FieldType.Unsupported, Unsupported);
+            AddToMessage(messageBuilder, FieldType.UserAgent, UserAgent);
+            AddToMessage(messageBuilder, FieldType.UserToUser, UserToUser);
+            AddToMessage(messageBuilder, FieldType.Warning, Warning);
+            AddToMessage(messageBuilder, FieldType.WwwAuthenticate, WwwAuthenticate);
             AddToMessage(messageBuilder, CustomHeaders);
-            AddToMessage(messageBuilder, HeaderFieldType.ContentType, ContentType);
-            AddToMessage(messageBuilder, HeaderFieldType.ContentLength, ContentLength);
+            AddToMessage(messageBuilder, FieldType.ContentType, ContentType);
+            AddToMessage(messageBuilder, FieldType.ContentLength, ContentLength);
             messageBuilder.AddLine(string.Empty);
         }
 
@@ -391,7 +391,7 @@ namespace SipStack.Header
 
         #region private functions
 
-        private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, IReadOnlyList<string> values)
+        private static void AddToMessage(MessageBuilder messageBuilder, FieldType headerFieldType, IReadOnlyList<string> values)
         {
             if (values == null || values.Count == 0)
                 return;
@@ -399,7 +399,7 @@ namespace SipStack.Header
             messageBuilder.AddSipHeaderLineWithMultipleValues(HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), values);
         }
 
-        private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, string value)
+        private static void AddToMessage(MessageBuilder messageBuilder, FieldType headerFieldType, string value)
         {
             if (value == null)
                 return;
@@ -407,7 +407,7 @@ namespace SipStack.Header
             messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value);
         }
 
-        private static void AddToMessage(MessageBuilder messageBuilder, HeaderFieldType headerFieldType, int value)
+        private static void AddToMessage(MessageBuilder messageBuilder, FieldType headerFieldType, int value)
         {
             messageBuilder.AddLineFormat("{0}: {1}", HeaderFieldTypeUtils.ToFriendlyString(headerFieldType), value.ToString());
         }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace SipStack.Header
 {
-    public class HeaderFieldParser
+    public class FieldParser
     {
         public ParseResult<HeaderField> Parse(IReadOnlyList<string> lines, int start, out int end)
         {
@@ -22,7 +22,7 @@ namespace SipStack.Header
             if (matches.Count != 1)
                 return new ParseResult<HeaderField>($"the header line '{lines[start]}' is malformed");
 
-            var fieldName = new HeaderFieldName(matches[0].Groups[1].Value);
+            var fieldName = new FieldName(matches[0].Groups[1].Value);
             var stringBuilder = new StringBuilder(matches[0].Groups[2].Value);
             pattern = @"^(\.|[ \t]+)([^ \t].*)$|^[ \t]+$";
 
@@ -45,7 +45,7 @@ namespace SipStack.Header
             return new ParseResult<HeaderField>(new HeaderField(fieldName, fieldValuesAsList));
         }
 
-        private static IList<string> SeparateFieldValues(HeaderFieldName fieldName, string fieldValues)
+        private static IList<string> SeparateFieldValues(FieldName fieldName, string fieldValues)
         {
             var result = new List<string>();
 

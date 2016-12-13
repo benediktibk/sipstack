@@ -7,7 +7,7 @@ namespace SipStack.Header
     {
         private List<string> _values;
 
-        public HeaderField(HeaderFieldName name, IList<string> values)
+        public HeaderField(FieldName name, IList<string> values)
         {
             if (values == null || values.Count < 1)
                 throw new ArgumentException("values", "there must be at least one value");
@@ -16,7 +16,7 @@ namespace SipStack.Header
             _values = new List<string>(values);
         }
 
-        public HeaderFieldName Name { get; private set; }
+        public FieldName Name { get; private set; }
         public IReadOnlyList<string> Values => _values;
 
         public void AddTo(MessageBuilder messageBuilder)
