@@ -8,16 +8,16 @@ using System.Collections.Generic;
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
-    public class SdpMessageBuilderTest
+    public class MessageBuilderTest
     {
-        private MessageBuilder _messageBuilder;
-        private SdpMessageBuilder _sdpMessageBuilder;
+        private SipStack.MessageBuilder _messageBuilder;
+        private SipStack.Body.Sdp.MessageBuilder _sdpMessageBuilder;
 
         [TestInitialize]
         public void SetUp()
         {
-            _messageBuilder = new MessageBuilder();
-            _sdpMessageBuilder = new SdpMessageBuilder(_messageBuilder);
+            _messageBuilder = new SipStack.MessageBuilder();
+            _sdpMessageBuilder = new SipStack.Body.Sdp.MessageBuilder(_messageBuilder);
         }
 
         [TestMethod]

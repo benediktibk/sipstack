@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace SipStack.Body.Sdp
 {
-    public class SdpBodyParser : IBodyParser
+    public class BodyParser : IBodyParser
     {
         private readonly LineParser _lineParser;
 
-        public SdpBodyParser(LineParser lineParser)
+        public BodyParser(LineParser lineParser)
         {
             _lineParser = lineParser;
         }
@@ -59,7 +59,7 @@ namespace SipStack.Body.Sdp
             if (!lineQueue.IsEmpty)
                 return new ParseResult<IBody>("there are invalid lines in the SDP-Body");
 
-            var sdpBody = new SdpBody(
+            var sdpBody = new Body(
                 protocolVersionResult.Result.Version,
                 originatorLineResult.Result.Originator,
                 sessionNameResult.Result.Name,

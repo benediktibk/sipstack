@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack.Body.Sdp;
-using SipStack;
 using SipStack.Network;
 using SipStack.Utils;
 using System.Collections.Generic;
@@ -10,20 +9,20 @@ using FluentAssertions;
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
-    public class SdpBodyTest
+    public class BodyTest
     {
-        private MessageBuilder _messageBuilder;
+        private SipStack.MessageBuilder _messageBuilder;
 
         [TestInitialize]
         public void SetUp()
         {
-            _messageBuilder = new MessageBuilder();
+            _messageBuilder = new SipStack.MessageBuilder();
         }
 
         [TestMethod]
         public void AddTo_BandwidthTypeUnknown_UnknownBandwidthIsNotInMessage()
         {
-            var body = new SdpBody(
+            var body = new SipStack.Body.Sdp.Body(
                 0, 
                 new Originator("jane.doe", 23, 35, NetType.Internet, AddressType.Ipv4, "originator.host"),
                 "session title", 

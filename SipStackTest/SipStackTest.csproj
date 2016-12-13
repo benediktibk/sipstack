@@ -85,9 +85,9 @@
     <Compile Include="Body\Sdp\TimeZoneLineTest.cs" />
     <Compile Include="Body\Sdp\MediaLineTest.cs" />
     <Compile Include="Body\Sdp\LineQueueTest.cs" />
-    <Compile Include="Body\Sdp\SdpBodyParserTest.cs" />
-    <Compile Include="Body\Sdp\SdpMessageBuilderTest.cs" />
-    <Compile Include="Body\Sdp\SdpBodyTest.cs" />
+    <Compile Include="Body\Sdp\BodyParserTest.cs" />
+    <Compile Include="Body\Sdp\MessageBuilderTest.cs" />
+    <Compile Include="Body\Sdp\BodyTest.cs" />
     <Compile Include="Body\Sdp\UriLineTest.cs" />
     <Compile Include="Body\Sdp\VersionLineTest.cs" />
     <Compile Include="MessageParserTest.cs" />

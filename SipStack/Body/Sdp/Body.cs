@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace SipStack.Body.Sdp
 {
-    public class SdpBody : IBody
+    public class Body : IBody
     {
         #region constructors
 
-        public SdpBody(
+        public Body(
             int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, 
             EmailAddress emailAddress, PhoneNumber phoneNumber, IEnumerable<ConnectionInformation> connectionInformation,
             IEnumerable<Bandwidth> bandwidths, IEnumerable<TimeDescription> timeDescriptions, IEnumerable<TimeZoneAdjustment> timeZoneAdjustments,
@@ -71,9 +71,9 @@ namespace SipStack.Body.Sdp
 
         #region public functions
 
-        public void AddTo(MessageBuilder messageBuilder)
+        public void AddTo(SipStack.MessageBuilder messageBuilder)
         {
-            var sdpMessageBuilder = new SdpMessageBuilder(messageBuilder);
+            var sdpMessageBuilder = new MessageBuilder(messageBuilder);
 
             sdpMessageBuilder.AddProtocolVersion(ProtocolVersion);
             sdpMessageBuilder.AddOriginator(Originator);

@@ -8,10 +8,10 @@ using System.IO;
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
-    public class SdpBodyParserTest
+    public class BodyParserTest
     {
         private LineParser _lineParser;
-        private SdpBodyParser _sdpBodyParser;
+        private BodyParser _sdpBodyParser;
         private List<string> _onlyMandatoryLines;
         private List<string> _allOptionalLines;
         private List<string> _multipleConnectionData;
@@ -20,7 +20,7 @@ namespace SipStackTest.Body.Sdp
         public void SetUp()
         {
             _lineParser = new LineParser();
-            _sdpBodyParser = new SdpBodyParser(_lineParser);
+            _sdpBodyParser = new BodyParser(_lineParser);
 
             _onlyMandatoryLines = new List<string>
             {
@@ -97,7 +97,7 @@ namespace SipStackTest.Body.Sdp
         {
             var result = _sdpBodyParser.Parse(_onlyMandatoryLines, 0, 2);
 
-            var sdpBody = result.Result as SdpBody;
+            var sdpBody = result.Result as SipStack.Body.Sdp.Body;
             sdpBody.ProtocolVersion.Should().Be(0);
         }
 
@@ -153,7 +153,7 @@ namespace SipStackTest.Body.Sdp
             var lines = ReadFromFile("005_sdp");
             var result = _sdpBodyParser.Parse(lines, 4, 27);
 
-            result.Result.Should().BeOfType(typeof(SdpBody));
+            result.Result.Should().BeOfType(typeof(SipStack.Body.Sdp.Body));
         }
 
         [TestMethod]

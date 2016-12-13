@@ -37,7 +37,7 @@ namespace SipStackTest.Body
         {
             var result = _bodyParserFactory.Create("application/sdp");
 
-            result.Should().BeOfType(typeof(SdpBodyParser));
+            result.Should().BeOfType(typeof(BodyParser));
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace SipStackTest.Body
         {
             var result = _bodyParserFactory.Create("applIcation/SDP");
 
-            result.Should().BeOfType(typeof(SdpBodyParser));
+            result.Should().BeOfType(typeof(BodyParser));
         }
     }
 }

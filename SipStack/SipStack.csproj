@@ -67,7 +67,7 @@
     <Compile Include="Body\Sdp\MediaType.cs" />
     <Compile Include="Body\Sdp\Originator.cs" />
     <Compile Include="Body\Sdp\Repeat.cs" />
-    <Compile Include="Body\Sdp\SdpMessageBuilder.cs" />
+    <Compile Include="Body\Sdp\MessageBuilder.cs" />
     <Compile Include="Body\Sdp\TimeDescription.cs" />
     <Compile Include="Body\Sdp\TimeUnit.cs" />
     <Compile Include="Body\Sdp\TimeZoneAdjustment.cs" />
@@ -106,8 +106,8 @@
     <Compile Include="Header\RequestLine.cs" />
     <Compile Include="Header\RequestLineParser.cs" />
     <Compile Include="Header\RequestMethod.cs" />
-    <Compile Include="Body\Sdp\SdpBody.cs" />
-    <Compile Include="Body\Sdp\SdpBodyParser.cs" />
+    <Compile Include="Body\Sdp\Body.cs" />
+    <Compile Include="Body\Sdp\BodyParser.cs" />
     <Compile Include="Utils\PhoneNumber.cs" />
   </ItemGroup>
   <ItemGroup>

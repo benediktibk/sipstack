@@ -7,17 +7,17 @@ using System.Text;
 
 namespace SipStack.Body.Sdp
 {
-    public class SdpMessageBuilder
+    public class MessageBuilder
     {
         #region variables
 
-        private readonly MessageBuilder _messageBuilder;
+        private readonly SipStack.MessageBuilder _messageBuilder;
 
         #endregion
 
         #region constructors
 
-        public SdpMessageBuilder(MessageBuilder messageBuilder)
+        public MessageBuilder(SipStack.MessageBuilder messageBuilder)
         {
             _messageBuilder = messageBuilder;
         }
