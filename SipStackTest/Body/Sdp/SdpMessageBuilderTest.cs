@@ -311,5 +311,44 @@ namespace SipStackTest.Body.Sdp
             var result = _messageBuilder.ToString();
             result.Should().Be("a=orient:landscape\r\n");
         }
+
+        [TestMethod]
+        public void AddMedia_OnePortAndOneType_CorrectLineAdded()
+        {
+            var media = new Media(
+                MediaType.Audio, 45897, 1, MediaTransportProtocol.Udp,
+                new List<string> { "8" });
+
+            _sdpMessageBuilder.AddMedia(media);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("m=audio 45897 udp 8\r\n");
+        }
+
+        [TestMethod]
+        public void AddMedia_ThreePortsAndOneType_CorrectLineAdded()
+        {
+            var media = new Media(
+                MediaType.Video, 45897, 3, MediaTransportProtocol.RtpAvp,
+                new List<string> { "8" });
+
+            _sdpMessageBuilder.AddMedia(media);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("m=video 45897/3 RTP/AVP 8\r\n");
+        }
+
+        [TestMethod]
+        public void AddMedia_ThreePortsAndMultipleType_CorrectLineAdded()
+        {
+            var media = new Media(
+                MediaType.Video, 45897, 3, MediaTransportProtocol.RtpAvp,
+                new List<string> { "8", "45", "asdf" });
+
+            _sdpMessageBuilder.AddMedia(media);
+
+            var result = _messageBuilder.ToString();
+            result.Should().Be("m=video 45897/3 RTP/AVP 8 45 asdf\r\n");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SipStack.Body.Sdp
@@ -9,6 +10,9 @@ namespace SipStack.Body.Sdp
 
         public Media(MediaType mediaType, int port, int portCount, MediaTransportProtocol mediaTransportProtocol, IReadOnlyList<string> mediaFormatDescriptions)
         {
+            if (portCount < 1)
+                throw new ArgumentOutOfRangeException("portCount", "must be greater than 0");
+
             MediaType = mediaType;
             Port = port;
             PortCount = portCount;

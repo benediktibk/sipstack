@@ -148,7 +148,26 @@ namespace SipStack.Body.Sdp
 
         public void AddMedia(Media value)
         {
-            throw new NotImplementedException();
+            var stringBuilder = new StringBuilder();            
+                
+            foreach (var mediaFormatDescription in value.MediaFormatDescriptions)
+                stringBuilder.AppendFormat(" {0}", mediaFormatDescription);
+
+            if (value.PortCount == 1)
+                _messageBuilder.AddLineFormat(
+                    "m={0} {1} {2}{3}",
+                    MediaTypeUtils.ToFriendlyString(value.MediaType),
+                    value.Port.ToString(),
+                    MediaTransportProtocolUtils.ToFriendlyString(value.MediaTransportProtocol),
+                    stringBuilder.ToString());
+            else
+                _messageBuilder.AddLineFormat(
+                    "m={0} {1}/{2} {3}{4}",
+                    MediaTypeUtils.ToFriendlyString(value.MediaType),
+                    value.Port.ToString(),
+                    value.PortCount.ToString(),
+                    MediaTransportProtocolUtils.ToFriendlyString(value.MediaTransportProtocol),
+                    stringBuilder.ToString());
         }
 
         #endregion
