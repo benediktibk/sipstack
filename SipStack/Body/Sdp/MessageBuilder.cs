@@ -36,7 +36,7 @@ namespace SipStack.Body.Sdp
             _messageBuilder.AddLineFormat(
                 "o={0} {1} {2} {3} {4} {5}",
                 value.Username, value.SessionId.ToString(), value.SessionVersion.ToString(),
-                NetTypeUtils.ToFriendlyString(value.NetType), AddressTypeUtils.ToFriendlyString(value.AddressType),
+                value.NetType.ToFriendlyString(), value.AddressType.ToFriendlyString(),
                 value.Host.ToString());
         }
 
@@ -67,8 +67,8 @@ namespace SipStack.Body.Sdp
 
         public void AddConnectionInformation(ConnectionInformation value)
         {
-            var netType = NetTypeUtils.ToFriendlyString(value.NetType);
-            var addressType = AddressTypeUtils.ToFriendlyString(value.AddressType);
+            var netType = value.NetType.ToFriendlyString();
+            var addressType = value.AddressType.ToFriendlyString();
 
             if (value.IsUnicast)
                 _messageBuilder.AddLineFormat("c={0} {1} {2}", netType, addressType, value.Host);
@@ -93,7 +93,7 @@ namespace SipStack.Body.Sdp
             if (value.Type == BandwidthType.Unknown)
                 throw new ArgumentOutOfRangeException("value", "the bandwidth type must not be unkown");
 
-            _messageBuilder.AddLineFormat("b={0}:{1}", BandwidthTypeUtils.ToFriendlyString(value.Type), value.Amount.ToString());
+            _messageBuilder.AddLineFormat("b={0}:{1}", value.Type.ToFriendlyString(), value.Amount.ToString());
         }
 
         public void AddTiming(Timing value)
@@ -130,7 +130,7 @@ namespace SipStack.Body.Sdp
 
         public void AddEncryptionKey(EncryptionKey value)
         {
-            var keyTypeString = EncryptionKeyTypeUtils.ToFriendlyString(value.KeyType);
+            var keyTypeString = value.KeyType.ToFriendlyString();
 
             if (value.KeyType == EncryptionKeyType.Prompt)
                 _messageBuilder.AddLineFormat("k={0}", keyTypeString);
@@ -156,17 +156,17 @@ namespace SipStack.Body.Sdp
             if (value.PortCount == 1)
                 _messageBuilder.AddLineFormat(
                     "m={0} {1} {2}{3}",
-                    MediaTypeUtils.ToFriendlyString(value.MediaType),
+                    value.MediaType.ToFriendlyString(),
                     value.Port.ToString(),
-                    MediaTransportProtocolUtils.ToFriendlyString(value.MediaTransportProtocol),
+                    value.MediaTransportProtocol.ToFriendlyString(),
                     stringBuilder.ToString());
             else
                 _messageBuilder.AddLineFormat(
                     "m={0} {1}/{2} {3}{4}",
-                    MediaTypeUtils.ToFriendlyString(value.MediaType),
+                    value.MediaType.ToFriendlyString(),
                     value.Port.ToString(),
                     value.PortCount.ToString(),
-                    MediaTransportProtocolUtils.ToFriendlyString(value.MediaTransportProtocol),
+                    value.MediaTransportProtocol.ToFriendlyString(),
                     stringBuilder.ToString());
         }
 
