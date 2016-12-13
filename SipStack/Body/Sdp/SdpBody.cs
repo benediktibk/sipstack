@@ -11,7 +11,7 @@ namespace SipStack.Body.Sdp
 
         public SdpBody(
             int protocolVersion, Originator originator, string sessionName, string sessionDescription, Uri sessionUri, 
-            EmailAddress emailAddress, PhoneNumber phoneNumber, ConnectionInformation connectionInformation,
+            EmailAddress emailAddress, PhoneNumber phoneNumber, IEnumerable<ConnectionInformation> connectionInformation,
             IEnumerable<Bandwidth> bandwidths, IEnumerable<TimeDescription> timeDescriptions, IEnumerable<TimeZoneAdjustment> timeZoneAdjustments,
             EncryptionKey encryptionKey, IEnumerable<Attribute> attributes, IEnumerable<MediaDescription> mediaDescriptions)
         {
@@ -19,6 +19,8 @@ namespace SipStack.Body.Sdp
                 throw new ArgumentNullException("originator");
             if (sessionName == null)
                 throw new ArgumentNullException("sessionName");
+            if (connectionInformation == null)
+                throw new ArgumentNullException("connectionInformation");
             if (bandwidths == null)
                 throw new ArgumentNullException("bandwidths");
             if (timeDescriptions == null)
@@ -37,7 +39,7 @@ namespace SipStack.Body.Sdp
             SessionUri = sessionUri;
             EmailAddress = emailAddress;
             PhoneNumber = phoneNumber;
-            ConnectionInformation = connectionInformation;
+            ConnectionInformation = connectionInformation.ToList();
             Bandwidths = bandwidths.ToList();
             TimeDescriptions = timeDescriptions.ToList();
             TimeZoneAdjustments = timeZoneAdjustments.ToList();
@@ -57,7 +59,7 @@ namespace SipStack.Body.Sdp
         public Uri SessionUri { get; }
         public EmailAddress EmailAddress { get; }
         public PhoneNumber PhoneNumber { get; }
-        public ConnectionInformation ConnectionInformation { get; }
+        public IReadOnlyList<ConnectionInformation> ConnectionInformation { get; }
         public IReadOnlyList<Bandwidth> Bandwidths { get; }
         public IReadOnlyList<TimeDescription> TimeDescriptions { get; }
         public IReadOnlyList<TimeZoneAdjustment> TimeZoneAdjustments { get; }
@@ -89,8 +91,8 @@ namespace SipStack.Body.Sdp
             if (PhoneNumber != null)
                 sdpMessageBuilder.AddPhoneNumber(PhoneNumber);
 
-            if (ConnectionInformation != null)
-                sdpMessageBuilder.AddConnectionInformation(ConnectionInformation);
+            foreach (var connectionInformation in ConnectionInformation)
+                sdpMessageBuilder.AddConnectionInformation(connectionInformation);
 
             foreach (var bandwidth in Bandwidths)
                 sdpMessageBuilder.AddBandwidth(bandwidth);
@@ -119,8 +121,8 @@ namespace SipStack.Body.Sdp
                 if (mediaDescription.Title != null)
                     sdpMessageBuilder.AddSessionDescription(mediaDescription.Title);
 
-                if (mediaDescription.ConnectionInformation != null)
-                    sdpMessageBuilder.AddConnectionInformation(mediaDescription.ConnectionInformation);
+                foreach (var connectionInformation in mediaDescription.ConnectionInformation)
+                    sdpMessageBuilder.AddConnectionInformation(connectionInformation);
 
                 foreach (var bandwidth in mediaDescription.Bandwidths)
                     sdpMessageBuilder.AddBandwidth(bandwidth);

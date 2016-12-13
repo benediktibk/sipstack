@@ -14,6 +14,7 @@ namespace SipStackTest.Body.Sdp
         private SdpBodyParser _sdpBodyParser;
         private List<string> _onlyMandatoryLines;
         private List<string> _allOptionalLines;
+        private List<string> _multipleConnectionData;
 
         [TestInitialize]
         public void SetUp()
@@ -51,6 +52,38 @@ namespace SipStackTest.Body.Sdp
                 "m=audio 41736 RTP/AVP 8 97 98 99 18 96 100",
                 "i=MEDIAAAAAAA",
                 "c=IN IP4 10.122.69.145",
+                "b=AS:90",
+                "k=prompt",
+                "a=rtpmap:8 PCMA/8000/1",
+                "a=rtpmap:97 AMR-WB/16000/1",
+                "m=video 15648 RTP/AVP 34"
+            };
+
+            _multipleConnectionData = new List<string>
+            {
+                "v=0",
+                "o=asdf 132456 132456 IN IP4 1.5.8.9",
+                "s=JUHU",
+                "i=eine beschreibung",
+                "u=http://asdf.asdf",
+                "e=huber.depp@affenhausen.at",
+                "p=+494254654312",
+                "c=IN IP4 172.26.8.45",
+                "c=IN IP4 172.26.8.46",
+                "b=CT:1234",
+                "b=AS:58",
+                "t=3034423619 3042462419",
+                "r=604800 100 0 90000",
+                "r=604800 200 0 90300",
+                "t=1654 4987897",
+                "z=2882844526 -1h 2898848070 0",
+                "k=clear:ASDF6465asdf456",
+                "a=recvonly",
+                "a=orient:landscape",
+                "m=audio 41736 RTP/AVP 8 97 98 99 18 96 100",
+                "i=MEDIAAAAAAA",
+                "c=IN IP4 10.122.69.145",
+                "c=IN IP6 0015::101",
                 "b=AS:90",
                 "k=prompt",
                 "a=rtpmap:8 PCMA/8000/1",
@@ -121,6 +154,14 @@ namespace SipStackTest.Body.Sdp
             var result = _sdpBodyParser.Parse(lines, 4, 27);
 
             result.Result.Should().BeOfType(typeof(SdpBody));
+        }
+
+        [TestMethod]
+        public void Parse_MultipleConnectionData_Success()
+        {
+            var result = _sdpBodyParser.Parse(_multipleConnectionData, 0, _multipleConnectionData.Count - 1);
+
+            result.IsSuccess.Should().BeTrue();
         }
 
         private static IList<string> ReadFromFile(string file)

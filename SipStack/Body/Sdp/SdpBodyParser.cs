@@ -48,7 +48,7 @@ namespace SipStack.Body.Sdp
             var uri = lineQueue.ParseOptionalLine<UriLine>();
             var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
             var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
-            var connectionInformationLine = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
+            var connectionInformationLines = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
             var bandwidthLines = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
             var timeZoneLine = lineQueue.ParseOptionalLine<TimeZoneLine>();
@@ -67,7 +67,7 @@ namespace SipStack.Body.Sdp
                 uri?.Uri,
                 emailAddress?.EmailAddress,
                 phoneNumberLine?.PhoneNumber,
-                connectionInformationLine?.ConnectionInformation,
+                connectionInformationLines.Select(x => x.ConnectionInformation),
                 bandwidthLines.Select(x => x.Bandwidth),
                 timeDescriptions,
                 timeZoneLine == null ? new List<TimeZoneAdjustment>() : timeZoneLine.TimeZoneAdjustments,
@@ -125,7 +125,7 @@ namespace SipStack.Body.Sdp
                     return result;
 
                 var mediaTitle = lineQueue.ParseOptionalLine<DescriptionLine>();
-                var connectionInformation = lineQueue.ParseOptionalLine<ConnectionInformationLine>();
+                var connectionInformation = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
                 var bandwidths = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
                 var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
                 var attributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
@@ -133,7 +133,7 @@ namespace SipStack.Body.Sdp
                 var mediaDescription = new MediaDescription(
                     mediaLine.Media,
                     mediaTitle?.Description,
-                    connectionInformation?.ConnectionInformation,
+                    connectionInformation.Select(x => x.ConnectionInformation),
                     bandwidths.Select(x => x.Bandwidth),
                     encryptionKey?.EncryptionKey,
                     attributes.Select(x => x.Attribute));

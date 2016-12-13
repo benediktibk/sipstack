@@ -25,7 +25,10 @@ namespace SipStackTest.Body.Sdp
                 new Uri("http://uri.org"), 
                 new EmailAddress("email", "domain.org", "Jane Doe"),
                 new PhoneNumber("+13546546", "sub.domain.org", "Jane Doe 2"), 
-                new ConnectionInformation(NetType.Internet, AddressType.Ipv4, "master.host.org"),
+                new List<ConnectionInformation>
+                {
+                    new ConnectionInformation(NetType.Internet, AddressType.Ipv4, "master.host.org")
+                },
                 new List<Bandwidth>
                 {
                     new Bandwidth(BandwidthType.Unknown, 123),
