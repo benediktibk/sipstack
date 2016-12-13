@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace SipStack
@@ -51,16 +52,20 @@ namespace SipStack
         {
             var capacity = 0;
 
-            foreach(var line in _lines)
-            {
-                capacity += line.Length + 2;
-            }
+            for (var i = 0; i < _lines.Count - 1; ++i)
+                capacity += _lines[i].Length + 2;
+
+            if (_lines.Count > 0)
+                capacity += _lines.Last().Length;
 
             _stringBuilder.Clear();
             _stringBuilder.EnsureCapacity(capacity);
 
-            foreach (var line in _lines)
-                _stringBuilder.AppendFormat("{0}\r\n", line);
+            for(var i = 0; i < _lines.Count - 1; ++i)
+                _stringBuilder.AppendFormat("{0}\r\n", _lines[i]);
+
+            if (_lines.Count > 0)
+                _stringBuilder.AppendFormat("{0}", _lines.Last());
 
             var result = _stringBuilder.ToString();
             Debug.Assert(result.Length == capacity);

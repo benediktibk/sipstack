@@ -26,7 +26,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddProtocolVersion(6);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("v=6\r\n");
+            result.Should().Be("v=6");
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddOriginator(originator);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("o=alice 2890844526 2890844526 IN IP4 1.2.4.5\r\n");
+            result.Should().Be("o=alice 2890844526 2890844526 IN IP4 1.2.4.5");
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddSessionName("asdfas asdg");
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("s=asdfas asdg\r\n");
+            result.Should().Be("s=asdfas asdg");
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddSessionDescription("asdfas asdg");
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("i=asdfas asdg\r\n");
+            result.Should().Be("i=asdfas asdg");
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddSessionUri(new System.Uri("http://asdf.asdf.asdf/asdfg"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("u=http://asdf.asdf.asdf/asdfg\r\n");
+            result.Should().Be("u=http://asdf.asdf.asdf/asdfg");
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEmailAddress(new SipStack.Utils.EmailAddress("j.doe", "example.com", "Jane Doe"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("e=Jane Doe <j.doe@example.com>\r\n");
+            result.Should().Be("e=Jane Doe <j.doe@example.com>");
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEmailAddress(new SipStack.Utils.EmailAddress("j.doe", "example.com", string.Empty));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("e=j.doe@example.com\r\n");
+            result.Should().Be("e=j.doe@example.com");
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddPhoneNumber(new SipStack.Utils.PhoneNumber("+16175556011", "", ""));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("p=+16175556011\r\n");
+            result.Should().Be("p=+16175556011");
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddPhoneNumber(new SipStack.Utils.PhoneNumber("+16175556011", "global.gl", ""));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("p=+16175556011@global.gl\r\n");
+            result.Should().Be("p=+16175556011@global.gl");
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddPhoneNumber(new SipStack.Utils.PhoneNumber("+1 617 555-6011", "global.gl", "Jane White"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("p=Jane White <+16175556011@global.gl>\r\n");
+            result.Should().Be("p=Jane White <+16175556011@global.gl>");
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddPhoneNumber(new SipStack.Utils.PhoneNumber("+16175556011", "", "Jane White"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("p=Jane White <+16175556011>\r\n");
+            result.Should().Be("p=Jane White <+16175556011>");
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace SipStackTest.Body.Sdp
                 new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("c=IN IP4 15.6.4.9\r\n");
+            result.Should().Be("c=IN IP4 15.6.4.9");
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace SipStackTest.Body.Sdp
                 new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9", 6, 123));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("c=IN IP4 15.6.4.9/123/6\r\n");
+            result.Should().Be("c=IN IP4 15.6.4.9/123/6");
         }
 
         [TestMethod]
@@ -151,7 +151,7 @@ namespace SipStackTest.Body.Sdp
                 new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv4, "15.6.4.9", 1, 123));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("c=IN IP4 15.6.4.9/123\r\n");
+            result.Should().Be("c=IN IP4 15.6.4.9/123");
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace SipStackTest.Body.Sdp
                 new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv6, "FF15::101"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("c=IN IP6 FF15::101\r\n");
+            result.Should().Be("c=IN IP6 FF15::101");
         }
 
         [TestMethod]
@@ -171,7 +171,7 @@ namespace SipStackTest.Body.Sdp
                 new ConnectionInformation(SipStack.Network.NetType.Internet, SipStack.Network.AddressType.Ipv6, "FF15::101", 6));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("c=IN IP6 FF15::101/6\r\n");
+            result.Should().Be("c=IN IP6 FF15::101/6");
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddBandwidth(new Bandwidth(BandwidthType.ApplicationSpecific, 123));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("b=AS:123\r\n");
+            result.Should().Be("b=AS:123");
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddTiming(new Timing(new DateTime(1998, 12, 13, 14, 50, 0), new DateTime(1998, 12, 13, 15, 00, 0)));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("t=3122549400 3122550000\r\n");
+            result.Should().Be("t=3122549400 3122550000");
         }
 
         [TestMethod]
@@ -205,7 +205,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddTiming(new Timing(new DateTime(1998, 12, 13, 14, 50, 0), DateTime.MaxValue));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("t=3122549400 0\r\n");
+            result.Should().Be("t=3122549400 0");
         }
 
         [TestMethod]
@@ -214,7 +214,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddRepeat(new Repeat(new TimeSpan(7*24, 0, 0), new TimeSpan(1, 30, 0), new TimeSpan(0, 0, 45), new TimeSpan(0, 0, 90)));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("r=604800 5400 45 90\r\n");
+            result.Should().Be("r=604800 5400 45 90");
         }
 
         [TestMethod]
@@ -239,7 +239,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddTimeZoneAdjustment(adjustments);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("z=123123 123\r\n");
+            result.Should().Be("z=123123 123");
         }
 
         [TestMethod]
@@ -255,7 +255,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddTimeZoneAdjustment(adjustments);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("z=123123 123 45645 987 16987913 16546\r\n");
+            result.Should().Be("z=123123 123 45645 987 16987913 16546");
         }
 
         [TestMethod]
@@ -264,7 +264,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Prompt, ""));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("k=prompt\r\n");
+            result.Should().Be("k=prompt");
         }
 
         [TestMethod]
@@ -273,7 +273,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Clear, "asdf465das4"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("k=clear:asdf465das4\r\n");
+            result.Should().Be("k=clear:asdf465das4");
         }
 
         [TestMethod]
@@ -282,7 +282,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Base64, "YXNkZjQ2NWRhczQ="));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("k=base64:YXNkZjQ2NWRhczQ=\r\n");
+            result.Should().Be("k=base64:YXNkZjQ2NWRhczQ=");
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddEncryptionKey(new EncryptionKey(EncryptionKeyType.Uri, "http://this.is.the.magic.domain.org/keyForMe"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("k=uri:http://this.is.the.magic.domain.org/keyForMe\r\n");
+            result.Should().Be("k=uri:http://this.is.the.magic.domain.org/keyForMe");
         }
 
         [TestMethod]
@@ -300,7 +300,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddAttribute(new SipStack.Body.Sdp.Attribute("recvonly"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("a=recvonly\r\n");
+            result.Should().Be("a=recvonly");
         }
 
         [TestMethod]
@@ -309,7 +309,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddAttribute(new SipStack.Body.Sdp.Attribute("orient", "landscape"));
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("a=orient:landscape\r\n");
+            result.Should().Be("a=orient:landscape");
         }
 
         [TestMethod]
@@ -322,7 +322,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddMedia(media);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("m=audio 45897 udp 8\r\n");
+            result.Should().Be("m=audio 45897 udp 8");
         }
 
         [TestMethod]
@@ -335,7 +335,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddMedia(media);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("m=video 45897/3 RTP/AVP 8\r\n");
+            result.Should().Be("m=video 45897/3 RTP/AVP 8");
         }
 
         [TestMethod]
@@ -348,7 +348,7 @@ namespace SipStackTest.Body.Sdp
             _sdpMessageBuilder.AddMedia(media);
 
             var result = _messageBuilder.ToString();
-            result.Should().Be("m=video 45897/3 RTP/AVP 8 45 asdf\r\n");
+            result.Should().Be("m=video 45897/3 RTP/AVP 8 45 asdf");
         }
     }
 }
