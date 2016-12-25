@@ -109,6 +109,9 @@
     <Compile Include="Body\Sdp\Body.cs" />
     <Compile Include="Body\Sdp\BodyParser.cs" />
     <Compile Include="Utils\PhoneNumber.cs" />
+    <Compile Include="Utils\SipUri.cs" />
+    <Compile Include="Utils\SipUriParameter.cs" />
+    <Compile Include="Utils\SipUriParameterType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
