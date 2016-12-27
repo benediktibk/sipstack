@@ -6,21 +6,21 @@ using System;
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
-    public class UriLineTest
+    public class HttpUriTest
     {
         [TestMethod]
         public void Parse_ValidUrl_UrlIsCorrect()
         {
-            var line = UriLine.Parse(@"http://aasdf.fdasf.dt");
+            var line = HttpUri.Parse(@"http://aasdf.fdasf.dt");
 
-            var uriLine = line.Result as UriLine;
+            var uriLine = line.Result as HttpUri;
             uriLine.Uri.Should().Be(new Uri(@"http://aasdf.fdasf.dt"));
         }
 
         [TestMethod]
         public void Parse_InvalidUrl_ParseError()
         {
-            var line = UriLine.Parse(@"asdf@asdf.@@asdf");
+            var line = HttpUri.Parse(@"asdf@asdf.@@asdf");
 
             line.IsError.Should().BeTrue();
         }

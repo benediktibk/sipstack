@@ -5,23 +5,22 @@ using FluentAssertions;
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
-    public class VersionLineTest
+    public class VersionTest
     {
         [TestMethod]
         public void Parse_0_Version0()
         {
-            var line = VersionLine.Parse("0");
+            var version = Version.Parse("0");
 
-            var versionLine = line.Result as VersionLine;
-            versionLine.Version.Should().Be(0);
+            version.Result.Value.Should().Be(0);
         }
 
         [TestMethod]
         public void Parse_5_ParseError()
         {
-            var line = VersionLine.Parse("5");
+            var version = Version.Parse("5");
 
-            line.IsError.Should().BeTrue();
+            version.IsError.Should().BeTrue();
         }
     }
 }
