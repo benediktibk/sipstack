@@ -70,26 +70,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Body\Sdp\AttributeLineTest.cs" />
-    <Compile Include="Body\Sdp\EncryptionKeyLineTest.cs" />
-    <Compile Include="Body\Sdp\LineParserTest.cs" />
-    <Compile Include="Body\Sdp\OriginatorLineTest.cs" />
-    <Compile Include="Body\Sdp\BandwidthLineTest.cs" />
-    <Compile Include="Body\Sdp\DescriptionLineTest.cs" />
-    <Compile Include="Body\Sdp\ConnectionInformationLineTest.cs" />
-    <Compile Include="Body\Sdp\TimeLineTest.cs" />
-    <Compile Include="Body\Sdp\RepeatLineTest.cs" />
-    <Compile Include="Body\Sdp\SessionNameLineTest.cs" />
-    <Compile Include="Body\Sdp\EmailAddressLineTest.cs" />
-    <Compile Include="Body\Sdp\PhoneNumberLineTest.cs" />
-    <Compile Include="Body\Sdp\TimeZoneLineTest.cs" />
-    <Compile Include="Body\Sdp\MediaLineTest.cs" />
+    <Compile Include="Body\Sdp\AttributeTest.cs" />
+    <Compile Include="Body\Sdp\EncryptionKeyTest.cs" />
+    <Compile Include="Body\Sdp\OriginatorTest.cs" />
+    <Compile Include="Body\Sdp\BandwidthTest.cs" />
+    <Compile Include="Body\Sdp\ConnectionInformationTest.cs" />
+    <Compile Include="Body\Sdp\TimingTest.cs" />
+    <Compile Include="Body\Sdp\RepeatTest.cs" />
+    <Compile Include="Body\Sdp\TimeZoneAdjustmentsTest.cs" />
+    <Compile Include="Body\Sdp\MediaTest.cs" />
     <Compile Include="Body\Sdp\LineQueueTest.cs" />
     <Compile Include="Body\Sdp\BodyParserTest.cs" />
     <Compile Include="Body\Sdp\MessageBuilderTest.cs" />
     <Compile Include="Body\Sdp\BodyTest.cs" />
-    <Compile Include="Body\Sdp\UriLineTest.cs" />
-    <Compile Include="Body\Sdp\VersionLineTest.cs" />
+    <Compile Include="Body\Sdp\HttpUriTest.cs" />
+    <Compile Include="Body\Sdp\VersionTest.cs" />
     <Compile Include="MessageParserTest.cs" />
     <Compile Include="Body\NoBodyParserTest.cs" />
     <Compile Include="Network\MulticastUtilsTest.cs" />

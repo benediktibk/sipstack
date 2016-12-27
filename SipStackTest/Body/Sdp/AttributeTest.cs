@@ -10,21 +10,19 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void Parse_recvonly_NameAndValueAreCorrect()
         {
-            var line = Attribute.Parse(@"recvonly");
+            var attribute = Attribute.Parse(@"recvonly");
 
-            var attributeLine = line.Result as Attribute;
-            attributeLine.Name.Should().Be("recvonly");
-            attributeLine.Value.Should().Be("");
+            attribute.Result.Name.Should().Be("recvonly");
+            attribute.Result.Value.Should().Be("");
         }
 
         [TestMethod]
         public void Parse_rtpmap_NameAndValueAreCorrect()
         {
-            var line = Attribute.Parse(@"rtpmap:8 PCMA/8000/1");
-
-            var attributeLine = line.Result as Attribute;
-            attributeLine.Name.Should().Be("rtpmap");
-            attributeLine.Value.Should().Be("8 PCMA/8000/1");
+            var attribute = Attribute.Parse(@"rtpmap:8 PCMA/8000/1");
+            
+            attribute.Result.Name.Should().Be("rtpmap");
+            attribute.Result.Value.Should().Be("8 PCMA/8000/1");
         }
     }
 }

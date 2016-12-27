@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SipStack.Body.Sdp
 {
@@ -25,13 +26,13 @@ namespace SipStack.Body.Sdp
             if (lines.Count() <= endLine)
                 throw new ArgumentException("endLine is greater than the element count in lines");
 
-            var parsedLinesResult = ParseLines(lines, startLine, endLine);
+            var lineTypes = ParseLineTypes(lines, startLine, endLine);
 
-            if (parsedLinesResult.IsError)
-                return parsedLinesResult.ToParseResult<IBody>();
+            if (lineTypes.IsError)
+                return lineTypes.ToParseResult<IBody>();
 
-            var lineQueue = new LineQueue(parsedLinesResult.Result);
-            var protocolVersionResult = lineQueue.ParseMandatoryLine<VersionLine>();
+            var lineQueue = new LineQueue(lineTypes.Result);
+            var protocolVersionResult = lineQueue.ParseMandatoryLine<Version>();
             var originatorLineResult = lineQueue.ParseMandatoryLine<OriginatorLine>();
             var sessionNameResult = lineQueue.ParseMandatoryLine<SessionNameLine>();
 
@@ -44,8 +45,8 @@ namespace SipStack.Body.Sdp
             if (sessionNameResult.IsError)
                 return sessionNameResult.ToParseResult<IBody>();
             
-            var sessionDescription = lineQueue.ParseOptionalLine<DescriptionLine>();
-            var uri = lineQueue.ParseOptionalLine<UriLine>();
+            var sessionDescription = lineQueue.ParseOptionalLine<Description>();
+            var uri = lineQueue.ParseOptionalLine<HttpUri>();
             var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
             var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
             var connectionInformationLines = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
@@ -78,23 +79,41 @@ namespace SipStack.Body.Sdp
             return new ParseResult<IBody>(sdpBody);
         }
 
-        private ParseResult<List<ILine>> ParseLines(IList<string> lines, int startLine, int endLine)
+        private static ParseResult<List<Tuple<char, string>>> ParseLineTypes(IList<string> lines, int startLine, int endLine)
         {
-            var parsedLines = new List<ILine>();
+            var parsedLines = new List<Tuple<char, string>>();
             parsedLines.Capacity = endLine - startLine + 1;
 
             for (var i = startLine; i <= endLine; ++i)
             {
                 var line = lines[i];
-                var parsedLine = _lineParser.Parse(line);
+                var parsedLine = ParseLineType(line);
 
                 if (parsedLine.IsError)
-                    return parsedLine.ToParseResult<List<ILine>>();
+                    return parsedLine.ToParseResult<List<Tuple<char, string>>>();
 
                 parsedLines.Add(parsedLine.Result);
             }
 
-            return new ParseResult<List<ILine>>(parsedLines);
+            return new ParseResult<List<Tuple<char, string>>>(parsedLines);
+        }
+
+        private static ParseResult<Tuple<char, string>> ParseLineType(string line)
+        {
+            var pattern = @"^([a-z])=(.*)$";
+            var matches = Regex.Matches(line, pattern);
+
+            if (matches.Count != 1)
+                return new ParseResult<Tuple<char, string>>($"the line '{line}' is malformed");
+
+            var match = matches[0];
+            var type = match.Groups[1].Value;
+            var data = match.Groups[2].Value;
+
+            if (type.Length != 1)
+                return new ParseResult<Tuple<char, string>>($"the line '{line}' is malformed");
+
+            return new ParseResult<Tuple<char, string>>(new Tuple<char, string>(type.First(), data));
         }
 
         private List<TimeDescription> ParseTimeDescriptions(LineQueue lineQueue)
@@ -124,7 +143,7 @@ namespace SipStack.Body.Sdp
                 if (mediaLine == null)
                     return result;
 
-                var mediaTitle = lineQueue.ParseOptionalLine<DescriptionLine>();
+                var mediaTitle = lineQueue.ParseOptionalLine<Description>();
                 var connectionInformation = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
                 var bandwidths = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
                 var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();

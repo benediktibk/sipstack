@@ -1,16 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SipStack.Body.Sdp;
 using FluentAssertions;
+using System;
+using SipStack.Utils;
 
 namespace SipStackTest.Body.Sdp
 {
     [TestClass]
     public class LineQueueTest
     {
+        private Func<string, ParseResult<SipStack.Body.Sdp.Attribute>> _attributeParser;
+        private Func<string, ParseResult<HttpUri>> _httpUriParser;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            _attributeParser = (string data) => { return SipStack.Body.Sdp.Attribute.Parse(data); };
+            _httpUriParser = (string data) => { return HttpUri.Parse(data); };
+        }
+
         [TestMethod]
         public void IsEmpty_NoLines_True()
         {
-            var lineQueue = new LineQueue(new ILine[] { });
+            var lineQueue = new LineQueue(new Tuple<char, string>[] { });
 
             lineQueue.IsEmpty.Should().BeTrue();
         }
@@ -18,9 +30,9 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void IsEmpty_OneLine_True()
         {
-            var lineQueue = new LineQueue(new ILine[]
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
-                new AttributeLine("asdf")
+                new Tuple<char, string>('a', "asdf")
             });
 
             lineQueue.IsEmpty.Should().BeFalse();
@@ -29,9 +41,9 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_Empty_ErrorResult()
         {
-            var lineQueue = new LineQueue(new ILine[] { });
+            var lineQueue = new LineQueue(new Tuple<char, string>[] { });
 
-            var parseResult = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResult = lineQueue.ParseMandatoryLine('a', _attributeParser);
             
             parseResult.IsError.Should().BeTrue();
         }
@@ -39,12 +51,12 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_CorrectLineIsNext_SuccessResult()
         {
-            var lineQueue = new LineQueue(new ILine[] 
+            var lineQueue = new LineQueue(new Tuple<char, string>[] 
             {
-                new AttributeLine("asdf")
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var parseResult = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResult = lineQueue.ParseMandatoryLine('a', _attributeParser);
 
             parseResult.IsSuccess.Should().BeTrue();
         }
@@ -52,13 +64,13 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_CorrectLineIsNext_CorrectAttribute()
         {
-            var attribute = new AttributeLine("asdf");
-            var lineQueue = new LineQueue(new ILine[]
+            var attribute = new Tuple<char, string>('a', "asdf");
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
                 attribute
             });
 
-            var parseResult = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResult = lineQueue.ParseMandatoryLine('a', _attributeParser);
 
             parseResult.Result.Should().Be(attribute);
         }
@@ -66,12 +78,12 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_CorrectLineIsNext_IsEmpty()
         {
-            var lineQueue = new LineQueue(new ILine[]
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
-                new AttributeLine("asdf")
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var parseResult = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResult = lineQueue.ParseMandatoryLine('a', _attributeParser);
 
             lineQueue.IsEmpty.Should().BeTrue();
         }
@@ -79,13 +91,13 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_WrongLineNext_ErrorResult()
         {
-            var lineQueue = new LineQueue(new ILine[]
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
-                new UriLine(new System.Uri("http://asdf.asdffd")),
-                new AttributeLine("asdf")
+                new Tuple<char, string>('u', "http://asdf.asdffd"),
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var parseResult = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResult = lineQueue.ParseMandatoryLine('a', _attributeParser);
 
             parseResult.IsError.Should().BeTrue();
         }
@@ -93,14 +105,14 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMandatoryLine_TwoLinesInARow_BothSucceed()
         {
-            var lineQueue = new LineQueue(new ILine[]
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
-                new UriLine(new System.Uri("http://asdf.asdffd")),
-                new AttributeLine("asdf")
+                new Tuple<char, string>('u', "http://asdf.asdffd"),
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var parseResultOne = lineQueue.ParseMandatoryLine<UriLine>();
-            var parseResultTwo = lineQueue.ParseMandatoryLine<AttributeLine>();
+            var parseResultOne = lineQueue.ParseMandatoryLine('u', _httpUriParser);
+            var parseResultTwo = lineQueue.ParseMandatoryLine('a', _attributeParser);
 
             parseResultOne.IsSuccess.Should().BeTrue();
             parseResultTwo.IsSuccess.Should().BeTrue();
@@ -109,9 +121,9 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseOptionalLine_Empty_Null()
         {
-            var lineQueue = new LineQueue(new ILine[] { });
+            var lineQueue = new LineQueue(new Tuple<char, string>[] { });
 
-            var result = lineQueue.ParseOptionalLine<AttributeLine>();
+            var result = lineQueue.ParseOptionalLine('a', _attributeParser);
 
             result.Should().BeNull();
         }
@@ -119,13 +131,13 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseOptionalLine_WrongLineTypeNext_Null()
         {
-            var lineQueue = new LineQueue(new ILine[]
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
-                new UriLine(new System.Uri("http://asdf.asdffd")),
-                new AttributeLine("asdf")
+                new Tuple<char, string>('u', "http://asdf.asdffd"),
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var result = lineQueue.ParseOptionalLine<AttributeLine>();
+            var result = lineQueue.ParseOptionalLine('a', _attributeParser);
 
             result.Should().BeNull();
         }
@@ -133,14 +145,14 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseOptionalLine_CorrectLineTypeNext_CorrectLine()
         {
-            var uriLine = new UriLine(new System.Uri("http://asdf.asdffd"));
-            var lineQueue = new LineQueue(new ILine[]
+            var uriLine = new Tuple<char, string>('u', "http://asdf.asdffd");
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
                 uriLine,
-                new AttributeLine("asdf")
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var result = lineQueue.ParseOptionalLine<UriLine>();
+            var result = lineQueue.ParseOptionalLine('u', _httpUriParser);
 
             result.Should().Be(uriLine);
         }
@@ -148,16 +160,16 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseOptionalLine_TwoLinesInARow_CorrectLinesAndEmpty()
         {
-            var uriLine = new UriLine(new System.Uri("http://asdf.asdffd"));
-            var attributeLine = new AttributeLine("asdf");
-            var lineQueue = new LineQueue(new ILine[]
+            var uriLine = new Tuple<char, string>('u', "http://asdf.asdffd");
+            var attributeLine = new Tuple<char, string>('a', "asdf");
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
                 uriLine,
                 attributeLine
             });
 
-            var resultOne = lineQueue.ParseOptionalLine<UriLine>();
-            var resultTwo = lineQueue.ParseOptionalLine<AttributeLine>();
+            var resultOne = lineQueue.ParseOptionalLine('u', _httpUriParser);
+            var resultTwo = lineQueue.ParseOptionalLine('a', _attributeParser);
 
             resultOne.Should().Be(uriLine);
             resultTwo.Should().Be(attributeLine);
@@ -167,49 +179,49 @@ namespace SipStackTest.Body.Sdp
         [TestMethod]
         public void ParseMultipleOptionalLines_EmptyQueue_EmptyList()
         {
-            var lineQueue = new LineQueue(new ILine[] { });
+            var lineQueue = new LineQueue(new Tuple<char, string>[] { });
 
-            var result = lineQueue.ParseMultipleOptionalLines<UriLine>();
+            var result = lineQueue.ParseMultipleOptionalLines('u', _httpUriParser);
 
-            result.Count.Should().Be(0);
+            result.Result.Count.Should().Be(0);
         }
 
         [TestMethod]
         public void ParseMultipleOptionalLines_TwoLinesInARow_CorrectLinesAndEmpty()
         {
-            var uriLineOne = new UriLine(new System.Uri("http://asdf.asdffd"));
-            var uriLineTwo = new UriLine(new System.Uri("https://qwer.asdffd"));
-            var lineQueue = new LineQueue(new ILine[]
+            var uriLineOne = new Tuple<char, string>('u', "http://asdf.asdffd");
+            var uriLineTwo = new Tuple<char, string>('u', "https://qwer.asdffd");
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
                 uriLineOne,
                 uriLineTwo
             });
 
-            var result = lineQueue.ParseMultipleOptionalLines<UriLine>();
+            var result = lineQueue.ParseMultipleOptionalLines('u', _httpUriParser);
 
-            result.Count.Should().Be(2);
-            result[0].Should().Be(uriLineOne);
-            result[1].Should().Be(uriLineTwo);
+            result.Result.Count.Should().Be(2);
+            result.Result[0].Should().Be(uriLineOne);
+            result.Result[1].Should().Be(uriLineTwo);
             lineQueue.IsEmpty.Should().BeTrue();
         }
 
         [TestMethod]
         public void ParseMultipleOptionalLines_TwoLinesInARowWithOtherLineAfter_CorrectLinesAndNotEmpty()
         {
-            var uriLineOne = new UriLine(new System.Uri("http://asdf.asdffd"));
-            var uriLineTwo = new UriLine(new System.Uri("https://qwer.asdffd"));
-            var lineQueue = new LineQueue(new ILine[]
+            var uriLineOne = new Tuple<char, string>('u', "http://asdf.asdffd");
+            var uriLineTwo = new Tuple<char, string>('u', "https://qwer.asdffd");
+            var lineQueue = new LineQueue(new Tuple<char, string>[]
             {
                 uriLineOne,
                 uriLineTwo,
-                new AttributeLine("asdf")
+                new Tuple<char, string>('a', "asdf")
             });
 
-            var result = lineQueue.ParseMultipleOptionalLines<UriLine>();
+            var result = lineQueue.ParseMultipleOptionalLines('u', _httpUriParser);
 
-            result.Count.Should().Be(2);
-            result[0].Should().Be(uriLineOne);
-            result[1].Should().Be(uriLineTwo);
+            result.Result.Count.Should().Be(2);
+            result.Result[0].Should().Be(uriLineOne);
+            result.Result[1].Should().Be(uriLineTwo);
             lineQueue.IsEmpty.Should().BeFalse();
         }
     }
