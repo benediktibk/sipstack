@@ -92,7 +92,7 @@ namespace SipStackTest.Body.Sdp
         {
             var connectionInformation = ConnectionInformation.Parse("IN IP6 FF15::101/3/56");
 
-            line.IsError.Should().BeTrue();
+            connectionInformation.IsError.Should().BeTrue();
         }
 
         [TestMethod]

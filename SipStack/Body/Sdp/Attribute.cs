@@ -32,7 +32,7 @@ namespace SipStack.Body.Sdp
             var name = matches[0].Groups[1].Value;
             var value = matches[0].Groups[2].Value;
 
-            return new ParseResult<Attribute>(new AttributeLine(name, value));
+            return new ParseResult<Attribute>(new Attribute(name, value));
         }
     }
 }

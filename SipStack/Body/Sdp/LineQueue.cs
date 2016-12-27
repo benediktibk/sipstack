@@ -36,13 +36,13 @@ namespace SipStack.Body.Sdp
         public ParseResult<LineType> ParseOptionalLine<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
         {
             if (IsEmpty)
-                return null;
+                return new ParseResult<LineType>(null);
 
             var currentLineType = _lines[_currentIndex].Item1;
             var currentLineData = _lines[_currentIndex].Item2;
 
             if (currentLineType != lineType)
-                return null;
+                return new ParseResult<LineType>(null);
 
             _currentIndex++;
             return parser(currentLineData);

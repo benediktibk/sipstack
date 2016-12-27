@@ -10,7 +10,6 @@ namespace SipStackTest.Body.Sdp
     [TestClass]
     public class BodyParserTest
     {
-        private LineParser _lineParser;
         private BodyParser _sdpBodyParser;
         private List<string> _onlyMandatoryLines;
         private List<string> _allOptionalLines;
@@ -19,8 +18,7 @@ namespace SipStackTest.Body.Sdp
         [TestInitialize]
         public void SetUp()
         {
-            _lineParser = new LineParser();
-            _sdpBodyParser = new BodyParser(_lineParser);
+            _sdpBodyParser = new BodyParser();
 
             _onlyMandatoryLines = new List<string>
             {

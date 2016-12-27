@@ -8,13 +8,6 @@ namespace SipStack.Body.Sdp
 {
     public class BodyParser : IBodyParser
     {
-        private readonly LineParser _lineParser;
-
-        public BodyParser(LineParser lineParser)
-        {
-            _lineParser = lineParser;
-        }
-
         public ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine)
         {
             if (endLine < startLine)
@@ -32,9 +25,9 @@ namespace SipStack.Body.Sdp
                 return lineTypes.ToParseResult<IBody>();
 
             var lineQueue = new LineQueue(lineTypes.Result);
-            var protocolVersionResult = lineQueue.ParseMandatoryLine<Version>();
-            var originatorLineResult = lineQueue.ParseMandatoryLine<OriginatorLine>();
-            var sessionNameResult = lineQueue.ParseMandatoryLine<SessionNameLine>();
+            var protocolVersionResult = lineQueue.ParseMandatoryLine('v', LineParsers.Version);
+            var originatorLineResult = lineQueue.ParseMandatoryLine('o', LineParsers.Originator);
+            var sessionNameResult = lineQueue.ParseMandatoryLine('s', LineParsers.SessionName);
 
             if (protocolVersionResult.IsError)
                 return protocolVersionResult.ToParseResult<IBody>();            
@@ -45,36 +38,36 @@ namespace SipStack.Body.Sdp
             if (sessionNameResult.IsError)
                 return sessionNameResult.ToParseResult<IBody>();
             
-            var sessionDescription = lineQueue.ParseOptionalLine<Description>();
-            var uri = lineQueue.ParseOptionalLine<HttpUri>();
-            var emailAddress = lineQueue.ParseOptionalLine<EmailAddressLine>();
-            var phoneNumberLine = lineQueue.ParseOptionalLine<PhoneNumberLine>();
-            var connectionInformationLines = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
-            var bandwidthLines = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
+            var sessionDescription = lineQueue.ParseOptionalLine('i', LineParsers.Description);
+            var uri = lineQueue.ParseOptionalLine('u', LineParsers.HttpUri);
+            var emailAddress = lineQueue.ParseOptionalLine('e', LineParsers.EmailAddress);
+            var phoneNumberLine = lineQueue.ParseOptionalLine('u', LineParsers.PhoneNumber);
+            var connectionInformationLines = lineQueue.ParseMultipleOptionalLines('c', LineParsers.ConnectionInformation);
+            var bandwidthLines = lineQueue.ParseMultipleOptionalLines('b', LineParsers.Bandwidth);
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
-            var timeZoneLine = lineQueue.ParseOptionalLine<TimeZoneLine>();
-            var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
-            var sessionAttributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
+            var timeZoneLine = lineQueue.ParseOptionalLine('z', LineParsers.TimeZoneAdjustment);
+            var encryptionKey = lineQueue.ParseOptionalLine('k', LineParsers.EncryptionKey);
+            var sessionAttributes = lineQueue.ParseMultipleOptionalLines('a', LineParsers.Attribute);
             var mediaDescriptions = ParseMediaDescriptions(lineQueue);
 
             if (!lineQueue.IsEmpty)
                 return new ParseResult<IBody>("there are invalid lines in the SDP-Body");
 
             var sdpBody = new Body(
-                protocolVersionResult.Result.Version,
-                originatorLineResult.Result.Originator,
-                sessionNameResult.Result.Name,
-                sessionDescription?.Description,
-                uri?.Uri,
-                emailAddress?.EmailAddress,
-                phoneNumberLine?.PhoneNumber,
-                connectionInformationLines.Select(x => x.ConnectionInformation),
-                bandwidthLines.Select(x => x.Bandwidth),
-                timeDescriptions,
-                timeZoneLine == null ? new List<TimeZoneAdjustment>() : timeZoneLine.TimeZoneAdjustments,
-                encryptionKey?.EncryptionKey,
-                sessionAttributes.Select(x => x.Attribute),
-                mediaDescriptions);
+                protocolVersionResult.Result.Value,
+                originatorLineResult.Result,
+                sessionNameResult.Result,
+                sessionDescription.Result,
+                uri.Result?.Uri,
+                emailAddress.Result,
+                phoneNumberLine.Result,
+                connectionInformationLines.Result,
+                bandwidthLines.Result,
+                timeDescriptions.Result,
+                timeZoneLine.Result,
+                encryptionKey.Result,
+                sessionAttributes.Result,
+                mediaDescriptions.Result);
 
             return new ParseResult<IBody>(sdpBody);
         }
@@ -116,46 +109,56 @@ namespace SipStack.Body.Sdp
             return new ParseResult<Tuple<char, string>>(new Tuple<char, string>(type.First(), data));
         }
 
-        private List<TimeDescription> ParseTimeDescriptions(LineQueue lineQueue)
+        private static ParseResult<List<TimeDescription>> ParseTimeDescriptions(LineQueue lineQueue)
         {
             var result = new List<TimeDescription>();
 
             while(true)
             {
-                var currentLineParsed = lineQueue.ParseOptionalLine<TimeLine>();
+                var timing = lineQueue.ParseOptionalLine('t', LineParsers.Timing);
 
-                if (currentLineParsed == null)
-                    return result;
+                if (timing.IsError)
+                    return timing.ToParseResult<List<TimeDescription>>();
 
-                var repeatings = lineQueue.ParseMultipleOptionalLines<RepeatLine>();
-                result.Add(new TimeDescription(currentLineParsed.Timing, repeatings.Select(x => x.Repeat)));
+                if (timing.Result == null)
+                    return new ParseResult<List<TimeDescription>>(result);
+
+                var repeatings = lineQueue.ParseMultipleOptionalLines('r', LineParsers.Repeat);
+
+                if (repeatings.IsError)
+                    return timing.ToParseResult<List<TimeDescription>>();
+
+                result.Add(new TimeDescription(timing.Result, repeatings.Result));
             }
         }
 
-        private List<MediaDescription> ParseMediaDescriptions(LineQueue lineQueue)
+        private static ParseResult<List<MediaDescription>> ParseMediaDescriptions(LineQueue lineQueue)
         {
             var result = new List<MediaDescription>();
 
             while (true)
             {
-                var mediaLine = lineQueue.ParseOptionalLine<MediaLine>();
+                var media = lineQueue.ParseOptionalLine('m', LineParsers.Media);
 
-                if (mediaLine == null)
-                    return result;
+                if (media.IsError)
+                    return media.ToParseResult<List<MediaDescription>>();
 
-                var mediaTitle = lineQueue.ParseOptionalLine<Description>();
-                var connectionInformation = lineQueue.ParseMultipleOptionalLines<ConnectionInformationLine>();
-                var bandwidths = lineQueue.ParseMultipleOptionalLines<BandwidthLine>();
-                var encryptionKey = lineQueue.ParseOptionalLine<EncryptionKeyLine>();
-                var attributes = lineQueue.ParseMultipleOptionalLines<AttributeLine>();
+                if (media.Result == null)
+                    return new ParseResult<List<MediaDescription>>(result);
+
+                var mediaTitle = lineQueue.ParseOptionalLine('i', LineParsers.Description);
+                var connectionInformation = lineQueue.ParseMultipleOptionalLines('c', LineParsers.ConnectionInformation);
+                var bandwidths = lineQueue.ParseMultipleOptionalLines('b', LineParsers.Bandwidth);
+                var encryptionKey = lineQueue.ParseOptionalLine('k', LineParsers.EncryptionKey);
+                var attributes = lineQueue.ParseMultipleOptionalLines('a', LineParsers.Attribute);
 
                 var mediaDescription = new MediaDescription(
-                    mediaLine.Media,
-                    mediaTitle?.Description,
-                    connectionInformation.Select(x => x.ConnectionInformation),
-                    bandwidths.Select(x => x.Bandwidth),
-                    encryptionKey?.EncryptionKey,
-                    attributes.Select(x => x.Attribute));
+                    media.Result,
+                    mediaTitle.Result,
+                    connectionInformation.Result,
+                    bandwidths.Result,
+                    encryptionKey.Result,
+                    attributes.Result);
 
                 result.Add(mediaDescription);
             }
