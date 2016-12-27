@@ -42,7 +42,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(data, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<Repeat>($"the data '{data}' for the repeat line is malformed");
+                return ParseResult<Repeat>.CreateError($"the data '{data}' for the repeat line is malformed");
 
             var match = matches[0];
             var repeatInterval = CreateTimeSpanFrom(match.Groups[1].Value);
@@ -63,9 +63,9 @@ namespace SipStack.Body.Sdp
                 return offsetEnd.ToParseResult<Repeat>();
 
             if (TimeSpan.Compare(offsetStart.Result, offsetEnd.Result) > 0)
-                return new ParseResult<Repeat>("the value for offset start must be less or equal than the value for offset end");
+                return ParseResult<Repeat>.CreateError("the value for offset start must be less or equal than the value for offset end");
 
-            return new ParseResult<Repeat>(new Repeat(repeatInterval.Result, activeDuration.Result, offsetStart.Result, offsetEnd.Result));
+            return ParseResult<Repeat>.CreateSuccess(new Repeat(repeatInterval.Result, activeDuration.Result, offsetStart.Result, offsetEnd.Result));
         }
 
         public static ParseResult<TimeSpan> CreateTimeSpanFrom(string data)
@@ -74,7 +74,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(data, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<TimeSpan>($"invalid format for time span: {data}");
+                return ParseResult<TimeSpan>.CreateError($"invalid format for time span: {data}");
 
             var match = matches[0];
             var valueString = match.Groups[1].Value;
@@ -83,12 +83,12 @@ namespace SipStack.Body.Sdp
             long valueWithUnit;
 
             if (!long.TryParse(valueString, out value))
-                return new ParseResult<TimeSpan>($"the value {valueString} for the time span is malformed");
+                return ParseResult<TimeSpan>.CreateError($"the value {valueString} for the time span is malformed");
 
             if (!TimeUnit.ApplyUnit(value, unit, out valueWithUnit))
-                return new ParseResult<TimeSpan>($"the unit {unit} is invalid");
+                return ParseResult<TimeSpan>.CreateError($"the unit {unit} is invalid");
 
-            return new ParseResult<TimeSpan>(TimeSpan.FromSeconds(valueWithUnit));
+            return ParseResult<TimeSpan>.CreateSuccess(TimeSpan.FromSeconds(valueWithUnit));
         }
 
         #endregion

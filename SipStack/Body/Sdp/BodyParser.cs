@@ -41,7 +41,7 @@ namespace SipStack.Body.Sdp
             var mediaDescriptions = ParseMediaDescriptions(lineQueue);
 
             if (!lineQueue.IsEmpty)
-                return new ParseResult<IBody>("there are invalid lines in the SDP-Body");
+                return ParseResult<IBody>.CreateError("there are invalid lines in the SDP-Body");
 
             if (protocolVersionResult.IsError)
                 return protocolVersionResult.ToParseResult<IBody>();
@@ -101,7 +101,7 @@ namespace SipStack.Body.Sdp
                 sessionAttributes.Result,
                 mediaDescriptions.Result);
 
-            return new ParseResult<IBody>(sdpBody);
+            return ParseResult<IBody>.CreateSuccess(sdpBody);
         }
 
         private static ParseResult<List<Tuple<char, string>>> ParseLineTypes(IList<string> lines, int startLine, int endLine)
@@ -120,7 +120,7 @@ namespace SipStack.Body.Sdp
                 parsedLines.Add(parsedLine.Result);
             }
 
-            return new ParseResult<List<Tuple<char, string>>>(parsedLines);
+            return ParseResult<List<Tuple<char, string>>>.CreateSuccess(parsedLines);
         }
 
         private static ParseResult<Tuple<char, string>> ParseLineType(string line)
@@ -129,16 +129,16 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(line, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<Tuple<char, string>>($"the line '{line}' is malformed");
+                return ParseResult<Tuple<char, string>>.CreateError($"the line '{line}' is malformed");
 
             var match = matches[0];
             var type = match.Groups[1].Value;
             var data = match.Groups[2].Value;
 
             if (type.Length != 1)
-                return new ParseResult<Tuple<char, string>>($"the line '{line}' is malformed");
+                return ParseResult<Tuple<char, string>>.CreateError($"the line '{line}' is malformed");
 
-            return new ParseResult<Tuple<char, string>>(new Tuple<char, string>(type.First(), data));
+            return ParseResult<Tuple<char, string>>.CreateSuccess(new Tuple<char, string>(type.First(), data));
         }
 
         private static ParseResult<List<TimeDescription>> ParseTimeDescriptions(LineQueue lineQueue)
@@ -153,7 +153,7 @@ namespace SipStack.Body.Sdp
                     return timing.ToParseResult<List<TimeDescription>>();
 
                 if (timing.Result == null)
-                    return new ParseResult<List<TimeDescription>>(result);
+                    return ParseResult<List<TimeDescription>>.CreateSuccess(result);
 
                 var repeatings = lineQueue.ParseMultipleOptionalLines('r', LineParsers.Repeat);
 
@@ -173,7 +173,7 @@ namespace SipStack.Body.Sdp
                 var media = lineQueue.ParseOptionalLine('m', LineParsers.Media);
 
                 if (media.Result == null)
-                    return new ParseResult<List<MediaDescription>>(result);
+                    return ParseResult<List<MediaDescription>>.CreateSuccess(result);
 
                 var mediaTitle = lineQueue.ParseOptionalLine('i', LineParsers.Description);
                 var connectionInformation = lineQueue.ParseMultipleOptionalLines('c', LineParsers.ConnectionInformation);

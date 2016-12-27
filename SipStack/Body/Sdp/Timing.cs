@@ -28,7 +28,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(data, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<Timing>($"the data '{data}' for the time schedule is inalid");
+                return ParseResult<Timing>.CreateError($"the data '{data}' for the time schedule is inalid");
 
             var match = matches[0];
             var startString = match.Groups[1].Value;
@@ -37,19 +37,19 @@ namespace SipStack.Body.Sdp
             long endInteger;
 
             if (!long.TryParse(startString, out startInteger))
-                return new ParseResult<Timing>($"the value '{startString}' for start is invalid");
+                return ParseResult<Timing>.CreateError($"the value '{startString}' for start is invalid");
 
             if (!long.TryParse(endString, out endInteger))
-                return new ParseResult<Timing>($"the value '{endInteger}' for start is invalid");
+                return ParseResult<Timing>.CreateError($"the value '{endInteger}' for start is invalid");
 
             if (startInteger < 0)
-                return new ParseResult<Timing>("the value for start must not be negative");
+                return ParseResult<Timing>.CreateError("the value for start must not be negative");
 
             if (endInteger < 0)
-                return new ParseResult<Timing>("the value for start must be positive");
+                return ParseResult<Timing>.CreateError("the value for start must be positive");
 
             if (endInteger > 0 && startInteger > endInteger)
-                return new ParseResult<Timing>("the value for start must be less or equal than end");
+                return ParseResult<Timing>.CreateError("the value for start must be less or equal than end");
 
             var start = DateTimeHelper.NtpTimeStampToDateTime(startInteger);
             var end = DateTime.MaxValue;
@@ -57,7 +57,7 @@ namespace SipStack.Body.Sdp
             if (endInteger > 0)
                 end = DateTimeHelper.NtpTimeStampToDateTime(endInteger);
 
-            return new ParseResult<Timing>(new Timing(start, end));
+            return ParseResult<Timing>.CreateSuccess(new Timing(start, end));
         }
     }
 }

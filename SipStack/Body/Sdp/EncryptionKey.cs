@@ -22,22 +22,22 @@ namespace SipStack.Body.Sdp
         public static ParseResult<EncryptionKey> Parse(string data)
         {
             if (data == "prompt")
-                return new ParseResult<EncryptionKey>(new EncryptionKey(EncryptionKeyType.Prompt, ""));
+                return ParseResult<EncryptionKey>.CreateSuccess(new EncryptionKey(EncryptionKeyType.Prompt, ""));
 
             var pattern = "^([^:]*):(.*)$";
             var match = Regex.Matches(data, pattern);
 
             if (match.Count != 1)
-                return new ParseResult<EncryptionKey>($"malformed encryption key line: {data}");
+                return ParseResult<EncryptionKey>.CreateError($"malformed encryption key line: {data}");
 
             var keyTypeString = match[0].Groups[1].Value;
             var key = match[0].Groups[2].Value;
             EncryptionKeyType keyType;
 
             if (!EncryptionKeyTypeUtils.TryParse(keyTypeString, out keyType))
-                return new ParseResult<EncryptionKey>($"invalid key type: {keyTypeString}");
+                return ParseResult<EncryptionKey>.CreateError($"invalid key type: {keyTypeString}");
 
-            return new ParseResult<EncryptionKey>(new EncryptionKey(keyType, key));
+            return ParseResult<EncryptionKey>.CreateSuccess(new EncryptionKey(keyType, key));
         }
     }
 }

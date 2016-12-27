@@ -12,20 +12,20 @@ namespace SipStack.Header
             var matches = Regex.Matches(line, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<RequestLine>($"request line '{line}' has an invalid format");
+                return ParseResult<RequestLine>.CreateError($"request line '{line}' has an invalid format");
 
             var requestMethod = matches[0].Groups[1].Value;
             var requestUri = matches[0].Groups[2].Value;
             var sipVersion = matches[0].Groups[3].Value;
 
             if (sipVersion != "SIP/2.0")
-                return new ParseResult<RequestLine>($"sip version {sipVersion} is not supported");
+                return ParseResult<RequestLine>.CreateError($"sip version {sipVersion} is not supported");
 
             RequestMethod requestMethodParsed;
             if (!RequestMethodUtils.TryParse(requestMethod, out requestMethodParsed))
-                return new ParseResult<RequestLine>($"invalid request {requestMethod}");
+                return ParseResult<RequestLine>.CreateError($"invalid request {requestMethod}");
 
-            return new ParseResult<RequestLine>(new RequestLine(requestMethodParsed, requestUri));
+            return ParseResult<RequestLine>.CreateSuccess(new RequestLine(requestMethodParsed, requestUri));
         }
     }
 }

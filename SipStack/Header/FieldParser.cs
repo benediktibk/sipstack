@@ -14,13 +14,13 @@ namespace SipStack.Header
             end = start;
 
             if (string.IsNullOrEmpty(startLine))
-                return new ParseResult<HeaderField>($"empty header line");
+                return ParseResult<HeaderField>.CreateError($"empty header line");
 
             var pattern = @"([^  \t]*)[ \t]*:[ \t]*(.*)";
             var matches = Regex.Matches(lines[start], pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<HeaderField>($"the header line '{lines[start]}' is malformed");
+                return ParseResult<HeaderField>.CreateError($"the header line '{lines[start]}' is malformed");
 
             var fieldName = new FieldName(matches[0].Groups[1].Value);
             var stringBuilder = new StringBuilder(matches[0].Groups[2].Value);
@@ -42,7 +42,7 @@ namespace SipStack.Header
             var fieldValues = stringBuilder.ToString();
             var fieldValuesAsList = SeparateFieldValues(fieldName, fieldValues);
 
-            return new ParseResult<HeaderField>(new HeaderField(fieldName, fieldValuesAsList));
+            return ParseResult<HeaderField>.CreateSuccess(new HeaderField(fieldName, fieldValuesAsList));
         }
 
         private static IList<string> SeparateFieldValues(FieldName fieldName, string fieldValues)

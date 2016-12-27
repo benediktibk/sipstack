@@ -20,7 +20,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(data, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<Bandwidth>($"the bandwidth definition '{data}' is malformed");
+                return ParseResult<Bandwidth>.CreateError($"the bandwidth definition '{data}' is malformed");
 
             var bandwidthTypeString = matches[0].Groups[1].Value;
             var bandwidthString = matches[0].Groups[2].Value;
@@ -31,9 +31,9 @@ namespace SipStack.Body.Sdp
                 bandwidthType = BandwidthType.Unknown;
 
             if (!int.TryParse(bandwidthString, out bandwidth))
-                return new ParseResult<Bandwidth>($"the bandwidth '{bandwidthString}' is not a valid integer");
+                return ParseResult<Bandwidth>.CreateError($"the bandwidth '{bandwidthString}' is not a valid integer");
 
-            return new ParseResult<Bandwidth>(new Bandwidth(bandwidthType, bandwidth));
+            return ParseResult<Bandwidth>.CreateSuccess(new Bandwidth(bandwidthType, bandwidth));
         }
     }
 }

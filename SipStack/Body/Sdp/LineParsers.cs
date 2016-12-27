@@ -16,8 +16,8 @@ namespace SipStack.Body.Sdp
         public static Func<string, ParseResult<Repeat>> Repeat = (string data) => { return Sdp.Repeat.Parse(data); };
         public static Func<string, ParseResult<Timing>> Timing = (string data) => { return Sdp.Timing.Parse(data); };
         public static Func<string, ParseResult<Version>> Version = (string data) => { return Sdp.Version.Parse(data); };
-        public static Func<string, ParseResult<string>> SessionName = (string data) => { return new ParseResult<string>(data, true); };
-        public static Func<string, ParseResult<string>> Description = (string data) => { return new ParseResult<string>(data, true); };
+        public static Func<string, ParseResult<string>> SessionName = (string data) => { return ParseResult<string>.CreateSuccess(data); };
+        public static Func<string, ParseResult<string>> Description = (string data) => { return ParseResult<string>.CreateSuccess(data); };
         public static Func<string, ParseResult<EmailAddress>> EmailAddress = (string data) => { return Utils.EmailAddress.Parse(data); };
         public static Func<string, ParseResult<PhoneNumber>> PhoneNumber = (string data) => { return Utils.PhoneNumber.Parse(data); };
         public static Func<string, ParseResult<List<TimeZoneAdjustment>>> TimeZoneAdjustment = (string data) => { return Sdp.TimeZoneAdjustment.Parse(data); };

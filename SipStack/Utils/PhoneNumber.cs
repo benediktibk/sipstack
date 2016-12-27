@@ -86,34 +86,34 @@ namespace SipStack.Utils
             var match = Regex.Match(data, _patternPhoneNumberOnly);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", "", true));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[1].Value, "", "", true));
 
             match = Regex.Match(data, _patternPhoneNumberWithDisplayNameAfter);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, "", match.Groups[2].Value, true));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[1].Value, "", match.Groups[2].Value, true));
 
             match = Regex.Match(data, _patternPhoneNumberWithDisplayNameBefore);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, "", match.Groups[1].Value, true));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[2].Value, "", match.Groups[1].Value, true));
 
             match = Regex.Match(data, _patternUriOnly);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, ""));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, ""));
 
             match = Regex.Match(data, _patternUriWithDisplayNameAfter);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value));
 
             match = Regex.Match(data, _patternUriWithDisplayNameBefore);
 
             if (match.Success)
-                return new ParseResult<PhoneNumber>(new PhoneNumber(match.Groups[2].Value, match.Groups[3].Value, match.Groups[1].Value));
+                return ParseResult<PhoneNumber>.CreateSuccess(new PhoneNumber(match.Groups[2].Value, match.Groups[3].Value, match.Groups[1].Value));
 
-            return new ParseResult<PhoneNumber>($"the phone number '{data}' is invalid");
+            return ParseResult<PhoneNumber>.CreateError($"the phone number '{data}' is invalid");
         }
 
         #endregion

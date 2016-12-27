@@ -44,9 +44,9 @@ namespace SipStack.Utils
             SipUriParameterType result;
 
             if (!TryParse(value, out result))
-                return new ParseResult<SipUriParameterType>($"could not parse {value} to RequestMethod");
+                return ParseResult<SipUriParameterType>.CreateError($"could not parse {value} to RequestMethod");
 
-            return new ParseResult<SipUriParameterType>(result);
+            return ParseResult<SipUriParameterType>.CreateSuccess(result);
         }
     }
 }

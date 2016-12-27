@@ -7,7 +7,7 @@ namespace SipStack.Body
     {
         public ParseResult<IBody> Parse(IList<string> lines, int startLine, int endLine)
         {
-            return new ParseResult<IBody>(new NoBody());
+            return ParseResult<IBody>.CreateSuccess(new NoBody());
         }
     }
 }

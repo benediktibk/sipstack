@@ -16,9 +16,9 @@ namespace SipStack.Body.Sdp
         {
             Uri uri;
             if (!Uri.TryCreate(data, UriKind.Absolute, out uri))
-                return new ParseResult<HttpUri>($"invalid uri: {data}");
+                return ParseResult<HttpUri>.CreateError($"invalid uri: {data}");
 
-            return new ParseResult<HttpUri>(new HttpUri(uri));
+            return ParseResult<HttpUri>.CreateSuccess(new HttpUri(uri));
         }
     }
 }

@@ -59,9 +59,9 @@ namespace SipStack.Header
             RequestMethod result;
 
             if (!TryParse(value, out result))
-                return new ParseResult<RequestMethod>($"could not parse {value} to RequestMethod");
+                return ParseResult<RequestMethod>.CreateError($"could not parse {value} to RequestMethod");
 
-            return new ParseResult<RequestMethod>(result);
+            return ParseResult<RequestMethod>.CreateSuccess(result);
         }
     }
 }

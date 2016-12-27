@@ -16,12 +16,12 @@ namespace SipStack.Body.Sdp
             int version;
 
             if (!int.TryParse(data, out version))
-                return new ParseResult<Version>("could not parse version of SDP");
+                return ParseResult<Version>.CreateError("could not parse version of SDP");
 
             if (version != 0)
-                return new ParseResult<Version>($"SDP version {version} is not supported");
+                return ParseResult<Version>.CreateError($"SDP version {version} is not supported");
 
-            return new ParseResult<Version>(new Version(version));
+            return ParseResult<Version>.CreateSuccess(new Version(version));
         }
     }
 }

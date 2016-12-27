@@ -21,13 +21,13 @@ namespace SipStack.Body.Sdp
         public ParseResult<LineType> ParseMandatoryLine<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
         {
             if (IsEmpty)
-                return new ParseResult<LineType>($"line type {typeof(LineType).Name} is missing");
+                return ParseResult<LineType>.CreateError($"line type {typeof(LineType).Name} is missing");
 
             var currentLineType = _lines[_currentIndex].Item1;
             var currentLineData = _lines[_currentIndex].Item2;
 
             if (currentLineType != lineType)
-                return new ParseResult<LineType>($"the mandatory line {typeof(LineType).Name} is missing");
+                return ParseResult<LineType>.CreateError($"the mandatory line {typeof(LineType).Name} is missing");
 
             _currentIndex++;
             return parser(currentLineData);
@@ -36,19 +36,19 @@ namespace SipStack.Body.Sdp
         public ParseResult<LineType> ParseOptionalLine<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
         {
             if (IsEmpty)
-                return new ParseResult<LineType>(null);
+                return ParseResult<LineType>.CreateSuccess(null);
 
             var currentLineType = _lines[_currentIndex].Item1;
             var currentLineData = _lines[_currentIndex].Item2;
 
             if (currentLineType != lineType)
-                return new ParseResult<LineType>(null);
+                return ParseResult<LineType>.CreateSuccess(null);
 
             _currentIndex++;
             return parser(currentLineData);
         }
 
-        public ParseResult<List<LineType>> ParseMultipleOptionalLines<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
+        public ParseResult<List<LineType>> ParseMultipleOptionalLines<LineType>(char lineType, Func<string, ParseResult<LineType>> parser) where LineType : class
         {
             var result = new List<LineType>();
 
@@ -57,7 +57,7 @@ namespace SipStack.Body.Sdp
                 var line = ParseOptionalLine(lineType, parser);
 
                 if (line == null)
-                    return new ParseResult<List<LineType>>(result);
+                    return ParseResult<List<LineType>>.CreateSuccess(result);
 
                 if (line.IsError)
                     return line.ToParseResult<List<LineType>>();

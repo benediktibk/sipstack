@@ -34,7 +34,7 @@ namespace SipStack.Body.Sdp
             var matches = Regex.Matches(data, pattern);
 
             if (matches.Count != 1)
-                return new ParseResult<Media>(@"invalid format for media description: {data}");
+                return ParseResult<Media>.CreateError(@"invalid format for media description: {data}");
 
             var onlyMatch = matches[0];
             var mediaTypeString = onlyMatch.Groups[1].Value;
@@ -49,27 +49,27 @@ namespace SipStack.Body.Sdp
             int portCount = 1;
 
             if (!MediaTypeUtils.TryParse(mediaTypeString, out mediaType))
-                return new ParseResult<Media>($"invalid value {mediaTypeString} for media type");
+                return ParseResult<Media>.CreateError($"invalid value {mediaTypeString} for media type");
 
             if (!MediaTransportProtocolUtils.TryParse(mediaTransportProtocolString, out mediaTransportProtocol))
-                return new ParseResult<Media>($"invalid value {mediaTransportProtocolString} for media transport protocol");
+                return ParseResult<Media>.CreateError($"invalid value {mediaTransportProtocolString} for media transport protocol");
 
             if (!int.TryParse(portString, out port))
-                return new ParseResult<Media>($"invalid value {portString} for port");
+                return ParseResult<Media>.CreateError($"invalid value {portString} for port");
 
             if (!string.IsNullOrEmpty(portCountString) && !int.TryParse(portCountString, out portCount))
-                return new ParseResult<Media>($"invalid value {portCountString} for port count");
+                return ParseResult<Media>.CreateError($"invalid value {portCountString} for port count");
 
             pattern = @"[^ ]+";
             matches = Regex.Matches(mediaFormatDescriptionsString, pattern);
 
             if (matches.Count < 1)
-                return new ParseResult<Media>($"media format description is missing");
+                return ParseResult<Media>.CreateError($"media format description is missing");
 
             foreach (Match match in matches)
                 mediaFormatDescriptions.Add(match.Groups[0].Value);
 
-            return new ParseResult<Media>(new Media(mediaType, port, portCount, mediaTransportProtocol, mediaFormatDescriptions));
+            return ParseResult<Media>.CreateSuccess(new Media(mediaType, port, portCount, mediaTransportProtocol, mediaFormatDescriptions));
         }
     }
 }

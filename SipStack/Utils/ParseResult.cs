@@ -8,23 +8,22 @@ namespace SipStack.Utils
         private readonly string _errorMessage;
         private readonly ResultType _result;
 
-        public ParseResult(ResultType result)
+        // second parameter is necessary if ResultType is string
+        private ParseResult(ResultType result, bool isSuccess)
         {
+            if (!isSuccess)
+                throw new ArgumentException("isSucess", "must be true");
+
             _isError = false;
             _errorMessage = "";
             _result = result;
         }
 
-        // only necessary if ResultType is string
-        public ParseResult(ResultType result, bool isSuccess) : 
-            this(result)
+        private ParseResult(string errorMessage)
         {
-            if (!isSuccess)
-                throw new ArgumentOutOfRangeException("isSuccess", "must be true");
-        }
+            if (errorMessage == null)
+                throw new ArgumentException("error message is null");
 
-        public ParseResult(string errorMessage)
-        {
             _isError = true;
             _errorMessage = errorMessage;
         }
@@ -55,12 +54,22 @@ namespace SipStack.Utils
             }
         }
 
+        public static ParseResult<ResultType> CreateError(string errorMessage)
+        {
+            return ParseResult<ResultType>.CreateSuccess(errorMessage);
+        }
+
+        public static ParseResult<ResultType> CreateSuccess(ResultType result)
+        {
+            return ParseResult<ResultType>.CreateSuccess(result, true);
+        }
+
         public ParseResult<TargetResultType> ToParseResult<TargetResultType>()
         {
             if (IsSuccess)
                 throw new InvalidOperationException("this operation is only on an error result allowed");
 
-            return new ParseResult<TargetResultType>(_errorMessage);
+            return ParseResult<TargetResultType>.CreateSuccess(_errorMessage);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace SipStack.Header
             foreach (var field in fieldsCombined)
             {
                 if (field.Values.Count > 1 && !field.Name.CanHaveMultipleValues)
-                    return new ParseResult<Header>($"field of type {field.Name} has multiple values");
+                    return ParseResult<Header>.CreateError($"field of type {field.Name} has multiple values");
 
                 var headerResult = ParseField(header, field);
 
@@ -56,7 +56,7 @@ namespace SipStack.Header
                 header = headerResult.Result;
             }
 
-            return new ParseResult<Header>(new Header(header));
+            return ParseResult<Header>.CreateSuccess(new Header(header));
         }
 
         #endregion
@@ -90,7 +90,7 @@ namespace SipStack.Header
             if (field.Name.IsCustomField)
             {
                 header.CustomHeaders.Add(field);
-                return new ParseResult<HeaderDto>(header);
+                return ParseResult<HeaderDto>.CreateSuccess(header);
             }
 
             switch (field.Name.Type)
@@ -160,7 +160,7 @@ namespace SipStack.Header
                     header.ContentLength = contentLength.Result;
                     break;
                 case FieldType.ContentType:
-                    var contentType = ParseMandatorySingleValue(field.Values, (x) => { return new ParseResult<string>(x, true); });
+                    var contentType = ParseMandatorySingleValue(field.Values, (x) => { return ParseResult<string>.CreateSuccess(x); });
 
                     if (contentType.IsError)
                         return contentType.ToParseResult<HeaderDto>();
@@ -471,16 +471,16 @@ namespace SipStack.Header
                     throw new NotImplementedException($"header field type {field.Name} is not implemented");
             }
 
-            return new ParseResult<HeaderDto>(header);
+            return ParseResult<HeaderDto>.CreateSuccess(header);
         }
 
         private static ParseResult<T> ParseMandatorySingleValue<T>(IReadOnlyList<string> values, Func<string, ParseResult<T>> convert)
         {
             if (values.Count < 1)
-                return new ParseResult<T>("the value for a header field is missing");
+                return ParseResult<T>.CreateError("the value for a header field is missing");
 
             if (values.Count > 1)
-                return new ParseResult<T>("there is more than one value for a header field, which should have only one value");
+                return ParseResult<T>.CreateError("there is more than one value for a header field, which should have only one value");
 
             return convert(values.First());
         }
@@ -499,7 +499,7 @@ namespace SipStack.Header
                 result.Add(parseResult.Result);
             }
 
-            return new ParseResult<List<T>>(result);
+            return ParseResult<List<T>>.CreateSuccess(result);
         }
 
         private static ParseResult<int> ConvertStringToInt(string value)
@@ -507,9 +507,9 @@ namespace SipStack.Header
             int valueConverted;
 
             if (!int.TryParse(value, out valueConverted))
-                return new ParseResult<int>($"could not convert the {value} into a string");
+                return ParseResult<int>.CreateError($"could not convert the {value} into a string");
 
-            return new ParseResult<int>(valueConverted);
+            return ParseResult<int>.CreateSuccess(valueConverted);
         }
 
         #endregion
@@ -533,7 +533,7 @@ namespace SipStack.Header
                 i = end;
             }
 
-            return new ParseResult<List<HeaderField>>(fields);
+            return ParseResult<List<HeaderField>>.CreateSuccess(fields);
         }
 
         #endregion

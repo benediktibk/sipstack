@@ -84,7 +84,7 @@ namespace SipStack.Utils
                 return CreateAndCheck(groups[2].Value, groups[3].Value, groups[1].Value);
             }
 
-            return new ParseResult<EmailAddress>($"email address '{data}' is malformed");
+            return ParseResult<EmailAddress>.CreateError($"email address '{data}' is malformed");
         }
 
         #endregion
@@ -116,15 +116,15 @@ namespace SipStack.Utils
         private static ParseResult<EmailAddress> CreateAndCheck(string localPart, string domain, string displayName)
         {
             if (!IsValidDisplayName(displayName))
-                return new ParseResult<EmailAddress>($"the display name '{displayName}' contains invalid characters");
+                return ParseResult<EmailAddress>.CreateError($"the display name '{displayName}' contains invalid characters");
 
             if (!IsValidLocalPart(localPart))
-                return new ParseResult<EmailAddress>($"the local part '{localPart}' contains invalid characters");
+                return ParseResult<EmailAddress>.CreateError($"the local part '{localPart}' contains invalid characters");
 
             if (!IsValidDomain(domain))
-                return new ParseResult<EmailAddress>($"the domain '{domain}' contains invalid characters");
+                return ParseResult<EmailAddress>.CreateError($"the domain '{domain}' contains invalid characters");
 
-            return new ParseResult<EmailAddress>(new EmailAddress(localPart, domain, displayName));
+            return ParseResult<EmailAddress>.CreateSuccess(new EmailAddress(localPart, domain, displayName));
         }
 
         #endregion

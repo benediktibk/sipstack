@@ -32,18 +32,18 @@ namespace SipStack.Body.Sdp
                 long timeStamp;
 
                 if (!long.TryParse(timeStampString, out timeStamp))
-                    return new ParseResult<List<TimeZoneAdjustment>>($"could not parse {timeStampString} as integer");
+                    return ParseResult<List<TimeZoneAdjustment>>.CreateError($"could not parse {timeStampString} as integer");
 
                 if (!long.TryParse(offsetString, out offset))
-                    return new ParseResult<List<TimeZoneAdjustment>>($"could not parse {offsetString} as integer");
+                    return ParseResult<List<TimeZoneAdjustment>>.CreateError($"could not parse {offsetString} as integer");
 
                 if (!TimeUnit.ApplyUnit(offset, unit, out offsetWithUnit))
-                    return new ParseResult<List<TimeZoneAdjustment>>($"use of invalid time unit in {data}");
+                    return ParseResult<List<TimeZoneAdjustment>>.CreateError($"use of invalid time unit in {data}");
 
                 timeZoneAdjustments.Add(new TimeZoneAdjustment(timeStamp, offsetWithUnit));
             }
 
-            return new ParseResult<List<TimeZoneAdjustment>>(timeZoneAdjustments);
+            return ParseResult<List<TimeZoneAdjustment>>.CreateSuccess(timeZoneAdjustments);
         }
     }
 }

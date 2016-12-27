@@ -31,23 +31,23 @@ namespace SipStack
             var header = headerParseResult.Result;
 
             if (lastHeaderLine < 0)
-                return new ParseResult<Message>("the content length field is missing");
+                return ParseResult<Message>.CreateError("the content length field is missing");
 
             if (header.ContentLength < 0)
-                return new ParseResult<Message>("the content length must not have a negative value");
+                return ParseResult<Message>.CreateError("the content length must not have a negative value");
 
             if (lastHeaderLine + 1 >= lines.Count())
-                return new ParseResult<Message>("the CRLF after the content length field is missing");
+                return ParseResult<Message>.CreateError("the CRLF after the content length field is missing");
 
             if (header.ContentLength == 0)
-                return new ParseResult<Message>(new Message(header, new NoBody()));
+                return ParseResult<Message>.CreateSuccess(new Message(header, new NoBody()));
 
             var bodyParser = _bodyParserFactory.Create(header.ContentType);
             var bodyResult = bodyParser.Parse(lines, lastHeaderLine + 2, lines.Count() - 1);
             if (bodyResult.IsError)
                 return bodyResult.ToParseResult<Message>();
 
-            return new ParseResult<Message>(new Message(header, bodyResult.Result));
+            return ParseResult<Message>.CreateSuccess(new Message(header, bodyResult.Result));
         }
 
         private ParseResult<Header.Header> ParseHeader(IReadOnlyList<string> lines, out int lastHeaderLine)
@@ -55,7 +55,7 @@ namespace SipStack
             lastHeaderLine = FindLastHeaderLine(lines);
 
             if (lastHeaderLine < 0)
-                return new ParseResult<Header.Header>("couldn't find empty line after header");
+                return ParseResult<Header.Header>.CreateError("couldn't find empty line after header");
 
             return _headerParser.Parse(lines, lastHeaderLine);
         }

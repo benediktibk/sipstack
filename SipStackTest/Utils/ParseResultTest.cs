@@ -17,10 +17,10 @@ namespace SipStackTest.Utils
         [TestInitialize]
         public void SetUp()
         {
-            _errorResult = new ParseResult<Message>("asdfg");
+            _errorResult = ParseResult<Message>.CreateError("asdfg");
             var body = new Mock<IBody>();
             var message = new Mock<Message>(new SipStack.Header.Header(new HeaderDto()), body.Object);
-            _successResult = new ParseResult<Message>(message.Object);
+            _successResult = ParseResult<Message>.CreateSuccess(message.Object);
         }
 
         [TestMethod]
