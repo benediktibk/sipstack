@@ -57,6 +57,9 @@ namespace SipStack.Utils
 
         public ParseResult<TargetResultType> ToParseResult<TargetResultType>()
         {
+            if (IsSuccess)
+                throw new InvalidOperationException("this operation is only on an error result allowed");
+
             return new ParseResult<TargetResultType>(_errorMessage);
         }
     }

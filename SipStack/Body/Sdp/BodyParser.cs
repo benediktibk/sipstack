@@ -27,17 +27,7 @@ namespace SipStack.Body.Sdp
             var lineQueue = new LineQueue(lineTypes.Result);
             var protocolVersionResult = lineQueue.ParseMandatoryLine('v', LineParsers.Version);
             var originatorLineResult = lineQueue.ParseMandatoryLine('o', LineParsers.Originator);
-            var sessionNameResult = lineQueue.ParseMandatoryLine('s', LineParsers.SessionName);
-
-            if (protocolVersionResult.IsError)
-                return protocolVersionResult.ToParseResult<IBody>();            
-
-            if (originatorLineResult.IsError)
-                return originatorLineResult.ToParseResult<IBody>();            
-
-            if (sessionNameResult.IsError)
-                return sessionNameResult.ToParseResult<IBody>();
-            
+            var sessionNameResult = lineQueue.ParseMandatoryLine('s', LineParsers.SessionName);            
             var sessionDescription = lineQueue.ParseOptionalLine('i', LineParsers.Description);
             var uri = lineQueue.ParseOptionalLine('u', LineParsers.HttpUri);
             var emailAddress = lineQueue.ParseOptionalLine('e', LineParsers.EmailAddress);
@@ -52,6 +42,48 @@ namespace SipStack.Body.Sdp
 
             if (!lineQueue.IsEmpty)
                 return new ParseResult<IBody>("there are invalid lines in the SDP-Body");
+
+            if (protocolVersionResult.IsError)
+                return protocolVersionResult.ToParseResult<IBody>();
+
+            if (originatorLineResult.IsError)
+                return originatorLineResult.ToParseResult<IBody>();
+
+            if (sessionNameResult.IsError)
+                return sessionNameResult.ToParseResult<IBody>();
+
+            if (sessionDescription.IsError)
+                return sessionDescription.ToParseResult<IBody>();
+
+            if (uri.IsError)
+                return uri.ToParseResult<IBody>();
+
+            if (emailAddress.IsError)
+                return emailAddress.ToParseResult<IBody>();
+
+            if (phoneNumberLine.IsError)
+                return phoneNumberLine.ToParseResult<IBody>();
+
+            if (connectionInformationLines.IsError)
+                return connectionInformationLines.ToParseResult<IBody>();
+
+            if (bandwidthLines.IsError)
+                return bandwidthLines.ToParseResult<IBody>();
+
+            if (timeDescriptions.IsError)
+                return timeDescriptions.ToParseResult<IBody>();
+
+            if (timeZoneLine.IsError)
+                return timeZoneLine.ToParseResult<IBody>();
+
+            if (encryptionKey.IsError)
+                return encryptionKey.ToParseResult<IBody>();
+
+            if (sessionAttributes.IsError)
+                return sessionAttributes.ToParseResult<IBody>();
+
+            if (mediaDescriptions.IsError)
+                return mediaDescriptions.ToParseResult<IBody>();
 
             var sdpBody = new Body(
                 protocolVersionResult.Result.Value,
@@ -140,9 +172,6 @@ namespace SipStack.Body.Sdp
             {
                 var media = lineQueue.ParseOptionalLine('m', LineParsers.Media);
 
-                if (media.IsError)
-                    return media.ToParseResult<List<MediaDescription>>();
-
                 if (media.Result == null)
                     return new ParseResult<List<MediaDescription>>(result);
 
@@ -151,6 +180,21 @@ namespace SipStack.Body.Sdp
                 var bandwidths = lineQueue.ParseMultipleOptionalLines('b', LineParsers.Bandwidth);
                 var encryptionKey = lineQueue.ParseOptionalLine('k', LineParsers.EncryptionKey);
                 var attributes = lineQueue.ParseMultipleOptionalLines('a', LineParsers.Attribute);
+
+                if (media.IsError)
+                    return media.ToParseResult<List<MediaDescription>>();
+
+                if (connectionInformation.IsError)
+                    return connectionInformation.ToParseResult<List<MediaDescription>>();
+
+                if (bandwidths.IsError)
+                    return bandwidths.ToParseResult<List<MediaDescription>>();
+
+                if (encryptionKey.IsError)
+                    return encryptionKey.ToParseResult<List<MediaDescription>>();
+
+                if (attributes.IsError)
+                    return attributes.ToParseResult<List<MediaDescription>>();
 
                 var mediaDescription = new MediaDescription(
                     media.Result,
