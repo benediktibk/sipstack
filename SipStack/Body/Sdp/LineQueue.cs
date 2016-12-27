@@ -36,19 +36,19 @@ namespace SipStack.Body.Sdp
         public ParseResult<LineType> ParseOptionalLine<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
         {
             if (IsEmpty)
-                return ParseResult<LineType>.CreateSuccess(null);
+                return ParseResult<LineType>.CreateEmptySuccess();
 
             var currentLineType = _lines[_currentIndex].Item1;
             var currentLineData = _lines[_currentIndex].Item2;
 
             if (currentLineType != lineType)
-                return ParseResult<LineType>.CreateSuccess(null);
+                return ParseResult<LineType>.CreateEmptySuccess();
 
             _currentIndex++;
             return parser(currentLineData);
         }
 
-        public ParseResult<List<LineType>> ParseMultipleOptionalLines<LineType>(char lineType, Func<string, ParseResult<LineType>> parser) where LineType : class
+        public ParseResult<List<LineType>> ParseMultipleOptionalLines<LineType>(char lineType, Func<string, ParseResult<LineType>> parser)
         {
             var result = new List<LineType>();
 
