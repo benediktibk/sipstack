@@ -56,7 +56,7 @@ namespace SipStack.Body.Sdp
             {
                 var line = ParseOptionalLine(lineType, parser);
 
-                if (line == null)
+                if (line.Result == null)
                     return ParseResult<List<LineType>>.CreateSuccess(result);
 
                 if (line.IsError)
