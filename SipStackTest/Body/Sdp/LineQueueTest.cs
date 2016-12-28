@@ -190,8 +190,8 @@ namespace SipStackTest.Body.Sdp
             var result = lineQueue.ParseMultipleOptionalLines('u', LineParsers.HttpUri);
 
             result.Result.Count.Should().Be(2);
-            result.Result[0].Should().Be(uriLineOne);
-            result.Result[1].Should().Be(uriLineTwo);
+            result.Result[0].Uri.Should().Be(new Uri("http://asdf.asdffd"));
+            result.Result[1].Uri.Should().Be(new Uri("https://qwer.asdffd"));
             lineQueue.IsEmpty.Should().BeTrue();
         }
 
