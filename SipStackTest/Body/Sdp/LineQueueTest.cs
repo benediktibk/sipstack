@@ -62,7 +62,7 @@ namespace SipStackTest.Body.Sdp
 
             var parseResult = lineQueue.ParseMandatoryLine('a', LineParsers.Attribute);
 
-            parseResult.Result.Should().Be(attribute);
+            parseResult.Result.Name.Should().Be("asdf");
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace SipStackTest.Body.Sdp
 
             var result = lineQueue.ParseOptionalLine('a', LineParsers.Attribute);
 
-            result.Should().BeNull();
+            result.Result.Should().BeNull();
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace SipStackTest.Body.Sdp
 
             var result = lineQueue.ParseOptionalLine('u', LineParsers.HttpUri);
 
-            result.Should().Be(uriLine);
+            result.Result.Uri.Should().Equals(new Uri("http://asdf.asdffd/"));
         }
 
         [TestMethod]
@@ -161,8 +161,8 @@ namespace SipStackTest.Body.Sdp
             var resultOne = lineQueue.ParseOptionalLine('u', LineParsers.HttpUri);
             var resultTwo = lineQueue.ParseOptionalLine('a', LineParsers.Attribute);
 
-            resultOne.Should().Be(uriLine);
-            resultTwo.Should().Be(attributeLine);
+            resultOne.Result.Uri.Should().Be(new Uri("http://asdf.asdffd"));
+            resultTwo.Result.Name.Should().Be("asdf");
             lineQueue.IsEmpty.Should().BeTrue();
         }
 
@@ -210,8 +210,8 @@ namespace SipStackTest.Body.Sdp
             var result = lineQueue.ParseMultipleOptionalLines('u', LineParsers.HttpUri);
 
             result.Result.Count.Should().Be(2);
-            result.Result[0].Should().Be(uriLineOne);
-            result.Result[1].Should().Be(uriLineTwo);
+            result.Result[0].Uri.Should().Be(new Uri("http://asdf.asdffd"));
+            result.Result[1].Uri.Should().Be(new Uri("https://qwer.asdffd"));
             lineQueue.IsEmpty.Should().BeFalse();
         }
     }
