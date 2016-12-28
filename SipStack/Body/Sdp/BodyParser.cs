@@ -31,7 +31,7 @@ namespace SipStack.Body.Sdp
             var sessionDescription = lineQueue.ParseOptionalLine('i', LineParsers.Description);
             var uri = lineQueue.ParseOptionalLine('u', LineParsers.HttpUri);
             var emailAddress = lineQueue.ParseOptionalLine('e', LineParsers.EmailAddress);
-            var phoneNumberLine = lineQueue.ParseOptionalLine('u', LineParsers.PhoneNumber);
+            var phoneNumberLine = lineQueue.ParseOptionalLine('p', LineParsers.PhoneNumber);
             var connectionInformationLines = lineQueue.ParseMultipleOptionalLines('c', LineParsers.ConnectionInformation);
             var bandwidthLines = lineQueue.ParseMultipleOptionalLines('b', LineParsers.Bandwidth);
             var timeDescriptions = ParseTimeDescriptions(lineQueue);
@@ -96,7 +96,7 @@ namespace SipStack.Body.Sdp
                 connectionInformationLines.Result,
                 bandwidthLines.Result,
                 timeDescriptions.Result,
-                timeZoneLine.Result,
+                timeZoneLine.Result == null ? new List<TimeZoneAdjustment>() : timeZoneLine.Result,
                 encryptionKey.Result,
                 sessionAttributes.Result,
                 mediaDescriptions.Result);
