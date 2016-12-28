@@ -7,14 +7,12 @@ namespace SipStack.Utils
         private readonly bool _isError;
         private readonly string _errorMessage;
         private readonly ResultType _result;
-        private readonly bool _isEmpty;
         
-        private ParseResult(ResultType result, bool isEmpty)
+        private ParseResult(ResultType result)
         {
             _isError = false;
             _errorMessage = "";
             _result = result;
-            _isEmpty = isEmpty;
         }
 
         private ParseResult(string errorMessage)
@@ -24,15 +22,12 @@ namespace SipStack.Utils
 
             _isError = true;
             _errorMessage = errorMessage;
-            _isEmpty = false;
         }
 
         public bool IsSuccess => !_isError;
 
         public bool IsError => _isError;
-
-        public bool IsEmpty => _isEmpty;
-
+        
         public ResultType Result
         {
             get
@@ -62,12 +57,12 @@ namespace SipStack.Utils
 
         public static ParseResult<ResultType> CreateSuccess(ResultType result)
         {
-            return new ParseResult<ResultType>(result, false);
+            return new ParseResult<ResultType>(result);
         }
 
         public static ParseResult<ResultType> CreateEmptySuccess()
         {
-            return new ParseResult<ResultType>(default(ResultType), true);
+            return new ParseResult<ResultType>(default(ResultType));
         }
 
         public ParseResult<TargetResultType> ToParseResult<TargetResultType>()
